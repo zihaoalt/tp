@@ -3,15 +3,15 @@ package seedu.finbro;
 import seedu.finbro.commands.Expense;
 import seedu.finbro.exception.FinbroException;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Storage {
-
     private final String filePath;
-
     public Storage(String filePath) {
         this.filePath = filePath;
     }

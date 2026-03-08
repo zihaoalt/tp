@@ -6,10 +6,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Ui {
-
     private static final String LINE = "--------------------------------------------------";
     private final Scanner scanner = new Scanner(System.in);
-
     public void showWelcome() {
         showLine();
         System.out.println("Hello Finbro here for you!");

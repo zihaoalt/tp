@@ -6,7 +6,6 @@ import seedu.finbro.exception.FinbroException;
 import java.util.List;
 
 public class Finbro {
-
     private Storage storage;
     private ExpenseList expenses;
     private Ui ui;

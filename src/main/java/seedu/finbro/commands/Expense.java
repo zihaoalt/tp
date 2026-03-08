@@ -1,7 +1,6 @@
 package seedu.finbro.commands;
 
 public class Expense {
-
     private double amount;
     private String category;
     private String date;
@@ -26,6 +25,6 @@ public class Expense {
 
     @Override
     public String toString() {
-        return "Amount: $" + String.format("%.2f", amount) + "\n   Category: " + category + "\n   Date: " + date;
+        return " Amount: $" + String.format("%.2f", amount) + "\n   Category: " + category + "\n   Date: " + date;
     }
 }

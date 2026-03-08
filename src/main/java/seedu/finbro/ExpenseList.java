@@ -6,9 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExpenseList {
-
     private List<Expense> expenses;
-
     public ExpenseList() {
         expenses = new ArrayList<>();
     }
