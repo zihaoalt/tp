@@ -1,4 +1,8 @@
 --------------------------------------------------
+Hello Finbro here for you!
+Type help to see all available commands.
+--------------------------------------------------
+--------------------------------------------------
 Got it. I've added this expense:
    Amount: $20.00
    Category: transport
