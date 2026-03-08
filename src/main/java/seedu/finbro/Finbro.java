@@ -1,8 +1,8 @@
-package seedu.duke;
+package seedu.finbro;
 
 import java.util.Scanner;
 
-public class Duke {
+public class Finbro {
     /**
      * Main entry-point for the java.duke.Duke application.
      */
@@ -15,7 +15,8 @@ public class Duke {
         System.out.println("Hello from\n" + logo);
         System.out.println("What is your name?");
 
-        Scanner in = new Scanner(System.in);
-        System.out.println("Hello " + in.nextLine());
+        try (Scanner in = new Scanner(System.in)) {
+            System.out.println("Hello " + in.nextLine());
+        }
     }
 }
