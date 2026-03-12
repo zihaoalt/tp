@@ -17,6 +17,10 @@ public class Parser {
     public static void parse(String input, ExpenseList expenses, Ui ui) throws FinbroException {
         input = input.trim();
 
+        if (input == null) {
+            throw new FinbroException("Invalid command.");
+        }
+
         if (input.equals(COMMAND_ADD)) {
             throw new FinbroException("Usage: add <amount> <category> <date>");
         }
