@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class Ui {
     private static final String LINE = "--------------------------------------------------";
     private final Scanner scanner = new Scanner(System.in);
+
     public void showWelcome() {
         showLine();
         System.out.println("Hello Finbro here for you!");
@@ -74,7 +75,7 @@ public class Ui {
 
     public void showChangeLimitWarning(double limit) {
         System.out.println("Are you sure you want to change your monthly budget limit to "
-                +  String.format("$%.2f", limit) + "? [yes/no]");
+                + String.format("$%.2f", limit) + "? [yes/no]");
     }
 
     public void showCancelChangeLimitMessage() {

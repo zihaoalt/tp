@@ -44,10 +44,10 @@ public class Storage {
 
     private static void readLimit(Scanner scanner) {
         if (scanner.hasNextLine()) {
-            String str_limit = scanner.nextLine();
+            String strLimit = scanner.nextLine();
             double limit;
             try {
-                limit = Double.parseDouble(str_limit);
+                limit = Double.parseDouble(strLimit);
             }  catch (NumberFormatException e) {
 
                 limit = 0;
