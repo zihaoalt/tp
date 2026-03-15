@@ -116,7 +116,7 @@ class ExpenseListTest {
     }
 
     @Test
-    void getRemainingExpenditure_withLimit_deleted_returnsCorrectRemaining() throws FinbroException {
+    void getRemainingExpenditure_deleteExpense_returnsCorrectRemaining() throws FinbroException {
         ExpenseList list = new ExpenseList();
         list.add(new Expense(10, "food", "1 Jan 2026"));
         list.add(new Expense(5, "transport", "2 Jan 2026"));
