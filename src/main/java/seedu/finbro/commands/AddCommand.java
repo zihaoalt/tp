@@ -23,17 +23,16 @@ public class AddCommand extends Command {
             double amount = Double.parseDouble(parts[1]);
             String category = parts[2];
             String dateInput = parts[3];
-            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
+            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate parsedDate;
 
             try {
                 parsedDate = LocalDate.parse(dateInput, inputFormatter);
             } catch (DateTimeParseException e) {
-                throw new FinbroException("Invalid date format! Use dd/MM/yyyy");
+                throw new FinbroException("Invalid date format! Use yyyy-MM-dd");
             }
 
-            String formattedDate = parsedDate.format(outputFormatter);
+            String formattedDate = parsedDate.format(inputFormatter);
             Expense expense = new Expense(amount, category, formattedDate);
             expenses.add(expense);
             ui.showExpenseAdded(expense, expenses.size());
