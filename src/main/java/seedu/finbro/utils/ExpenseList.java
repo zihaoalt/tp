@@ -7,16 +7,26 @@ import java.util.List;
 
 public class ExpenseList {
     private List<Expense> expenses;
+    private double total = 0;
+
     public ExpenseList() {
         expenses = new ArrayList<>();
+        Limit.setSpent(total);
     }
 
     public ExpenseList(List<Expense> expenses) {
         this.expenses = expenses;
+        for (Expense expense : expenses) {
+            total += expense.getAmount();
+        }
+        Limit.setSpent(total);
     }
 
     public void add(Expense e) {
+        assert e != null : "Expense to add should not be null";
         expenses.add(e);
+        total += e.getAmount();
+        Limit.setSpent(total);
     }
 
     public int size() {
@@ -28,17 +38,11 @@ public class ExpenseList {
     }
 
     public double getTotalExpenditure() {
-        double total = 0;
-        for (Expense e : expenses) {
-            total += e.getAmount();
-        }
         return total;
     }
 
     public double getRemainingExpenditure() {
-        double total = getTotalExpenditure();
-        double limit = Limit.getLimit();
-        return limit - total;
+        return Limit.getLimit() - total;
     }
 
     public List<Expense> getCategoryExpenses(String category) {
@@ -76,7 +80,10 @@ public class ExpenseList {
             throw new FinbroException("Expense number under the category is out of bounds");
         }
 
+        total -= targetExpense.getAmount();
+        Limit.setSpent(total);
         expenses.remove(targetExpense);
+        assert !expenses.contains(targetExpense) : "Removed expense should no longer be in list";
         return targetExpense;
     }
 }
