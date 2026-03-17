@@ -23,14 +23,14 @@ class ExpenseListTest {
     @Test
     void add_expenseAdded_sizeIncreases() {
         ExpenseList list = new ExpenseList();
-        list.add(new Expense(10, "food", "1 Jan 2026"));
+        list.add(new Expense(10, "food", "2026-01-01"));
         assertEquals(1, list.size());
     }
 
     @Test
     void getAll_returnsAllExpenses() {
         ExpenseList list = new ExpenseList();
-        Expense e = new Expense(10, "food", "1 Jan 2026");
+        Expense e = new Expense(10, "food", "2026-01-01");
         list.add(e);
         List<Expense> all = list.getAll();
         assertEquals(1, all.size());
@@ -40,9 +40,9 @@ class ExpenseListTest {
     @Test
     void getCategoryExpenses_correctCategory_returnsOnlyMatching() {
         ExpenseList list = new ExpenseList();
-        list.add(new Expense(10, "food", "1 Jan 2026"));
-        list.add(new Expense(5, "transport", "2 Jan 2026"));
-        list.add(new Expense(7, "food", "3 Jan 2026"));
+        list.add(new Expense(10, "food", "2026-01-01"));
+        list.add(new Expense(5, "transport", "2026-01-02"));
+        list.add(new Expense(7, "food", "2026-01-03"));
         List<Expense> foodExpenses = list.getCategoryExpenses("food");
         assertEquals(2, foodExpenses.size());
     }
@@ -50,8 +50,8 @@ class ExpenseListTest {
     @Test
     void removeByCategoryIndex_valid_removesCorrectExpense() throws Exception {
         ExpenseList list = new ExpenseList();
-        Expense e1 = new Expense(10, "food", "1 Jan 2026");
-        Expense e2 = new Expense(7, "food", "3 Jan 2026");
+        Expense e1 = new Expense(10, "food", "2026-01-03");
+        Expense e2 = new Expense(7, "food", "2026-01-03");
         list.add(e1);
         list.add(e2);
         Expense removed = list.removeByCategoryIndex("food", 2);
@@ -62,7 +62,7 @@ class ExpenseListTest {
     @Test
     void removeByCategoryIndex_invalidNumber_throwsException() {
         ExpenseList list = new ExpenseList();
-        list.add(new Expense(10, "food", "1 Jan 2026"));
+        list.add(new Expense(10, "food", "2026-01-01"));
         assertThrows(FinbroException.class,
                 () -> list.removeByCategoryIndex("food", 0));
     }
@@ -70,7 +70,7 @@ class ExpenseListTest {
     @Test
     void removeByCategoryIndex_categoryNotFound_throwsException() {
         ExpenseList list = new ExpenseList();
-        list.add(new Expense(10, "food", "1 Jan 2026"));
+        list.add(new Expense(10, "food", "2026-01-01"));
         assertThrows(FinbroException.class,
                 () -> list.removeByCategoryIndex("transport", 1));
     }
@@ -78,7 +78,7 @@ class ExpenseListTest {
     @Test
     void removeByCategoryIndex_outOfBounds_throwsException() {
         ExpenseList list = new ExpenseList();
-        list.add(new Expense(10, "food", "1 Jan 2026"));
+        list.add(new Expense(10, "food", "2026-01-01"));
         assertThrows(FinbroException.class,
                 () -> list.removeByCategoryIndex("food", 2));
     }
@@ -86,9 +86,9 @@ class ExpenseListTest {
     @Test
     void getTotalExpenditure_returnsTotalExpenditure() {
         ExpenseList list = new ExpenseList();
-        list.add(new Expense(10, "food", "1 Jan 2026"));
-        list.add(new Expense(5, "transport", "2 Jan 2026"));
-        list.add(new Expense(7, "food", "3 Jan 2026"));
+        list.add(new Expense(10, "food", "2026-01-01"));
+        list.add(new Expense(5, "transport", "2026-01-02"));
+        list.add(new Expense(7, "food", "2026-01-03"));
 
         assertEquals(22, list.getTotalExpenditure());
     }
@@ -96,9 +96,9 @@ class ExpenseListTest {
     @Test
     void expenseListFromLoadedExpenses_initializesCorrectTotalAndRemaining() {
         List<Expense> loadedExpenses = new ArrayList<>();
-        loadedExpenses.add(new Expense(10, "food", "1 Jan 2026"));
-        loadedExpenses.add(new Expense(5, "transport", "2 Jan 2026"));
-        loadedExpenses.add(new Expense(7, "food", "3 Jan 2026"));
+        loadedExpenses.add(new Expense(10, "food", "2026-01-01"));
+        loadedExpenses.add(new Expense(5, "transport", "2026-01-02"));
+        loadedExpenses.add(new Expense(7, "food", "2026-01-03"));
         Limit.initLimit(30);
 
         ExpenseList list = new ExpenseList(loadedExpenses);
@@ -110,7 +110,7 @@ class ExpenseListTest {
     @Test
     void getRemainingExpenditure_withLimit_returnsCorrectRemaining() {
         ExpenseList list = new ExpenseList();
-        list.add(new Expense(10, "food", "1 Jan 2026"));
+        list.add(new Expense(10, "food", "2026-01-01"));
         Limit.initLimit(20);
 
         assertEquals(10, list.getRemainingExpenditure());
@@ -119,10 +119,10 @@ class ExpenseListTest {
     @Test
     void getRemainingExpenditure_deleteExpense_returnsCorrectRemaining() throws FinbroException {
         ExpenseList list = new ExpenseList();
-        list.add(new Expense(10, "food", "1 Jan 2026"));
-        list.add(new Expense(5, "transport", "2 Jan 2026"));
-        list.add(new Expense(7, "food", "3 Jan 2026"));
-        list.add(new Expense(8, "food", "4 Jan 2026"));
+        list.add(new Expense(10, "food", "2026-01-01"));
+        list.add(new Expense(5, "transport", "2026-01-02"));
+        list.add(new Expense(7, "food", "2026-01-03"));
+        list.add(new Expense(8, "food", "2026-01-04"));
         Limit.initLimit(20);
         list.removeByCategoryIndex("food", 2);
 
