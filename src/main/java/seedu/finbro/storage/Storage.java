@@ -49,10 +49,9 @@ public class Storage {
             try {
                 limit = Double.parseDouble(strLimit);
             }  catch (NumberFormatException e) {
-
                 limit = 0;
             }
-            Limit.initLimit(limit);
+            Limit.setLimit(limit);
         }
     }
 

@@ -37,7 +37,8 @@ public class EditLimitCommand extends Command {
             throw new FinbroException("Please enter 1, 2, or 3.");
         }
 
-        Limit.setLimit(newLimit, ui);
+        SetLimitCommand.confirmLimitChange(ui, newLimit);
+
         ui.showLimit();
     }
 
