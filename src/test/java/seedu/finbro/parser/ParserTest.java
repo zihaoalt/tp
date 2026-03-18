@@ -1,8 +1,7 @@
-package seedu.finbro;
+package seedu.finbro.parser;
 
 import org.junit.jupiter.api.Test;
 import seedu.finbro.commands.Command;
-import seedu.finbro.parser.Parser;
 import seedu.finbro.storage.Storage;
 import seedu.finbro.ui.Ui;
 import seedu.finbro.utils.ExpenseList;
