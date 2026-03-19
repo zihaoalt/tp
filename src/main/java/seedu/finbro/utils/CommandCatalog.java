@@ -14,7 +14,7 @@ public final class CommandCatalog {
     private static final List<Command> SUPPORTED_COMMANDS = List.of(
             new HelpCommand(),
             new AddCommand(""),
-            new DeleteCommand(),
+            new DeleteCommand(""),
             new EditLimitCommand(),
             new SetLimitCommand(),
             new ViewCommand("")

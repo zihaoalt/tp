@@ -7,23 +7,45 @@ import seedu.finbro.exception.FinbroException;
 import seedu.finbro.utils.Expense;
 
 public class DeleteCommand extends Command {
+    private final String arg;
+
+    public DeleteCommand(String arg) {
+        this.arg = arg;
+    }
+
     @Override
     public void execute(String input, ExpenseList expenses, Ui ui, Storage storage) throws FinbroException {
-        String[] parts = input.split(" ");
+        verifyInputLength(arg);
+        String category = filterCategory(arg);
+        int index = verifyIndex(arg);
 
-        if (parts.length < 3) {
+        Expense expense = expenses.removeByCategoryIndex(category, index);
+        ui.showExpenseRemoved(expense, expenses.size());
+    }
+
+
+    private void verifyInputLength(String input) throws FinbroException {
+        String [] parts = input.split(" ");
+        if (parts.length < 2) {
             throw new FinbroException("Usage: delete <category> #<number>");
         }
+    }
 
+    private int verifyIndex(String input) throws FinbroException {
+        String[] parts = input.split(" ");
+
+        int index;
         try {
-            int number = Integer.parseInt(parts[2]);
-            String category = parts[1];
-
-            Expense expense = expenses.removeByCategoryIndex(category, number);
-            ui.showExpenseRemoved(expense, expenses.size());
+            index = Integer.parseInt(parts[1]);
         } catch (NumberFormatException e) {
             throw new FinbroException("Expense number must be a number.");
         }
+        return index;
+    }
+
+    private String filterCategory(String input) throws FinbroException {
+        String[] parts = input.split(" ");
+        return parts[0];
     }
 
     @Override
