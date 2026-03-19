@@ -1,10 +1,13 @@
 package seedu.finbro.utils;
 
-import seedu.finbro.ui.Ui;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Limit {
     private static double limit = 0;
     private static double spent = 0;
+
+    private static final Logger logger = Logger.getLogger(Limit.class.getName());
 
     public static double getLimit() {
         return limit;
@@ -15,6 +18,7 @@ public class Limit {
     }
 
     public static void setSpent(double spent) {
+        logger.log(Level.INFO, "Setting spent to {0}", spent);
         Limit.spent = spent;
     }
 
@@ -22,21 +26,12 @@ public class Limit {
         return String.format("%.2f", Limit.getLimit()) + "\n";
     }
 
-    public static void initLimit(double limit) {
+    public static void setLimit(double limit) {
         if (limit >= 0) {
+            logger.log(Level.INFO, "Setting limit to {0}", limit);
             Limit.limit = limit;
-        }
-    }
-
-    public static void setLimit(double limit, Ui ui) {
-        ui.showChangeLimitWarning(limit);
-        String input = ui.readCommand();
-        if (input.equals("yes")) {
-            Limit.limit = limit;
-        } else if (input.equals("no")) {
-            ui.showCancelChangeLimitMessage();
         } else {
-            ui.showCancelChangeLimitMessage();
+            logger.log(Level.WARNING, "Attempted to set negative limit {0}", limit);
         }
     }
 }

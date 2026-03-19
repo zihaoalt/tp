@@ -1,10 +1,8 @@
-package seedu.finbro;
+package seedu.finbro.utils;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-import seedu.finbro.utils.Expense;
-import seedu.finbro.utils.ExpenseList;
-import seedu.finbro.utils.Limit;
+
 import seedu.finbro.exception.FinbroException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class ExpenseListTest {
     @BeforeEach
     void resetLimitState() {
-        Limit.initLimit(0);
+        Limit.setLimit(0);
         Limit.setSpent(0);
     }
 
@@ -99,7 +97,7 @@ class ExpenseListTest {
         loadedExpenses.add(new Expense(10, "food", "2026-01-01"));
         loadedExpenses.add(new Expense(5, "transport", "2026-01-02"));
         loadedExpenses.add(new Expense(7, "food", "2026-01-03"));
-        Limit.initLimit(30);
+        Limit.setLimit(30);
 
         ExpenseList list = new ExpenseList(loadedExpenses);
 
@@ -111,7 +109,7 @@ class ExpenseListTest {
     void getRemainingExpenditure_withLimit_returnsCorrectRemaining() {
         ExpenseList list = new ExpenseList();
         list.add(new Expense(10, "food", "2026-01-01"));
-        Limit.initLimit(20);
+        Limit.setLimit(20);
 
         assertEquals(10, list.getRemainingExpenditure());
     }
@@ -123,7 +121,7 @@ class ExpenseListTest {
         list.add(new Expense(5, "transport", "2026-01-02"));
         list.add(new Expense(7, "food", "2026-01-03"));
         list.add(new Expense(8, "food", "2026-01-04"));
-        Limit.initLimit(20);
+        Limit.setLimit(20);
         list.removeByCategoryIndex("food", 2);
 
         assertEquals(-3, list.getRemainingExpenditure());

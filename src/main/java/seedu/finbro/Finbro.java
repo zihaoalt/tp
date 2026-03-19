@@ -8,6 +8,7 @@ import seedu.finbro.utils.Expense;
 import seedu.finbro.exception.FinbroException;
 import seedu.finbro.utils.ExpenseList;
 import seedu.finbro.utils.Limit;
+import seedu.finbro.utils.LogFormatter;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class Finbro {
         ui = new Ui();
         storage = new Storage(filePath);
         try {
+            LogFormatter.initLogger();
             List<Expense> loadedExpenses = storage.load();
             expenses = new ExpenseList(loadedExpenses);
         } catch (FinbroException e) {

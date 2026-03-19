@@ -1,8 +1,7 @@
-package seedu.finbro;
+package seedu.finbro.parser;
 
 import org.junit.jupiter.api.Test;
 import seedu.finbro.commands.Command;
-import seedu.finbro.parser.Parser;
 import seedu.finbro.storage.Storage;
 import seedu.finbro.ui.Ui;
 import seedu.finbro.utils.ExpenseList;
@@ -52,7 +51,7 @@ public class ParserTest {
         // yes: confirm changing limit to 800
         ui.setInputs("yes", "3", "800", "yes");
 
-        Limit.setLimit(800.0, ui);
+        Limit.setLimit(800.0);
         Parser.parse("edit limit", expenses, ui, storage);
 
         assertEquals(800.0, Limit.getLimit());
@@ -68,9 +67,9 @@ public class ParserTest {
         // 1: choose increase
         // 100: increase amount
         // yes: confirm new limit
-        ui.setInputs("yes", "1", "100", "yes");
+        ui.setInputs("1", "100", "yes");
 
-        Limit.setLimit(500.0, ui);
+        Limit.setLimit(500.0);
         Command command = Parser.parse("edit limit", expenses, ui, storage);
         command.execute("edit limit", expenses, ui, storage);
 
@@ -87,9 +86,9 @@ public class ParserTest {
         // 2: choose decrease
         // 200: decrease amount
         // yes: confirm new limit
-        ui.setInputs("yes", "2", "200", "yes");
+        ui.setInputs("2", "200", "yes");
 
-        Limit.setLimit(500.0, ui);
+        Limit.setLimit(500.0);
         Command command = Parser.parse("edit limit", expenses, ui, storage);
         command.execute("edit limit", expenses, ui, storage);
 

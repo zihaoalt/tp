@@ -19,7 +19,7 @@ class FinbroTest {
     void run_remainingBudgetAboveLimit_showsOverspendingWarning() {
         ExpenseList list = new ExpenseList();
         list.add(new Expense(180, "entertainment", "2026-01-01"));
-        Limit.initLimit(200);
+        Limit.setLimit(200);
 
         assertTrue(list.getRemainingExpenditure() <= 20);
     }
@@ -28,7 +28,7 @@ class FinbroTest {
     void run_remainingBudgetBelowLimit_doesNotShowOverspendingWarning() {
         ExpenseList list = new ExpenseList();
         list.add(new Expense(179, "entertainment", "2026-01-01"));
-        Limit.initLimit(200);
+        Limit.setLimit(200);
 
         assertFalse(list.getRemainingExpenditure() <= 20);
     }
