@@ -7,13 +7,21 @@ import seedu.finbro.ui.Ui;
 import seedu.finbro.exception.FinbroException;
 import seedu.finbro.utils.Limit;
 
+import java.util.logging.Logger;
+import java.util.logging.Level;
+
 public class EditLimitCommand extends Command {
+
+    private static final Logger logger = Logger.getLogger(EditLimitCommand.class.getName());
+
     @Override
     public void execute(String input, ExpenseList expenseList, Ui ui, Storage storage) throws FinbroException {
         double currentLimit = Limit.getLimit();
+        logger.log(Level.INFO, "Starting EditLimitCommand. Current limit: " + currentLimit);
 
         ui.showLimitEditMenu(currentLimit);
         String choice = ui.readCommand().trim();
+        logger.log(Level.INFO, "User selected option: " + choice);
 
         double newLimit;
 
