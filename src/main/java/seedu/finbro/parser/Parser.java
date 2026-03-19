@@ -22,40 +22,39 @@ public class Parser {
 
 
     public static Command parse(String input, ExpenseList expenses, Ui ui, Storage storage) throws FinbroException {
-        input = input.trim();
-        String[] parts = input.split("\\s+", 2);
-        String commandWord = parts[0];
+        String commandWord = filterCommand(input);
+        String argument = filterArg(input);
 
-        switch (commandWord) {
-        case COMMAND_HELP:
-            return new HelpCommand();
+        return switch (commandWord) {
+        case COMMAND_HELP -> new HelpCommand();
+        case COMMAND_ADD -> new AddCommand(argument);
+        case COMMAND_VIEW -> new ViewCommand();
+        case COMMAND_DELETE -> new DeleteCommand();
+        case COMMAND_SET_LIMIT -> new SetLimitCommand();
+        case COMMAND_EDIT -> new EditLimitCommand();
+//            if (argument.equals(COMMAND_SET_LIMIT)) {
+//                return
+//            }
+//            break;
 
-        case COMMAND_ADD:
-            if (input.equals(COMMAND_ADD)) {
-                throw new FinbroException("Usage: add <amount> <category> <date>");
-            }
-            return new AddCommand();
+        default -> throw new FinbroException("Invalid command.");
+        };
+    }
 
-        case COMMAND_VIEW:
-            return new ViewCommand();
+    public static String filterCommand(String input) {
+        String[] words = input.split(" ", 2);
+        // command is case-insensitive
+        return words[0].strip().toLowerCase();
+    }
 
-        case COMMAND_DELETE:
-            return new DeleteCommand();
-
-        case COMMAND_SET_LIMIT:
-            return new SetLimitCommand();
-
-        case COMMAND_EDIT:
-            if (parts.length > 1 && parts[1].equals(COMMAND_SET_LIMIT)) {
-                return new EditLimitCommand();
-            }
-            break;
-
-        default:
-            break;
+    public static String filterArg(String input) {
+        String[] splitSentence = input.split(" ");
+        if (splitSentence.length < 2) {
+            return "";
         }
-
-        throw new FinbroException("Invalid command.");
+        String[] words = input.split(" ", 2);
+        // argument is case-insensitive
+        return words[1].strip().toLowerCase();
     }
 
     public static double parsePositiveAmount(String input) throws FinbroException {

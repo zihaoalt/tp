@@ -13,7 +13,7 @@ import java.util.List;
 public final class CommandCatalog {
     private static final List<Command> SUPPORTED_COMMANDS = List.of(
             new HelpCommand(),
-            new AddCommand(),
+            new AddCommand(""),
             new DeleteCommand(),
             new EditLimitCommand(),
             new SetLimitCommand(),

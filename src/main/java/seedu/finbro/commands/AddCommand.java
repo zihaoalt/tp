@@ -12,38 +12,66 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class AddCommand extends Command {
+    String arg;
+
+    public AddCommand(String arg) {
+        this.arg = arg;
+    }
+
     @Override
     public void execute(String input, ExpenseList expenses, Ui ui, Storage storage) throws FinbroException {
-        String[] parts = input.split(" ");
+        verifyInputLength(arg);
+        double amount = verifyAmount(arg);
+        String category = filterCategory(arg);
+        String formattedDate = verifyDate(arg);
 
-        if (parts.length < 4) {
+        Expense expense = new Expense(amount, category, formattedDate);
+        expenses.add(expense);
+        ui.showExpenseAdded(expense, expenses.size());
+    }
+
+
+    private void verifyInputLength(String input) throws FinbroException {
+        String [] parts = input.split(" ");
+        if (parts.length != 3) {
             throw new FinbroException("Usage: add <amount> <category> <date>");
         }
+    }
 
+    private double verifyAmount(String input) throws FinbroException {
+        String[] parts =  input.split(" ");
+        double amount = 0;
         try {
-            double amount = Double.parseDouble(parts[1]);
+            amount = Double.parseDouble(parts[0]);
             if (amount < 0) {
                 throw new FinbroException("Amount must be a positive number.");
             }
-            String category = parts[2];
-            String dateInput = parts[3];
-            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
-            LocalDate parsedDate;
-            
-            try {
-                parsedDate = LocalDate.parse(dateInput, inputFormatter);
-            } catch (DateTimeParseException e) {
-                throw new FinbroException("Invalid date format! Use yyyy-MM-dd");
-            }
-
-            String formattedDate = parsedDate.format(outputFormatter);
-            Expense expense = new Expense(amount, category, formattedDate);
-            expenses.add(expense);
-            ui.showExpenseAdded(expense, expenses.size());
         } catch (NumberFormatException e) {
             throw new FinbroException("Amount must be a number.");
         }
+        return amount;
+    }
+
+    private String filterCategory(String input) {
+        String[] parts = input.split(" ");
+        return parts[1];
+    }
+
+    private String verifyDate(String input) throws FinbroException {
+        String[] parts = input.split(" ");
+        String inputDate = parts[2];
+
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
+        LocalDate parsedDate;
+
+        try {
+            parsedDate = LocalDate.parse(inputDate, inputFormatter);
+        } catch (DateTimeParseException e) {
+            throw new FinbroException("Invalid date format! Use yyyy-MM-dd");
+        }
+
+        return parsedDate.format(outputFormatter);
     }
 
     @Override
