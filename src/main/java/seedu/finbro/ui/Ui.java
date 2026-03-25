@@ -13,6 +13,7 @@ public class Ui {
 
     public void showWelcome() {
         showLine();
+        showLogo();
         System.out.println("Hello Finbro here for you!");
         System.out.println("Type help to see all available commands.");
         showLine();
@@ -147,5 +148,20 @@ public class Ui {
         showLine();
         System.out.println(message);
         showLine();
+    }
+
+    public void showLogo() {
+        System.out.println("""
+                 ________  __            __                          \s
+                |        \\|  \\          |  \\                         \s
+                | $$$$$$$$ \\$$ _______  | $$____    ______    ______ \s
+                | $$__    |  \\|       \\ | $$    \\  /      \\  /      \\\s
+                | $$  \\   | $$| $$$$$$$\\| $$$$$$$\\|  $$$$$$\\|  $$$$$$\\
+                | $$$$$   | $$| $$  | $$| $$  | $$| $$   \\$$| $$  | $$
+                | $$      | $$| $$  | $$| $$__/ $$| $$      | $$__/ $$
+                | $$      | $$| $$  | $$| $$    $$| $$       \\$$    $$
+                 \\$$       \\$$ \\$$   \\$$ \\$$$$$$$  \\$$        \\$$$$$$\s
+                
+                """);
     }
 }
