@@ -142,4 +142,10 @@ public class Ui {
         System.out.println("Welcome to help menu:");
         showLine();
     }
+
+    public void showHelpMessage(String message) {
+        showLine();
+        System.out.println(message);
+        showLine();
+    }
 }

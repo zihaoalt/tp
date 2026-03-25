@@ -1,6 +1,6 @@
 package seedu.finbro.commands;
 
-import seedu.finbro.utils.CommandCatalog;
+import seedu.finbro.parser.Parser;
 import seedu.finbro.utils.ExpenseList;
 import seedu.finbro.storage.Storage;
 import seedu.finbro.ui.Ui;
@@ -11,28 +11,39 @@ import java.util.logging.Logger;
 
 public class HelpCommand extends Command {
     private static final Logger logger = Logger.getLogger(HelpCommand.class.getName());
+    private final String arg;
+
+    public HelpCommand(String arg) {
+        this.arg = arg;
+    }
 
     @Override
-    public void execute(String input, ExpenseList expenseList, Ui ui, Storage storage) throws FinbroException {
+    public void execute(ExpenseList expenseList, Ui ui, Storage storage) throws FinbroException {
         logger.log(Level.INFO, "Help command invoked");
+
+        Command command;
         try {
-            int count = 0;
-            for (Command command : CommandCatalog.getSupportedCommands()) {
-                ui.showCommandHelpMessage(command);
-                count++;
-            }
-            logger.log(Level.INFO, "Displayed help for {0} commands", count);
-        } catch (Exception e) {
-            logger.log(Level.WARNING, "Unexpected error while displaying help", e);
-            throw new FinbroException("Unable to display help.");
+            command = Parser.parse(arg);
+        } catch (FinbroException e) {
+            ui.showHelpMessage(getHelpMessage());
+            logger.log(Level.WARNING, "Invalid command \"{0}\", showing default help message", arg);
+            return;
         }
+
+        logger.log(Level.INFO, "Displayed help for {0} commands", command.getClass().getSimpleName());
+        ui.showCommandHelpMessage(command);
     }
 
     @Override
     public String getHelpMessage() {
         return """
-                Shows all available commands and their usage.
-                Format: help
-                Use: Type this anytime to see the full command list.""";
+               Valid Commands:
+               add - Add a new expense
+               delete - Delete an expense
+               view - View your expenses
+               limit - Set/view your monthly spending limit
+               edit limit - Edit your monthly spending limit
+               
+               Enter "help <command>" for a more detailed explanation on how to use each command""";
     }
 }

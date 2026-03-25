@@ -1,12 +1,9 @@
 package seedu.finbro.parser;
 
-import seedu.finbro.utils.ExpenseList;
-import seedu.finbro.storage.Storage;
-import seedu.finbro.ui.Ui;
+import seedu.finbro.commands.EditCommand;
 import seedu.finbro.commands.AddCommand;
 import seedu.finbro.commands.Command;
 import seedu.finbro.commands.DeleteCommand;
-import seedu.finbro.commands.EditLimitCommand;
 import seedu.finbro.commands.HelpCommand;
 import seedu.finbro.commands.SetLimitCommand;
 import seedu.finbro.commands.ViewCommand;
@@ -21,55 +18,35 @@ public class Parser {
     private static final String COMMAND_HELP = "help";
 
 
-    public static Command parse(String input, ExpenseList expenses, Ui ui, Storage storage) throws FinbroException {
-        input = input.trim();
-        String[] parts = input.split("\\s+", 2);
-        String commandWord = parts[0];
+    public static Command parse(String input) throws FinbroException {
+        String commandWord = filterCommand(input);
+        String argument = filterArg(input);
 
-        switch (commandWord) {
-        case COMMAND_HELP:
-            return new HelpCommand();
+        return switch (commandWord) {
+        case COMMAND_HELP -> new HelpCommand(argument);
+        case COMMAND_ADD -> new AddCommand(argument);
+        case COMMAND_VIEW -> new ViewCommand(argument);
+        case COMMAND_DELETE -> new DeleteCommand(argument);
+        case COMMAND_SET_LIMIT -> new SetLimitCommand(argument);
+        case COMMAND_EDIT -> new EditCommand(argument);
 
-        case COMMAND_ADD:
-            if (input.equals(COMMAND_ADD)) {
-                throw new FinbroException("Usage: add <amount> <category> <date>");
-            }
-            return new AddCommand();
-
-        case COMMAND_VIEW:
-            return new ViewCommand();
-
-        case COMMAND_DELETE:
-            return new DeleteCommand();
-
-        case COMMAND_SET_LIMIT:
-            return new SetLimitCommand();
-
-        case COMMAND_EDIT:
-            if (parts.length > 1 && parts[1].equals(COMMAND_SET_LIMIT)) {
-                return new EditLimitCommand();
-            }
-            break;
-
-        default:
-            break;
-        }
-
-        throw new FinbroException("Invalid command.");
+        default -> throw new FinbroException("Invalid command.");
+        };
     }
 
-    public static double parsePositiveAmount(String input) throws FinbroException {
-        double amount;
-        try {
-            amount = Double.parseDouble(input);
-        } catch (NumberFormatException e) {
-            throw new FinbroException("Monthly spending limit must be a number");
-        }
+    public static String filterCommand(String input) {
+        String[] words = input.split(" ", 2);
+        // command is case-insensitive
+        return words[0].strip().toLowerCase();
+    }
 
-        if (amount < 0) {
-            throw new FinbroException("Monthly spending limit must be at least $0");
+    public static String filterArg(String input) {
+        String[] splitSentence = input.split(" ");
+        if (splitSentence.length < 2) {
+            return "";
         }
-
-        return amount;
+        String[] words = input.split(" ", 2);
+        // argument is case-insensitive
+        return words[1].strip().toLowerCase();
     }
 }

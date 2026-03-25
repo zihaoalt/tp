@@ -15,47 +15,75 @@ import java.util.logging.Logger;
 
 public class AddCommand extends Command {
     private static final Logger logger = Logger.getLogger(AddCommand.class.getName());
+    private final String arg;
+
+    public AddCommand(String arg) {
+        this.arg = arg;
+    }
 
     @Override
-    public void execute(String input, ExpenseList expenses, Ui ui, Storage storage) throws FinbroException {
-        String[] parts = input.split(" ");
-
-        if (parts.length < 4) {
-            logger.log(Level.WARNING, "Invalid command format");
-            throw new FinbroException("Usage: add <amount> <category> <date>");
-        }
+    public void execute(ExpenseList expenses, Ui ui, Storage storage) throws FinbroException {
+        verifyInputLength(arg);
+        double amount = verifyAmount(arg);
+        String category = filterCategory(arg);
+        String formattedDate = verifyDate(arg);
 
         logger.log(Level.INFO,
                 "Attempting to add expense amount {0}, category {1}, date {2}",
-                new Object[]{parts[1], parts[2], parts[3]});
+                new Object[]{amount, category, formattedDate});
+
+        Expense expense = new Expense(amount, category, formattedDate);
+        expenses.add(expense);
+        logger.log(Level.INFO, "Successfully added expense in category " + category + " $" + amount);
+        ui.showExpenseAdded(expense, expenses.size());
+    }
+
+
+    private void verifyInputLength(String input) throws FinbroException {
+        String [] parts = input.split(" ");
+        if (parts.length != 3) {
+            logger.log(Level.WARNING, "Invalid command format");
+            throw new FinbroException("Usage: add <amount> <category> <date>");
+        }
+    }
+
+    private double verifyAmount(String input) throws FinbroException {
+        String[] parts =  input.split(" ");
+        double amount = 0;
         try {
-            double amount = Double.parseDouble(parts[1]);
+            amount = Double.parseDouble(parts[0]);
             if (amount < 0) {
                 logger.log(Level.WARNING, "Invalid amount (amount is negative)");
                 throw new FinbroException("Amount must be a positive number.");
             }
-            String category = parts[2];
-            String dateInput = parts[3];
-            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
-            LocalDate parsedDate;
-            
-            try {
-                parsedDate = LocalDate.parse(dateInput, inputFormatter);
-            } catch (DateTimeParseException e) {
-                logger.log(Level.WARNING, "Invalid date format");
-                throw new FinbroException("Invalid date format! Use yyyy-MM-dd");
-            }
-
-            String formattedDate = parsedDate.format(outputFormatter);
-            Expense expense = new Expense(amount, category, formattedDate);
-            expenses.add(expense);
-            logger.log(Level.INFO, "Successfully added expense in category " + category + " $" + amount);
-            ui.showExpenseAdded(expense, expenses.size());
         } catch (NumberFormatException e) {
             logger.log(Level.WARNING, "Invalid number in expense amount");
             throw new FinbroException("Amount must be a number.");
         }
+        return amount;
+    }
+
+    private String filterCategory(String input) {
+        String[] parts = input.split(" ");
+        return parts[1];
+    }
+
+    private String verifyDate(String input) throws FinbroException {
+        String[] parts = input.split(" ");
+        String inputDate = parts[2];
+
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
+        LocalDate parsedDate;
+
+        try {
+            parsedDate = LocalDate.parse(inputDate, inputFormatter);
+        } catch (DateTimeParseException e) {
+            logger.log(Level.WARNING, "Invalid date format");
+            throw new FinbroException("Invalid date format! Use yyyy-MM-dd");
+        }
+
+        return parsedDate.format(outputFormatter);
     }
 
     @Override

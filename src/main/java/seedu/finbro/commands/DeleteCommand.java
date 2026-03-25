@@ -11,31 +11,55 @@ import java.util.logging.Logger;
 
 public class DeleteCommand extends Command {
     private static final Logger logger = Logger.getLogger(DeleteCommand.class.getName());
+    private final String arg;
+
+    public DeleteCommand(String arg) {
+        this.arg = arg;
+    }
 
     @Override
-    public void execute(String input, ExpenseList expenses, Ui ui, Storage storage) throws FinbroException {
-        String[] parts = input.split(" ");
+    public void execute(ExpenseList expenses, Ui ui, Storage storage) throws FinbroException {
+        verifyInputLength(arg);
+        String category = filterCategory(arg);
+        int index = verifyIndex(arg);
 
-        if (parts.length < 3) {
-            logger.log(Level.WARNING, "Invalid command format");
-            throw new FinbroException("Usage: delete <category> #<number>");
-        }
-
-        logger.log(Level.INFO, "Attempting to delete expense in category " + parts[1] + " #" + parts[2]);
+        Expense expense;
         try {
-            int number = Integer.parseInt(parts[2]);
-            String category = parts[1];
-
-            Expense expense = expenses.removeByCategoryIndex(category, number);
-            logger.log(Level.INFO, "Successfully deleted expense in category " + category + " #" + number);
-            ui.showExpenseRemoved(expense, expenses.size());
-        } catch (NumberFormatException e) {
-            logger.log(Level.WARNING, "Invalid category index number");
-            throw new FinbroException("Expense number must be a number.");
+            expense = expenses.removeByCategoryIndex(category, index);
         } catch (FinbroException e) {
             logger.log(Level.WARNING, e.getMessage());
             throw e;
         }
+
+        logger.log(Level.INFO, "Successfully deleted expense in category " + category + " #" + index);
+        ui.showExpenseRemoved(expense, expenses.size());
+    }
+
+    private void verifyInputLength(String input) throws FinbroException {
+        String [] parts = input.split(" ");
+        if (parts.length < 2) {
+            logger.log(Level.WARNING, "Invalid command format");
+            throw new FinbroException("Usage: delete <category> #<number>");
+        }
+    }
+
+    private int verifyIndex(String input) throws FinbroException {
+        String[] parts = input.split(" ");
+        logger.log(Level.INFO, "Attempting to delete expense in category " + parts[0] + " #" + parts[1]);
+
+        int index;
+        try {
+            index = Integer.parseInt(parts[1]);
+        } catch (NumberFormatException e) {
+            logger.log(Level.WARNING, "Invalid category index number");
+            throw new FinbroException("Expense number must be a number.");
+        }
+        return index;
+    }
+
+    private String filterCategory(String input) throws FinbroException {
+        String[] parts = input.split(" ");
+        return parts[0];
     }
 
     @Override
