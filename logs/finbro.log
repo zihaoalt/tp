@@ -71,3 +71,29 @@
 2026-03-26 13:11:32 [INFO] seedu.finbro.commands.SetLimitCommand - Getting confirmation for limit change
 2026-03-26 13:11:34 [INFO] seedu.finbro.commands.SetLimitCommand - Confirmation message: "yes", limit change accepted
 2026-03-26 13:11:34 [INFO] seedu.finbro.utils.Limit - Setting limit to 29
+2026-03-26 22:31:14 [INFO] seedu.finbro.storage.Storage - Loading expenses...
+2026-03-26 22:31:14 [INFO] seedu.finbro.storage.Storage - Attempting to set limit to  29.00
+2026-03-26 22:31:14 [INFO] seedu.finbro.utils.Limit - Setting limit to 29
+2026-03-26 22:32:12 [INFO] seedu.finbro.commands.ViewCommand - Displaying all expenses
+2026-03-26 22:32:28 [INFO] seedu.finbro.commands.SetLimitCommand - Display current limit
+2026-03-26 22:33:01 [INFO] seedu.finbro.commands.AddCommand - Attempting to add expense amount 10.5, category food, date 25 March 2026
+2026-03-26 22:33:01 [INFO] seedu.finbro.commands.AddCommand - Successfully added expense in category food $10.5
+2026-03-26 22:33:15 [WARNING] seedu.finbro.commands.ViewCommand - Invalid category name
+2026-03-26 22:33:20 [INFO] seedu.finbro.commands.ViewCommand - Displaying all expenses
+2026-03-26 22:34:08 [INFO] seedu.finbro.commands.EditLimitCommand - Starting EditLimitCommand. Current limit: 29
+2026-03-26 22:34:17 [INFO] seedu.finbro.commands.EditLimitCommand - User selected option: 3
+2026-03-26 22:34:17 [INFO] seedu.finbro.commands.EditLimitCommand - User chose to replace limit
+2026-03-26 22:34:19 [INFO] seedu.finbro.commands.EditLimitCommand - Replacement amount entered: 40
+2026-03-26 22:34:19 [INFO] seedu.finbro.commands.SetLimitCommand - Getting confirmation for limit change
+2026-03-26 22:34:21 [INFO] seedu.finbro.commands.SetLimitCommand - Confirmation message: "yes", limit change accepted
+2026-03-26 22:34:21 [INFO] seedu.finbro.utils.Limit - Setting limit to 40
+2026-03-26 22:34:21 [INFO] seedu.finbro.commands.EditLimitCommand - Limit successfully updated to: 40
+2026-03-26 22:34:27 [WARNING] seedu.finbro.commands.DeleteCommand - Invalid command format
+2026-03-26 22:34:43 [INFO] seedu.finbro.commands.AddCommand - Attempting to add expense amount 7, category food, date 27 March 2026
+2026-03-26 22:34:43 [INFO] seedu.finbro.commands.AddCommand - Successfully added expense in category food $7.0
+2026-03-26 22:34:51 [INFO] seedu.finbro.commands.ViewCommand - Displaying expenses in category food
+2026-03-26 22:34:55 [INFO] seedu.finbro.commands.ViewCommand - Displaying all expenses
+2026-03-26 22:35:01 [INFO] seedu.finbro.commands.DeleteCommand - Attempting to delete expense in category food #2
+2026-03-26 22:35:01 [INFO] seedu.finbro.commands.DeleteCommand - Successfully deleted expense in category food #2
+2026-03-26 22:35:08 [INFO] seedu.finbro.commands.ViewCommand - Displaying all expenses
+2026-03-26 22:35:12 [INFO] seedu.finbro.commands.ViewCommand - Displaying expenses in category transport
