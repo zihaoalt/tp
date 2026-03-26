@@ -9,7 +9,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ViewCommand extends Command {
-    private static final String COMMAND_VIEW = "view";
     private static final String EMPTY = "";
     private static final String ALL = "all";
 

@@ -29,7 +29,7 @@ public class Finbro {
             expenses = new ExpenseList();
         }
     }
-
+    
     public void run() {
         ui.showWelcome();
         boolean isExit = false;
