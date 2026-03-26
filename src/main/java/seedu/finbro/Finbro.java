@@ -1,26 +1,28 @@
 package seedu.finbro;
 
 import seedu.finbro.commands.Command;
+import seedu.finbro.exception.FinbroException;
 import seedu.finbro.parser.Parser;
 import seedu.finbro.storage.Storage;
 import seedu.finbro.ui.Ui;
+import seedu.finbro.utils.BudgetWarningService;
 import seedu.finbro.utils.Expense;
-import seedu.finbro.exception.FinbroException;
 import seedu.finbro.utils.ExpenseList;
-import seedu.finbro.utils.Limit;
 import seedu.finbro.utils.LogFormatter;
 
 import java.util.List;
 
 public class Finbro {
-    private Storage storage;
+    private final Storage storage;
+    private final Ui ui;
+    private final BudgetWarningService budgetWarningService;
     private ExpenseList expenses;
-    private Ui ui;
 
     //@@author Kushalshah0402
     public Finbro(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
+        budgetWarningService = new BudgetWarningService();
         try {
             LogFormatter.initLogger();
             List<Expense> loadedExpenses = storage.load();
@@ -37,15 +39,7 @@ public class Finbro {
 
         while (!isExit) {
             try {
-                double remaining = expenses.getRemainingExpenditure();
-                double limit = Limit.getLimit();
-                if (limit > 0 && expenses.size() > 0) {
-                    if (remaining < 0) {
-                        ui.showBudgetExceeded(limit);
-                    } else if (remaining <= 20) {
-                        ui.showBudgetReminder(limit);
-                    }
-                }
+                budgetWarningService.checkAndShowWarnings(expenses, ui);
                 String input = ui.readCommand();
                 if (input.equalsIgnoreCase("exit")) {
                     storage.save(expenses.getAll());
