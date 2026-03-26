@@ -41,9 +41,7 @@ public class ParserTest {
 
     @Test
     public void parse_editLimitReplace() throws FinbroException {
-        ExpenseList expenses = new ExpenseList();
         TestUi ui = new TestUi();
-        Storage storage = new Storage("./data/test-finbro.txt");
 
         // yes: confirm setting initial limit to 500
         // 3: choose replace
