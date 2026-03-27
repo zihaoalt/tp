@@ -8,8 +8,6 @@
 
 ## Design & implementation
 
-{Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
-
 ### Limit component
 
 `Limit.java`: stores the limit as a static variable accessible across the application\
@@ -28,7 +26,7 @@
 The sequence diagram below illustrates the interaction within the `Limit` component, with an input of `limit 100`
 from the user.
 
-![Set Limit Sequence Diagram](/docs/UML_diagrams/images/SetLimit.png)
+![Set Limit Sequence Diagram](UML_diagrams/images/SetLimit.png)
 
 How the `Limit` component sets a limit
 
@@ -46,7 +44,7 @@ How the `Limit` component sets a limit
 The sequence diagram below illustrates the interaction within the `Limit` component, with an input of `edit limit`
 from the user.
 
-![Edit Limit Sequence Diagram](/docs/UML_diagrams/images/EditLimit.png)
+![Edit Limit Sequence Diagram](UML_diagrams/images/EditLimit.png)
 
 How the `Limit` component edits a limit
 
@@ -74,7 +72,7 @@ The `add` command records a new expense in the system. It supports two modes of 
 1. Direct mode — when all required parameters are provided in a single command
 2. Walkthrough mode — when no parameters are provided, the system interactively prompts the user for input
 
-This dual behaviour improves usability by supporting both experienced users (fast entry) and new users (guided input).
+This dual behavior improves usability by supporting both experienced users (fast entry) and new users (guided input).
 
 ## Command Format
 
@@ -123,13 +121,13 @@ Each input is validated immediately. Invalid input results in an error message a
 After collecting all inputs, the system asks for confirmation:
 
 - If the user confirms, the expense is added
-- Otherwise, the operation is cancelled
+- Otherwise, the operation is canceled
 
 ## Sequence of Operations
 
 The following diagram illustrates the interaction between system components when executing the `add` command in both direct and walkthrough modes.
 
-![Add Expense Sequence Diagram](/docs/UML_diagrams/images/AddCommand.png)
+![Add Expense Sequence Diagram](UML_diagrams/images/AddCommand.png)
 
 ## Design Considerations
 
@@ -169,13 +167,13 @@ This application is optimized for users who prefer fast keyboard input over grap
 
 {Describe the value proposition: what problem does it solve?}
 
-This application helps users keep track of their spendings and gives frequent reminders to prevent them from spending
+This application helps users keep track of their spending's and gives frequent reminders to prevent them from spending
 unnecessarily.
 
 ## User Stories
 
 | Version | As a ...     | I want to ...                                             | So that I can ...                                           |
-| ------- | ------------ | --------------------------------------------------------- | ----------------------------------------------------------- |
+|---------|--------------|-----------------------------------------------------------|-------------------------------------------------------------|
 | v1.0    | new user     | see usage instructions                                    | refer to them when I forget how to use the application      |
 | v1.0    | new user     | record an expense by providing only amount and category   | start tracking my spending without learning many details    |
 | v1.0    | new user     | see clear error messages when I enter invalid inputs      | correct mistakes without frustration                        |
