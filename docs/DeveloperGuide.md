@@ -26,7 +26,7 @@
 The sequence diagram below illustrates the interaction within the `Limit` component, with an input of `limit 100`
 from the user.
 
-![Set Limit Sequence Diagram](/docs/UML_diagrams/images/SetLimit.png)
+![Set Limit Sequence Diagram](UML_diagrams/images/SetLimit.png)
 
 How the `Limit` component sets a limit
 
@@ -44,7 +44,7 @@ How the `Limit` component sets a limit
 The sequence diagram below illustrates the interaction within the `Limit` component, with an input of `edit limit`
 from the user.
 
-![Edit Limit Sequence Diagram](/docs/UML_diagrams/images/EditLimit.png)
+![Edit Limit Sequence Diagram](UML_diagrams/images/EditLimit.png)
 
 How the `Limit` component edits a limit
 
@@ -127,7 +127,7 @@ After collecting all inputs, the system asks for confirmation:
 
 The following diagram illustrates the interaction between system components when executing the `add` command in both direct and walkthrough modes.
 
-![Add Expense Sequence Diagram](/docs/UML_diagrams/images/AddCommand.png)
+![Add Expense Sequence Diagram](UML_diagrams/images/AddCommand.png)
 
 ## Design Considerations
 
