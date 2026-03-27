@@ -18,10 +18,11 @@ class ExpenseTest {
     @Test
     void toString_correctFormat_returnsExpectedString() {
         Expense e = new Expense(20.0, "transport", "2026-06-15");
-        String expected =
-                " Amount: $20.00\n" +
-                "   Category: transport\n" +
-                "   Date: 2026-06-15";
+        String expected = """
+                         Amount: $20.00
+                           Category: transport
+                           Date: 2026-06-15\
+                        """;
 
         assertEquals(expected, e.toString());
     }
@@ -54,15 +55,15 @@ class ExpenseTest {
     @Test
     void getters_multipleCalls_consistentValues() {
         Expense e = new Expense(15.0, "shopping", "2026-03-03");
-        assertEquals(15.0, e.getAmount());
-        assertEquals(15.0, e.getAmount());
-        assertEquals("shopping", e.getCategory());
-        assertEquals("2026-03-03", e.getDate());
+        assertEquals(15.0, e.amount());
+        assertEquals(15.0, e.amount());
+        assertEquals("shopping", e.category());
+        assertEquals("2026-03-03", e.date());
     }
     //@@author Kushalshah0402
     @Test
     void constructor_largeAmount_allowed() {
         Expense e = new Expense(1_000_000.50, "luxury", "2026-12-31");
-        assertEquals(1_000_000.50, e.getAmount());
+        assertEquals(1_000_000.50, e.amount());
     }
 }
