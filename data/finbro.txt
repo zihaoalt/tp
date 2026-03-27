@@ -1,3 +1,2 @@
-LIMIT | 40.00
+LIMIT | 29.00
 8.5 | transport | 26 March 2026
-10.5 | food | 25 March 2026
