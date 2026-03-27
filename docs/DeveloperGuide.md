@@ -40,6 +40,26 @@ How the `Limit` component sets a limit
 4. `Ui` will show the updated limit.
 5. `Finbro` will update the limit in `Storage` file.
 
+
+#### Editing the limit
+
+How the `Limit` component edits a limit
+
+1. The `Ui` will handle receiving the input and passes that input into `Finbro`.
+2. `Finbro` passes the input into `Parser` to parse the input, which creates an `EditLimitCommand` object.
+3. Executing the command object will first retrieve the current limit from `Limit`.
+4. `Ui` will display an edit menu for the user to choose whether to increase, decrease, or replace the current limit.
+5. The user enters the corresponding amount.
+6. `EditLimitCommand` validates the entered amount:
+   - the input must be a valid number
+   - the input must not be negative
+   - if the user chooses to decrease the limit, the resulting limit must not be below `$0`
+7. If the input is valid, `EditLimitCommand` computes the new limit and calls the confirmation logic in
+   `SetLimitCommand`.
+   - If user inputs `"yes"`, then the limit will be changed accordingly, otherwise it remains unchanged.
+8. `Ui` will show the updated limit.
+9. `Finbro` will update the limit in `Storage` file.
+
 ---
 
 ## Add Expense Feature
