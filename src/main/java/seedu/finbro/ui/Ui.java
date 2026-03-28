@@ -4,7 +4,7 @@ import seedu.finbro.commands.Command;
 import seedu.finbro.utils.Expense;
 import seedu.finbro.utils.Limit;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -42,12 +42,6 @@ public class Ui {
         System.out.println("Error: " + message);
         showLine();
     }
-
-    //@@author Kushalshah0402
-    public void showEnterAmountPrompt() {
-        showLine();
-        System.out.println("What is your expense amount?");
-    }
     //@@author zihaoalt
     public void showEnterIndexPrompt() {
         showLine();
@@ -70,6 +64,11 @@ public class Ui {
             System.out.println(toPrint);
             showLine();
         }
+    }
+    //@@author Kushalshah0402
+    public void showEnterAmountPrompt() {
+        showLine();
+        System.out.println("What is your expense amount?");
     }
     //@@author WangZX2001
     public void showEnterAmountPrompt(String action) {
