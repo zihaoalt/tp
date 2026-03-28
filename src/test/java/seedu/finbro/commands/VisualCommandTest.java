@@ -29,10 +29,11 @@ class VisualCommandTest {
         String bar = "████";
         double amount = 20.1;
         VisualCommand c = new VisualCommand("");
-
         c.createRow(label, bar, amount);
 
-        assertEquals("Jan 2026 | ████                 $20.10", c.output);
+        String correctOutput = String.format("%-8s | %-20s $%.2f", label, bar, amount);
+
+        assertEquals(correctOutput, c.output);
     }
 
     @Test
@@ -48,7 +49,7 @@ class VisualCommandTest {
     }
 
     @Test
-    void execute_validExpenseList_noException() throws FinbroException {
+    void execute_validExpenseList_noException() {
         // testing ExpenseList
         ExpenseList expenses = new ExpenseList();
         Expense e1 = new Expense(20, "food", "3 March 2026");
