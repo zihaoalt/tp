@@ -123,7 +123,7 @@ public class Ui {
     }
     //@@author Kushalshah0402
     public void showInlineError(String message) {
-        System.out.println("⚠️ " + message);
+        System.out.println("Warning: " + message);
     }
 
     //@@author Kushalshah0402
@@ -242,6 +242,13 @@ public class Ui {
                 """);
     }
 
+    public void showVisual(String output) {
+        showLine();
+        System.out.println("=== Monthly Spendings ===");
+        System.out.println(output);
+        showLine();
+    }
+    
     //@@author WangZX2OO1
     public void showEnterSourceCurrencyPrompt() {
         showLine();

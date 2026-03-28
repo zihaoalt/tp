@@ -8,6 +8,7 @@ import seedu.finbro.commands.DeleteCommand;
 import seedu.finbro.commands.HelpCommand;
 import seedu.finbro.commands.SetLimitCommand;
 import seedu.finbro.commands.ViewCommand;
+import seedu.finbro.commands.VisualCommand;
 import seedu.finbro.exception.FinbroException;
 
 public class Parser {
@@ -17,6 +18,7 @@ public class Parser {
     private static final String COMMAND_SET_LIMIT = "limit";
     private static final String COMMAND_EDIT = "edit";
     private static final String COMMAND_HELP = "help";
+    private static final String COMMAND_VISUAL = "visual";
     private static final String COMMAND_CURRENCY = "currency";
 
     //@@author zihaoalt natmloclam
@@ -31,6 +33,7 @@ public class Parser {
         case COMMAND_DELETE -> new DeleteCommand(argument);
         case COMMAND_SET_LIMIT -> new SetLimitCommand(argument);
         case COMMAND_EDIT -> new EditCommand(argument);
+        case COMMAND_VISUAL -> new VisualCommand(argument);
         case COMMAND_CURRENCY -> new CurrencyCommand();
 
         default -> throw new FinbroException("Invalid command.");

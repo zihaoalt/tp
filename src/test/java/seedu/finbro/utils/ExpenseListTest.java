@@ -4,8 +4,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 import seedu.finbro.exception.FinbroException;
+
+import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -126,4 +130,55 @@ class ExpenseListTest {
 
         assertEquals(-3, list.getRemainingExpenditure());
     }
+
+    @Test
+    void parseMonth_validDateFormat_correctYearYearMonth() throws FinbroException {
+        ExpenseList list = new ExpenseList();
+        list.add(new Expense(10, "food", "3 March 2026"));
+
+        assertEquals(YearMonth.of(2026, 3), list.parseYearMonth(list.get(0)));
+    }
+
+    @Test
+    void parseYearMonth_invalidDateFormat_throwsException() {
+        ExpenseList list = new ExpenseList();
+        list.add(new Expense(10, "food", "3 March"));
+
+        Exception e = assertThrows(FinbroException.class, () -> list.parseYearMonth(list.get(0)));
+
+        String expectedMessage = "Invalid date format";
+        String actualMessage = e.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
+    void getMonthlyExpenses_validExpenses_correctMap() throws FinbroException {
+        ExpenseList list = new ExpenseList();
+        list.add(new Expense(10, "food", "3 March 2026"));
+        list.add(new Expense(5, "transport", "2 January 2026"));
+        list.add(new Expense(7, "food", "2 January 2026"));
+
+        Map<YearMonth, Double> correctOutput = new HashMap<>();
+        correctOutput.put(YearMonth.of(2026, 3), 10.0);
+        correctOutput.put(YearMonth.of(2026, 1), 12.0);
+
+        assertEquals(correctOutput, list.getMonthlyExpenses());
+    }
+
+    @Test
+    void getMonthlyExpenses_invalidDate_ignoreExpense() throws FinbroException {
+        ExpenseList list = new ExpenseList();
+        list.add(new Expense(10, "food", "3 March 2026"));
+        list.add(new Expense(5, "transport", "2 January 2026"));
+        list.add(new Expense(7, "food", "2 bleh 2026"));
+
+        Map<YearMonth, Double> correctOutput = new HashMap<>();
+        correctOutput.put(YearMonth.of(2026, 3), 10.0);
+        correctOutput.put(YearMonth.of(2026, 1), 5.0);
+
+        assertEquals(correctOutput, list.getMonthlyExpenses());
+    }
+
+
 }
