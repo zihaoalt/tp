@@ -6,7 +6,7 @@ import seedu.finbro.ui.Ui;
 import seedu.finbro.exception.FinbroException;
 import seedu.finbro.utils.Expense;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -51,7 +51,7 @@ public class DeleteCommand extends Command {
         String [] parts = input.split(" ");
         if (parts.length < 2) {
             logger.log(Level.WARNING, "Invalid command format");
-            throw new FinbroException("Usage: delete <category> #<number>");
+            throw new FinbroException("Usage: delete <category> <number>");
         }
     }
     //@@author zihaoalt
@@ -167,7 +167,8 @@ public class DeleteCommand extends Command {
         return """
                 Deletes a specific expense from a category.
                 Format: delete <category> <number> OR delete
-                Use: Permanently removes the numbered expense in that category. Type only delete will walk through the deletion process.
+                Use 1: Permanently removes the numbered expense in that category. 
+                Use 2:Type delete only will walk through the deletion process.
                 Note: use the displayed index number, such as 2.""";
     }
 }
