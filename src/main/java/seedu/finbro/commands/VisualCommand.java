@@ -33,6 +33,8 @@ public class VisualCommand extends Command {
         double max = Collections.max(monthlyTotals.values());
         for (YearMonth month: monthlyTotals.keySet()) {
             double amount =  monthlyTotals.get(month);
+            assert amount >= 0;
+
             int barLength = (int) ((amount / max) * MAX_BAR_LENGTH);
             String bar = createBar(barLength);
             String label = createLabel(month);
@@ -43,7 +45,8 @@ public class VisualCommand extends Command {
     }
 
     public static String createBar(int barLength) {
-        return "█".repeat(Math.max(0, barLength));
+        assert barLength >= 0;
+        return "█".repeat(barLength);
     }
 
     public static String createLabel(YearMonth yearMonth) {

@@ -124,7 +124,7 @@ public class ExpenseList {
             parsedDate = LocalDate.parse(e.date(), formatter);
             yearMonth = YearMonth.from(parsedDate);
         } catch (DateTimeParseException ex) {
-            throw new FinbroException("Invalid date format");
+            throw new FinbroException("Corrupted expense: Invalid date format");
         }
         return yearMonth;
     }
