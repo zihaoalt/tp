@@ -83,7 +83,7 @@ public class EditLimitCommandTest {
 
     //@@author WangZX2001
     @Test
-    public void execute_replaceLimit_invalidAmount_exceptionThrown() {
+    public void execute_replaceLimit_invalidAmount() {
         ExpenseList expenses = new ExpenseList();
         TestUi ui = new TestUi();
         Storage storage = new Storage(TEST_FILE_PATH);
@@ -104,7 +104,7 @@ public class EditLimitCommandTest {
 
     //@@author WangZX2001
     @Test
-    public void execute_choiceWithWhitespace_trimmed_success() throws FinbroException {
+    public void execute_choiceWithWhitespace_trimmed() throws FinbroException {
         ExpenseList expenses = new ExpenseList();
         TestUi ui = new TestUi();
         Storage storage = new Storage(TEST_FILE_PATH);
