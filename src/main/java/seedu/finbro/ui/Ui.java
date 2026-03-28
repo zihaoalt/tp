@@ -190,4 +190,32 @@ public class Ui {
                  \\$$       \\$$ \\$$   \\$$ \\$$$$$$$  \\$$        \\$$$$$$
                 """);
     }
+
+    //@@author WangZX2OO1
+    public void showEnterSourceCurrencyPrompt() {
+        showLine();
+        System.out.println("Enter source currency:");
+    }
+    //@@author WangZX2001
+    public void showEnterTargetCurrencyPrompt() {
+        System.out.println("Enter target currency:");
+    }
+    //@@author WangZX2001
+    public void showChooseExpenseEntryPrompt() {
+        System.out.println("Which expense entry would you like to convert?");
+    }
+    //@@author WangZX2001
+    public String readLine() {
+        return scanner.nextLine().trim();
+    }
+    //@@author WangZX2001
+    public void showCurrencyConversionResult(int index, double originalAmount,
+                                             String fromCurrency, String toCurrency,
+                                             double convertedAmount) {
+        showLine();
+        System.out.println("Expense #" + index);
+        System.out.printf("%.2f %s = %.2f %s%n",
+                originalAmount, fromCurrency, convertedAmount, toCurrency);
+        showLine();
+    }
 }
