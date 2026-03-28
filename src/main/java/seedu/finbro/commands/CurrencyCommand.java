@@ -60,6 +60,12 @@ public class CurrencyCommand extends Command {
     //@@author WangZX2001
     @Override
     public String getHelpMessage() {
-        return "currency: convert an expense using locally stored exchange rates.";
+        return """
+        Converts an existing expense into another currency.
+        Format: currency
+        Use: Prompts you to enter the source and target currencies,
+             then select an expense entry to convert.
+        Note: Only supported currencies are allowed (e.g. SGD, USD, EUR, MYR).
+              Uses locally stored exchange rates (no internet required).""";
     }
 }
