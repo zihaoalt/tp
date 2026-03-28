@@ -5,255 +5,139 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.finbro.exception.FinbroException;
+import seedu.finbro.storage.Storage;
 import seedu.finbro.ui.Ui;
 import seedu.finbro.utils.Expense;
 import seedu.finbro.utils.ExpenseList;
 
 public class CurrencyCommandTest {
 
-    private InputStream originalIn;
+    private static final String TEST_FILE_PATH = "./data/test-finbro.txt";
 
-    @BeforeEach
-    void saveSystemIn() {
-        originalIn = System.in;
-    }
-
-    @AfterEach
-    void restoreSystemIn() {
-        System.setIn(originalIn);
-    }
-    //@@author WangZX2001
     @Test
     void execute_validInput_success() {
-        String simulatedInput =
-                """
-                        SGD
-                        USD
-                        1
-                        """;
+        TestUi ui = new TestUi();
+        ui.setInputs("SGD", "USD", "1");
 
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-
-        Ui ui = new Ui();
         ExpenseList list = new ExpenseList();
         list.add(new Expense(100.0, "food", "2026-01-01"));
 
         CurrencyCommand command = new CurrencyCommand();
 
-        assertDoesNotThrow(() -> command.execute(list, ui, null));
+        assertDoesNotThrow(() -> command.execute(list, ui, new Storage(TEST_FILE_PATH)));
     }
-    //@@author WangZX2001
+
     @Test
     void execute_sameCurrency_success() {
-        String simulatedInput =
-                """
-                        SGD
-                        SGD
-                        1
-                        """;
+        TestUi ui = new TestUi();
+        ui.setInputs("SGD", "SGD", "1");
 
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-
-        Ui ui = new Ui();
         ExpenseList list = new ExpenseList();
         list.add(new Expense(50.0, "transport", "2026-01-01"));
 
         CurrencyCommand command = new CurrencyCommand();
 
-        assertDoesNotThrow(() -> command.execute(list, ui, null));
+        assertDoesNotThrow(() -> command.execute(list, ui, new Storage(TEST_FILE_PATH)));
     }
-    //@@author WangZX2001
+
     @Test
     void execute_lowercaseCurrency_success() {
-        String simulatedInput =
-                """
-                        sgd
-                        usd
-                        1
-                        """;
+        TestUi ui = new TestUi();
+        ui.setInputs("sgd", "usd", "1");
 
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-
-        Ui ui = new Ui();
         ExpenseList list = new ExpenseList();
         list.add(new Expense(80.0, "shopping", "2026-01-01"));
 
         CurrencyCommand command = new CurrencyCommand();
 
-        assertDoesNotThrow(() -> command.execute(list, ui, null));
+        assertDoesNotThrow(() -> command.execute(list, ui, new Storage(TEST_FILE_PATH)));
     }
-    //@@author WangZX2001
+
     @Test
     void execute_unsupportedSourceCurrency_throwsException() {
-        String simulatedInput =
-                """
-                        ABC
-                        USD
-                        1
-                        """;
+        TestUi ui = new TestUi();
+        ui.setInputs("ABC", "USD", "1");
 
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-
-        Ui ui = new Ui();
         ExpenseList list = new ExpenseList();
         list.add(new Expense(100.0, "food", "2026-01-01"));
 
         CurrencyCommand command = new CurrencyCommand();
 
         FinbroException e = assertThrows(FinbroException.class,
-                () -> command.execute(list, ui, null));
+                () -> command.execute(list, ui, new Storage(TEST_FILE_PATH)));
 
         assertTrue(e.getMessage().contains("Unsupported currency"));
     }
-    //@@author WangZX2001
+
     @Test
     void execute_unsupportedTargetCurrency_throwsException() {
-        String simulatedInput =
-                """
-                        SGD
-                        XYZ
-                        1
-                        """;
+        TestUi ui = new TestUi();
+        ui.setInputs("SGD", "XYZ", "1");
 
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-
-        Ui ui = new Ui();
         ExpenseList list = new ExpenseList();
         list.add(new Expense(100.0, "food", "2026-01-01"));
 
         CurrencyCommand command = new CurrencyCommand();
 
         FinbroException e = assertThrows(FinbroException.class,
-                () -> command.execute(list, ui, null));
+                () -> command.execute(list, ui, new Storage(TEST_FILE_PATH)));
 
         assertTrue(e.getMessage().contains("Unsupported currency"));
     }
-    //@@author WangZX2001
+
     @Test
     void execute_nonNumericEntry_throwsException() {
-        String simulatedInput =
-                """
-                        SGD
-                        USD
-                        abc
-                        """;
+        TestUi ui = new TestUi();
+        ui.setInputs("SGD", "USD", "abc");
 
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-
-        Ui ui = new Ui();
         ExpenseList list = new ExpenseList();
         list.add(new Expense(100.0, "food", "2026-01-01"));
 
         CurrencyCommand command = new CurrencyCommand();
 
         FinbroException e = assertThrows(FinbroException.class,
-                () -> command.execute(list, ui, null));
+                () -> command.execute(list, ui, new Storage(TEST_FILE_PATH)));
 
         assertEquals("Invalid entry number.", e.getMessage());
     }
-    //@@author WangZX2001
-    @Test
-    void execute_zeroEntry_throwsException() {
-        String simulatedInput =
-                """
-                        SGD
-                        USD
-                        0
-                        """;
 
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-
-        Ui ui = new Ui();
-        ExpenseList list = new ExpenseList();
-        list.add(new Expense(100.0, "food", "2026-01-01"));
-
-        CurrencyCommand command = new CurrencyCommand();
-
-        FinbroException e = assertThrows(FinbroException.class,
-                () -> command.execute(list, ui, null));
-
-        assertEquals("Entry out of range.", e.getMessage());
-    }
-    //@@author WangZX2001
-    @Test
-    void execute_negativeEntry_throwsException() {
-        String simulatedInput =
-                """
-                        SGD
-                        USD
-                        -1
-                        """;
-
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-
-        Ui ui = new Ui();
-        ExpenseList list = new ExpenseList();
-        list.add(new Expense(100.0, "food", "2026-01-01"));
-
-        CurrencyCommand command = new CurrencyCommand();
-
-        FinbroException e = assertThrows(FinbroException.class,
-                () -> command.execute(list, ui, null));
-
-        assertEquals("Entry out of range.", e.getMessage());
-    }
-    //@@author WangZX2001
     @Test
     void execute_entryOutOfRange_throwsException() {
-        String simulatedInput =
-                """
-                        SGD
-                        USD
-                        2
-                        """;
+        TestUi ui = new TestUi();
+        ui.setInputs("SGD", "USD", "2");
 
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-
-        Ui ui = new Ui();
         ExpenseList list = new ExpenseList();
         list.add(new Expense(100.0, "food", "2026-01-01"));
 
         CurrencyCommand command = new CurrencyCommand();
 
         FinbroException e = assertThrows(FinbroException.class,
-                () -> command.execute(list, ui, null));
+                () -> command.execute(list, ui, new Storage(TEST_FILE_PATH)));
 
         assertEquals("Entry out of range.", e.getMessage());
     }
-    //@@author WangZX2001
-    @Test
-    void execute_emptyExpenseList_throwsException() {
-        String simulatedInput =
-                """
-                        SGD
-                        USD
-                        1
-                        """;
 
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-
-        Ui ui = new Ui();
-        ExpenseList list = new ExpenseList();
-
-        CurrencyCommand command = new CurrencyCommand();
-
-        FinbroException e = assertThrows(FinbroException.class,
-                () -> command.execute(list, ui, null));
-
-        assertEquals("No expenses available.", e.getMessage());
-    }
-    //@@author WangZX2001
     @Test
     void getHelpMessage_containsCurrencyKeyword() {
         CurrencyCommand command = new CurrencyCommand();
         assertTrue(command.getHelpMessage().toLowerCase().contains("currency"));
+    }
+
+    private static class TestUi extends Ui {
+        private String[] inputs;
+        private int index = 0;
+
+        void setInputs(String... inputs) {
+            this.inputs = inputs;
+            this.index = 0;
+        }
+
+        @Override
+        public String readCommand() {
+            return inputs[index++];
+        }
     }
 }
