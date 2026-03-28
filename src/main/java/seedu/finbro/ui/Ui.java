@@ -214,8 +214,9 @@ public class Ui {
 
     public void showVisual(String output) {
         showLine();
-        System.out.println("=== Monthly Spending ===");
+        System.out.println("=== Monthly Spendings ===");
         System.out.println(output);
+        showLine();
     }
     
     //@@author WangZX2OO1
