@@ -2,8 +2,14 @@ package seedu.finbro.utils;
 
 import seedu.finbro.exception.FinbroException;
 
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ExpenseList {
     private final List<Expense> expenses;
@@ -83,5 +89,33 @@ public class ExpenseList {
         expenses.remove(targetExpense);
         assert !expenses.contains(targetExpense) : "Removed expense should no longer be in list";
         return targetExpense;
+    }
+
+    public Map<YearMonth, Double> getMonthlyExpenses() throws FinbroException {
+        Map<YearMonth, Double> monthlyTotals =  new HashMap<>();
+        for (Expense expense : expenses) {
+            try {
+                YearMonth month =  parseMonth(expense);
+                monthlyTotals.put(month, monthlyTotals.getOrDefault(month, 0.0) + expense.amount());
+            } catch (ClassCastException | NullPointerException |
+                     IllegalArgumentException | UnsupportedOperationException e) {
+                throw new FinbroException("Unable to add to Map");
+            }
+        }
+        return monthlyTotals;
+    }
+
+    public YearMonth parseMonth(Expense e) throws FinbroException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
+
+        LocalDate parsedDate;
+        YearMonth yearMonth;
+        try {
+            parsedDate = LocalDate.parse(e.date(), formatter);
+            yearMonth = YearMonth.from(parsedDate);
+        } catch (DateTimeParseException ex) {
+            throw new FinbroException("Invalid date format");
+        }
+        return yearMonth;
     }
 }
