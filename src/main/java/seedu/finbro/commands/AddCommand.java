@@ -16,15 +16,19 @@ import java.util.logging.Logger;
 public class AddCommand extends Command {
     private static final Logger logger = Logger.getLogger(AddCommand.class.getName());
     private final String arg;
-
+    
     //@@author natmloclam
     public AddCommand(String arg) {
+        assert arg != null : "Argument string should not be null";
         this.arg = arg;
     }
 
     //@@author Kushalshah0402
     @Override
     public void execute(ExpenseList expenses, Ui ui, Storage storage) throws FinbroException {
+        assert expenses != null : "ExpenseList should not be null";
+        assert ui != null : "Ui should not be null";
+        assert storage != null : "Storage should not be null";
 
         //Walkthrough mode
         if (arg.isBlank()) {
@@ -50,6 +54,8 @@ public class AddCommand extends Command {
 
     //@@author Kushalshah0402
     private void runWalkthrough(ExpenseList expenses, Ui ui) {
+        assert expenses != null;
+        assert ui != null;
         double amount;
         String category;
         String formattedDate;
@@ -110,6 +116,7 @@ public class AddCommand extends Command {
 
         // CONFIRMATION
         Expense expense = new Expense(amount, category, formattedDate);
+        assert expense != null : "Expense should not be null";
         ui.showConfirmExpense(expense);
         String confirm = ui.readCommand();
         if (confirm.equalsIgnoreCase("yes")) {
@@ -124,6 +131,7 @@ public class AddCommand extends Command {
 
     //@@author Kushalshah0402
     private void verifyInputLength(String input) throws FinbroException {
+        assert input != null;
         String [] parts = input.split(" ");
         if (parts.length != 3) {
             logger.log(Level.WARNING, "Invalid command format");
