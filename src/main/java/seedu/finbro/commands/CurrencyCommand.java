@@ -17,6 +17,8 @@ public class CurrencyCommand extends Command {
     //@@author WangZX2001
     @Override
     public void execute(ExpenseList expenseList, Ui ui, Storage storage) throws FinbroException {
+        assert expenseList != null : "ExpenseList should not be null";
+        assert ui != null : "Ui should not be null";
         logger.info("Executing CurrencyCommand...");
         if (expenseList.isEmpty()) {
             logger.warning("No expenses available for conversion.");
@@ -25,7 +27,6 @@ public class CurrencyCommand extends Command {
 
         ui.showEnterSourceCurrencyPrompt();
         String fromCurrency = ui.readCommand().trim().toUpperCase();
-        logger.info("User entered source currency: " + fromCurrency);
 
         ui.showEnterTargetCurrencyPrompt();
         String toCurrency = ui.readCommand().trim().toUpperCase();
@@ -59,7 +60,8 @@ public class CurrencyCommand extends Command {
         }
 
         Expense expense = expenseList.get(index - 1);
-        logger.info("Selected expense: " + expense.toString());
+        assert expense != null : "Selected expense should not be null";
+        logger.info("Selected expense: " + expense);
 
         double convertedAmount;
         try {
