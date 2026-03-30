@@ -162,16 +162,17 @@ public class AddCommand extends Command {
         String[] parts = input.split(" ");
         return parts[1];
     }
-    //@@author Kushalshah0402
+    //@@author WangZX2001
     private String verifyDate(String input) throws FinbroException {
         String[] parts = input.trim().split("\\s+");
 
         if (parts.length < 3) {
-            throw new FinbroException("Missing date.");
+            throw new FinbroException("Missing Attributes.");
         }
 
-        String dateInput = String.join(" ",
-                java.util.Arrays.copyOfRange(parts, 2, parts.length));
+        String startWord = parts[2];
+        int startIndex = input.indexOf(startWord);
+        String dateInput = input.substring(startIndex);
 
         LocalDate parsedDate = NaturalDateParser.parse(dateInput);
 

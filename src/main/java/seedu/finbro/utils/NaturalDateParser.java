@@ -8,7 +8,7 @@ import java.time.format.DateTimeParseException;
 import java.time.temporal.TemporalAdjusters;
 
 public class NaturalDateParser {
-
+    //@@author WangZX2001
     public static LocalDate parse(String input) throws FinbroException {
         String inputDate = input.trim().toLowerCase();
         LocalDate today = LocalDate.now();
