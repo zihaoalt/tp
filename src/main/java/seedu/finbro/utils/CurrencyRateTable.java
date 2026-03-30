@@ -27,6 +27,7 @@ public class CurrencyRateTable {
     }
 
     public static boolean isUnsupportedCurrency(String currency) {
+        assert currency != null : "Currency input should not be null";
         String code = currency.toUpperCase();
 
         boolean unsupported =  !code.equals(BASE_CURRENCY) && !sgdToRate.containsKey(code);
@@ -38,6 +39,9 @@ public class CurrencyRateTable {
     }
 
     public static double convert(double amount, String fromCurrency, String toCurrency) {
+        assert fromCurrency != null : "fromCurrency should not be null";
+        assert toCurrency != null : "toCurrency should not be null";
+
         String from = fromCurrency.toUpperCase();
         String to = toCurrency.toUpperCase();
 
