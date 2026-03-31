@@ -23,7 +23,7 @@ public class AddCommand extends Command {
         this.arg = arg;
     }
 
-    //@@author Kushalshah0402
+    //@@author Kushalshah0402 WangZX2001
     @Override
     public void execute(ExpenseList expenses, Ui ui, Storage storage) throws FinbroException {
         assert expenses != null : "ExpenseList should not be null";
@@ -45,10 +45,19 @@ public class AddCommand extends Command {
                 new Object[]{amount, category, formattedDate});
 
         Expense expense = new Expense(amount, category, formattedDate);
-        expenses.add(expense);
-        logger.log(Level.INFO,
-                "Successfully added expense in category " + category + " $" + amount);
-        ui.showExpenseAdded(expense, expenses.size());
+        assert expense != null : "Expense should not be null";
+
+        ui.showConfirmExpense(expense);
+        String confirm = ui.readCommand().trim();
+
+        if (confirm.equalsIgnoreCase("yes")) {
+            expenses.add(expense);
+            logger.log(Level.INFO, "Expense confirmed and added: " + expense);
+            ui.showExpenseAdded(expense, expenses.size());
+        } else {
+            logger.log(Level.INFO, "Expense addition cancelled by user");
+            ui.showCancelAddMessage();
+        }
     }
 
     //@@author Kushalshah0402
