@@ -21,8 +21,8 @@ public class DeleteCommandTest {
         Ui ui = new Ui();
         Storage storage = new Storage("./data/test-delete-finbro.txt");
 
-        Parser.parse("add 12.50 food 2026-03-27").execute(expenses, ui, storage);
-        Parser.parse("add 8.00 food 2026-03-28").execute(expenses, ui, storage);
+        expenses.add(new Expense(12.50, "food", "2026-03-27"));
+        expenses.add(new Expense(8.00, "food", "2026-03-28"));
 
         DeleteCommand command = new DeleteCommand("food 1");
         command.execute(expenses, ui, storage);
@@ -65,7 +65,7 @@ public class DeleteCommandTest {
         Ui ui = new Ui();
         Storage storage = new Storage("./data/test-delete-finbro.txt");
 
-        Parser.parse("add 12.50 food 2026-03-28").execute(expenses, ui, storage);
+        expenses.add(new Expense(12.50, "food", "2026-03-28"));
 
         assertThrows(FinbroException.class, () -> {
             DeleteCommand command = new DeleteCommand("food 2");
@@ -81,9 +81,9 @@ public class DeleteCommandTest {
         TestUi ui = new TestUi();
         Storage storage = new Storage("./data/test-delete-finbro.txt");
 
-        Parser.parse("add 12.50 food 2026-03-28").execute(expenses, ui, storage);
-        Parser.parse("add 8.00 food 2026-03-28").execute(expenses, ui, storage);
-        Parser.parse("add 3.20 transport 2026-03-28").execute(expenses, ui, storage);
+        expenses.add(new Expense(12.50, "food", "2026-03-28"));
+        expenses.add(new Expense(8.00, "food", "2026-03-28"));
+        expenses.add(new Expense(3.20, "transport", "2026-03-28"));
 
         ui.setInputs("", "-l", "food", "-l", "abc", "0", "2", "yes");
 
@@ -107,7 +107,7 @@ public class DeleteCommandTest {
         TestUi ui = new TestUi();
         Storage storage = new Storage("./data/test-delete-finbro.txt");
 
-        Parser.parse("add 12.50 food 2026-03-28").execute(expenses, ui, storage);
+        expenses.add(new Expense(12.50, "food", "2026-03-28"));
 
         ui.setInputs("food", "1", "no");
 
@@ -141,7 +141,7 @@ public class DeleteCommandTest {
         TestUi ui = new TestUi();
         Storage storage = new Storage("./data/test-delete-finbro.txt");
 
-        Parser.parse("add 12.50 food 2026-03-28").execute(expenses, ui, storage);
+        expenses.add(new Expense(12.50, "food", "2026-03-28"));
 
         ui.setInputs("travel", "food", (String) null);
 
@@ -160,8 +160,7 @@ public class DeleteCommandTest {
         ExpenseList expenses = new ExpenseList();
         TestUi ui = new TestUi();
         Storage storage = new Storage("./data/test-delete-finbro.txt");
-
-        Parser.parse("add 12.50 food 2026-03-15").execute(expenses, ui, storage);
+        expenses.add(new Expense(12.50, "food", "2026-03-15"));
 
         ui.setInputs("food", "1", (String) null);
 
