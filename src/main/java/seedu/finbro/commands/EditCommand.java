@@ -3,7 +3,7 @@ package seedu.finbro.commands;
 import seedu.finbro.exception.FinbroException;
 import seedu.finbro.storage.Storage;
 import seedu.finbro.ui.Ui;
-import seedu.finbro.utils.ExpenseList;
+import seedu.finbro.finances.ExpenseList;
 
 public class EditCommand extends Command{
     private static final String COMMAND_SET_LIMIT = "limit";

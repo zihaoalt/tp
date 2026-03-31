@@ -1,7 +1,7 @@
 package seedu.finbro.storage;
 
-import seedu.finbro.utils.Expense;
-import seedu.finbro.utils.Limit;
+import seedu.finbro.finances.Expense;
+import seedu.finbro.finances.Limit;
 import seedu.finbro.exception.FinbroException;
 
 import java.io.File;

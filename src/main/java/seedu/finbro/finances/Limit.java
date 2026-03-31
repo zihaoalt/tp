@@ -1,4 +1,4 @@
-package seedu.finbro.utils;
+package seedu.finbro.finances;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

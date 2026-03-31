@@ -1,4 +1,4 @@
-package seedu.finbro.utils;
+package seedu.finbro.finances;
 
 import seedu.finbro.exception.FinbroException;
 

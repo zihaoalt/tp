@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Test;
 import seedu.finbro.exception.FinbroException;
 import seedu.finbro.storage.Storage;
 import seedu.finbro.ui.Ui;
-import seedu.finbro.utils.ExpenseList;
-import seedu.finbro.utils.Limit;
+import seedu.finbro.finances.ExpenseList;
+import seedu.finbro.finances.Limit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

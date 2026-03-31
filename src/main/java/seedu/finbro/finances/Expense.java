@@ -1,4 +1,4 @@
-package seedu.finbro.utils;
+package seedu.finbro.finances;
 
 public record Expense(double amount, String category, String date) {
     //@@author Kushalshah0402

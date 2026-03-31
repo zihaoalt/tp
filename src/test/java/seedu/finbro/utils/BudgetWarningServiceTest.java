@@ -2,6 +2,10 @@ package seedu.finbro.utils;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import seedu.finbro.finances.Expense;
+import seedu.finbro.finances.ExpenseList;
+import seedu.finbro.finances.Limit;
 import seedu.finbro.ui.Ui;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -89,4 +93,3 @@ class BudgetWarningServiceTest {
         }
     }
 }
-

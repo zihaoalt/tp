@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.finbro.storage.Storage;
 import seedu.finbro.ui.Ui;
-import seedu.finbro.utils.ExpenseList;
+import seedu.finbro.finances.ExpenseList;
 
 public class AddCommandTest {
     //@@author Kushalshah0402

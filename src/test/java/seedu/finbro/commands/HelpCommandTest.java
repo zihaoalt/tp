@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.finbro.exception.FinbroException;
 import seedu.finbro.ui.Ui;
-import seedu.finbro.utils.ExpenseList;
+import seedu.finbro.finances.ExpenseList;
 
 public class HelpCommandTest {
     //@@author zihaoalt
