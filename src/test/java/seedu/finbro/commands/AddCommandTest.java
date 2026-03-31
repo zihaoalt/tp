@@ -49,13 +49,17 @@ public class AddCommandTest {
         assertEquals(0, list.size());
     }
 
-    //@@author Kushalshah0402
+    //@@author Kushalshah0402 WangZX2001
     @Test
     void execute_strictModeValidInput_expenseAdded() throws Exception {
+        String input = "yes\n";
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+
         ExpenseList list = new ExpenseList();
         Ui ui = new Ui();
         Storage storage = null;
         AddCommand command = new AddCommand("20 food 2026-01-01");
+
         command.execute(list, ui, storage);
         assertEquals(1, list.size());
     }
@@ -68,5 +72,33 @@ public class AddCommandTest {
         Storage storage = null;
         AddCommand command = new AddCommand("20 2026-01-01"); // missing category
         assertThrows(Exception.class, () -> command.execute(list, ui, storage));
+    }
+    //@@author WangZX2001
+    @Test
+    void execute_strictModeUserCancels_noExpenseAdded() throws Exception {
+        String input = "no\n";
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+
+        ExpenseList list = new ExpenseList();
+        Ui ui = new Ui();
+        Storage storage = null;
+        AddCommand command = new AddCommand("20 food 2026-01-01");
+
+        command.execute(list, ui, storage);
+        assertEquals(0, list.size());
+    }
+    //@@author WangZX2001
+    @Test
+    void execute_strictModeNaturalDate_expenseAdded() throws Exception {
+        String input = "yes\n";
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+
+        ExpenseList list = new ExpenseList();
+        Ui ui = new Ui();
+        Storage storage = null;
+        AddCommand command = new AddCommand("20 food today");
+
+        command.execute(list, ui, storage);
+        assertEquals(1, list.size());
     }
 }

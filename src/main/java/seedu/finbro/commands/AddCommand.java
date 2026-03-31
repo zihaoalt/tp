@@ -5,25 +5,24 @@ import seedu.finbro.storage.Storage;
 import seedu.finbro.ui.Ui;
 import seedu.finbro.exception.FinbroException;
 import seedu.finbro.utils.Expense;
-
+import seedu.finbro.utils.NaturalDateParser;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AddCommand extends Command {
     private static final Logger logger = Logger.getLogger(AddCommand.class.getName());
     private final String arg;
-    
+
     //@@author natmloclam
     public AddCommand(String arg) {
         assert arg != null : "Argument string should not be null";
         this.arg = arg;
     }
 
-    //@@author Kushalshah0402
+    //@@author Kushalshah0402 WangZX2001
     @Override
     public void execute(ExpenseList expenses, Ui ui, Storage storage) throws FinbroException {
         assert expenses != null : "ExpenseList should not be null";
@@ -45,10 +44,19 @@ public class AddCommand extends Command {
                 new Object[]{amount, category, formattedDate});
 
         Expense expense = new Expense(amount, category, formattedDate);
-        expenses.add(expense);
-        logger.log(Level.INFO,
-                "Successfully added expense in category " + category + " $" + amount);
-        ui.showExpenseAdded(expense, expenses.size());
+        assert expense != null : "Expense should not be null";
+
+        ui.showConfirmExpense(expense);
+        String confirm = ui.readCommand().trim();
+
+        if (confirm.equalsIgnoreCase("yes")) {
+            expenses.add(expense);
+            logger.log(Level.INFO, "Expense confirmed and added: " + expense);
+            ui.showExpenseAdded(expense, expenses.size());
+        } else {
+            logger.log(Level.INFO, "Expense addition cancelled by user");
+            ui.showCancelAddMessage();
+        }
     }
 
     //@@author Kushalshah0402
@@ -104,7 +112,10 @@ public class AddCommand extends Command {
             ui.showEnterDatePrompt();
             String dateInput = ui.readCommand();
             try {
-                formattedDate = verifyDate("0 0 " + dateInput);
+                LocalDate parsedDate = NaturalDateParser.parse(dateInput);
+                formattedDate = parsedDate.format(
+                        DateTimeFormatter.ofPattern("d MMMM yyyy")
+                );
                 logger.log(Level.INFO, "Valid date entered: " + formattedDate);
                 break;
             } catch (FinbroException e) {
@@ -128,19 +139,22 @@ public class AddCommand extends Command {
         }
     }
 
-    //@@author Kushalshah0402
+    //@@author Kushalshah0402 WangZX2001
     private void verifyInputLength(String input) throws FinbroException {
-        assert input != null;
-        String [] parts = input.split(" ");
-        if (parts.length != 3) {
-            logger.log(Level.WARNING, "Invalid command format");
+        logger.log(Level.INFO, "Verifying input length for: " + input);
+        String[] parts = input.trim().split(" ");
+        logger.log(Level.FINE, "Split input into " + parts.length + " parts");
+
+        if (parts.length < 3) {
+            logger.log(Level.WARNING, "Invalid input length: expected >= 3 but got " + parts.length);
             throw new FinbroException("Usage: add <amount> <category> <date>");
         }
+        logger.log(Level.INFO, "Input length verification passed");
     }
 
     //@@author Kushalshah0402
     private double verifyAmount(String input) throws FinbroException {
-        String[] parts =  input.split(" ");
+        String[] parts = input.split(" ");
         double amount = 0;
         try {
             amount = Double.parseDouble(parts[0]);
@@ -154,29 +168,47 @@ public class AddCommand extends Command {
         }
         return amount;
     }
+
     //@@author Kushalshah0402
     private String filterCategory(String input) {
         String[] parts = input.split(" ");
         return parts[1];
     }
-    //@@author Kushalshah0402
+
+    //@@author WangZX2001
     private String verifyDate(String input) throws FinbroException {
-        String[] parts = input.split(" ");
-        String inputDate = parts[2];
+        logger.log(Level.INFO, "Verifying date from input: " + input);
+        String[] parts = input.trim().split(" ");
 
-        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
-        LocalDate parsedDate;
-
-        try {
-            parsedDate = LocalDate.parse(inputDate, inputFormatter);
-        } catch (DateTimeParseException e) {
-            logger.log(Level.WARNING, "Invalid date format");
-            throw new FinbroException("Invalid date format! Use yyyy-MM-dd");
+        if (parts.length < 3) {
+            logger.log(Level.WARNING, "Date parsing failed: insufficient parts");
+            throw new FinbroException("Missing Attributes.");
         }
 
-        return parsedDate.format(outputFormatter);
+        String startWord = parts[2];
+        int startIndex = input.indexOf(startWord);
+        String dateInput = input.substring(startIndex);
+        logger.log(Level.INFO, "Extracted date input: " + dateInput);
+
+        try {
+            LocalDate parsedDate = NaturalDateParser.parse(dateInput);
+            logger.log(Level.INFO, "Parsed date successfully: " + parsedDate);
+
+            DateTimeFormatter outputFormatter =
+                    DateTimeFormatter.ofPattern("d MMMM yyyy");
+
+            String formattedDate = parsedDate.format(outputFormatter);
+            logger.log(Level.INFO, "Formatted date: " + formattedDate);
+
+            return formattedDate;
+
+        } catch (FinbroException e) {
+            logger.log(Level.WARNING,
+                    "Failed to parse date input: " + dateInput + " | Error: " + e.getMessage());
+            throw e;
+        }
     }
+
     //@@author Kushalshah0402
     @Override
     public String getHelpMessage() {
