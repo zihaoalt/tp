@@ -46,7 +46,7 @@ public class FilterService {
      * @param expenses The list of expenses to sort.
      * @return A list of expenses sorted by month.
      */
-    private static List<Expense> sortByMonth(List<Expense> expenses) throws FinbroException {
+    private static List<Expense> sortByMonth(List<Expense> expenses) {
         logger.log(Level.INFO, "Sorting expenses by month");
         List<Expense> sorted = new ArrayList<>(expenses);
 
