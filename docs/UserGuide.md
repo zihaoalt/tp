@@ -6,6 +6,8 @@
 expenses. It allows you to keep track of spending, set financial limits, and convert expenses into different currencies
 for better financial awareness.
 
+---
+
 ## Quick Start
 
 1. Ensure that you have Java 17 or above installed.
@@ -13,11 +15,13 @@ for better financial awareness.
 3. Open a terminal in the folder containing the `.jar` file.
 `. Run the application using:
 
-   java -jar finbro.jar
+   `java -jar finbro.jar`
 
-5. Start entering commands to manage your expenses.
+4. Start entering commands to manage your expenses.
 
-## Features
+---
+
+# Features
 ## Help Command
 
 The `help` command displays usage information for available commands in Finbro.  
@@ -45,6 +49,8 @@ Supported examples:
  - help currency
  - help visual
 
+---
+
 ## Add Expense Command
 
 The `add` command lets you record a new expense. Whether you're in a hurry or want to take your time, we've got you covered.
@@ -60,18 +66,17 @@ add <amount> <category> <date>
 
 **Required Information:**
 
-| Field | Format | Example |
-|-------|--------|---------|
-| **Amount** | Positive number | `50.00` or `25` |
-| **Category** | Text (no spaces) | `Groceries` |
-| **Date** | YYYY-MM-DD | `202`-01-20` or `today, last week, 2 days ago, last monday` |
+| Field        | Format           | Example                                                     |
+|--------------|------------------|-------------------------------------------------------------|
+| **Amount**   | Positive number  | `50.00` or `25`                                             |
+| **Category** | Text (no spaces) | `Groceries`                                                 |
+| **Date**     | YYYY-MM-DD       | `202`-01-20` or `today, last week, 2 days ago, last monday` |
 
 **Example:**
 ```
 add 50.00 Groceries 202`-01-20
 ```
 - Type `yes` to confirm or `no` to cancel
----
 
 ### Walkthrough Mode
 
@@ -101,8 +106,6 @@ The system will ask you for:
    - Review your entry
    - Type `yes` to confirm or `no` to cancel
 
----
-
 ### Examples
 
 **Example 1: Adding groceries in direct mode**
@@ -123,8 +126,6 @@ add
 ```
 add 5.00 Food yesterday
 ```
-
----
 
 ### Common Issues
 
@@ -173,7 +174,6 @@ delete <category> <index>
 ```
 delete food 1
 ```
----
 
 ### Walkthrough Mode
 
@@ -200,8 +200,6 @@ The system will guide you through the deletion process step by step:
     - Review the expense to be deleted
     - Type `yes` or `y` to confirm deletion
     - Any other input cancels the deletion
-
----
 
 ### Examples
 
@@ -289,13 +287,35 @@ Total expenditure: $50.00
 
 ---
 
+## Setting the spending limit: `limit`
+
+Allows you to set a new monthly spending limit. 
+
+**Format** `limit <amount>`
+
+- Amount must be a numeric input
+- Amount must be non-negative
+- System will prompt for a confirmation message - "yes"
+- Limit will be saved on disk between Finbro sessions
+
+**Example:** `limit 100`
+
+Output: 
+```
+Are you sure you want to change your monthly budget limit to $100.00? [yes/no]
+yes
+--------------------------------------------------
+Monthly budget limit: $100.00
+--------------------------------------------------
+```
+
+---
+
 ## Editing the spending limit: `edit limit`
 
 Allows you to modify your current monthly spending limit by increasing, decreasing, or replacing it.
 
 **Format:** `edit limit`
-
----
 
 #### Description
 
@@ -308,8 +328,6 @@ following options by keying in the option number:
 
 After selecting an option, you will be prompted to enter the amount for the chosen operation.  
 You will then be asked to confirm the change before the new limit is applied.
-
----
 
 #### Behaviour
 
@@ -325,15 +343,13 @@ You will then be asked to confirm the change before the new limit is applied.
 
 ---
 
-### Converting expense currency: `currency`
+## Converting expense currency: `currency`
 
 Allows you to convert an existing expense into another currency using predefined exchange rates.
 
 **Format:** `currency`
 
----
-
-#### Description
+### Description
 
 When this command is executed, the system will prompt you to enter:
 
@@ -345,15 +361,32 @@ You will then select the expense you wish to convert by entering its index.
 
 The system will convert the selected expense amount into the target currency and display the result.
 
----
-
-#### Behaviour
+### Behaviour
 
 * Uses a **local currency rate table** (no internet connection required).
 * Supports conversion between multiple currencies via SGD as a base.
 * Only valid and supported currency codes are accepted.
 * The selected expense must exist in the list.
 * The converted value is displayed but does not modify the original expense.
+
+---
+
+## Visualization: `visual`
+
+Allows you to view a visualization of your monthly spendings.
+
+**Format:** `visual`
+
+**Example Output:**
+```
+--------------------------------------------------
+=== Monthly Spendings ===
+Jan 2026 | ████                 $10.50
+Feb 2026 | ████████             $20.00
+Mar 2026 | ████████████████████ $50.00
+Apr 2026 | ██                   $5.00
+--------------------------------------------------
+```
 
 ---
 
@@ -378,18 +411,19 @@ current limit unchanged.
 **Q**: What should I do if my currency is not supported?  
 **A**: Use one of the supported currencies listed in the error message when prompted.
 
+---
 
 ## Command Summary
 
-| Command    | Format                           | Description                       |
-|------------|----------------------------------|-----------------------------------|
-| Add        | `add <amount> <category> <date>` | Adds a new expense (direct input) |
-| Add        | `add`                            | Adds a new expense (guided input) |
-| View       | `view`                           | Displays all expenses             |
-| Delete     | `delete <category> <index>`      | Deletes an expense (direct input) |
-| Delete     | `delete`                         | Deletes an expense (guided input) |
-| Set Limit  | `limit`                          | Sets a monthly spending limit     |
-| Edit Limit | `edit limit`                     | Edits the current spending limit  |
-| Currency   | `currency`                       | Converts expense currency         |
-| Help       | `help`                           | Shows help information            |
-| Help       | `help <command>`                 | Shows detailed help for a specific command            |
+| Command    | Format                           | Description                                |
+|------------|----------------------------------|--------------------------------------------|
+| Add        | `add <amount> <category> <date>` | Adds a new expense (direct input)          |
+| Add        | `add`                            | Adds a new expense (guided input)          |
+| View       | `view`                           | Displays all expenses                      |
+| Delete     | `delete <category> <index>`      | Deletes an expense (direct input)          |
+| Delete     | `delete`                         | Deletes an expense (guided input)          |
+| Set Limit  | `limit`                          | Sets a monthly spending limit              |
+| Edit Limit | `edit limit`                     | Edits the current spending limit           |
+| Currency   | `currency`                       | Converts expense currency                  |
+| Help       | `help`                           | Shows help information                     |
+| Help       | `help <command>`                 | Shows detailed help for a specific command |
