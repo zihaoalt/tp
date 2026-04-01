@@ -4,6 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 import seedu.finbro.exception.FinbroException;
+import seedu.finbro.finances.Expense;
+import seedu.finbro.finances.ExpenseList;
+import seedu.finbro.finances.Limit;
 
 import java.time.YearMonth;
 import java.util.ArrayList;

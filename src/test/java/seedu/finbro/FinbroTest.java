@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
-import seedu.finbro.utils.Expense;
-import seedu.finbro.utils.ExpenseList;
-import seedu.finbro.utils.Limit;
+import seedu.finbro.finances.Expense;
+import seedu.finbro.finances.ExpenseList;
+import seedu.finbro.finances.Limit;
 
 
 class FinbroTest {

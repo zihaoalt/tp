@@ -1,4 +1,4 @@
-package seedu.finbro.utils;
+package seedu.finbro.finances;
 
 import seedu.finbro.exception.FinbroException;
 
@@ -127,12 +127,7 @@ public class ExpenseList {
     }
 
     //@@author natmloclam AK47ofCode
-    public YearMonth parseYearMonth(Expense e) throws FinbroException {
-        return getYearMonth(e);
-    }
-
-    //@@author natmloclam AK47ofCode
-    static YearMonth getYearMonth(Expense e) throws FinbroException {
+    public static YearMonth parseYearMonth(Expense e) throws FinbroException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
 
         LocalDate parsedDate;

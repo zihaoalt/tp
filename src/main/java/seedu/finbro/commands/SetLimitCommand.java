@@ -3,11 +3,11 @@ package seedu.finbro.commands;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import seedu.finbro.utils.ExpenseList;
+import seedu.finbro.finances.ExpenseList;
 import seedu.finbro.storage.Storage;
 import seedu.finbro.ui.Ui;
 import seedu.finbro.exception.FinbroException;
-import seedu.finbro.utils.Limit;
+import seedu.finbro.finances.Limit;
 
 public class SetLimitCommand extends Command {
     private static final Logger logger = Logger.getLogger(SetLimitCommand.class.getName());

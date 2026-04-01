@@ -1,6 +1,8 @@
 package seedu.finbro.commands;
 
 import seedu.finbro.exception.FinbroException;
+import seedu.finbro.finances.ExpenseList;
+import seedu.finbro.utils.FilterService;
 import seedu.finbro.storage.Storage;
 import seedu.finbro.ui.Ui;
 import seedu.finbro.utils.Expense;

@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import seedu.finbro.finances.Expense;
+
 class ExpenseTest {
     //@@author Kushalshah0402
     @Test

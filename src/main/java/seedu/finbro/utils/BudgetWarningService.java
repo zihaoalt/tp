@@ -1,5 +1,7 @@
 package seedu.finbro.utils;
 
+import seedu.finbro.finances.ExpenseList;
+import seedu.finbro.finances.Limit;
 import seedu.finbro.ui.Ui;
 
 //@@author AK47ofCode

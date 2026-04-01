@@ -3,12 +3,14 @@
 ## Table of Contents
 
 - [Acknowledgements](#acknowledgements)
-- [Design and Implementation](#design-and-implementation)
-    - [Limit Component](#limit-component)
+- [Design and Implementation](#design-and-implementation) 
+    - [Architecture](#architecture)
+    - [Limit Feature](#limit-feature)
     - [Add Expense Feature](#add-expense-feature)
     - [View Expense Feature](#view-expense-feature)
     - [Delete Expense Feature](#delete-expense-feature)
     - [Currency Exchange Feature](#currency-exchange-feature)
+    - [Visualisation Feature](#visualisation-feature)
 - [Product Scope](#product-scope)
     - [Target User Profile](#target-user-profile)
     - [Value Proposition](#value-proposition)
@@ -27,7 +29,36 @@
 
 ## Design and Implementation
 
-## Limit Component
+### Architecture
+
+![Architecture](UML_diagrams/images/MainArchitecture.png)
+
+#### Main components of the architecture 
+
+| Component          | Responsibility                                                                          | 
+|--------------------|-----------------------------------------------------------------------------------------|
+| **Ui**             | Handles user input and displays app output                                              | 
+| **Finbro**         | Initializes other components in the correct sequence, and connects them with each other |
+| **Parser**         | Parses the user's input and initializes the corresponding command object                | 
+| **Command**        | Executes user's command                                                                 | 
+| **Finances**       | Consists of expenses and the spending limit. Contains the data that the user inputs     | 
+| **Storage**        | Reads data from, and writes data to the hard disk                                       | 
+| **Budget Warning** | Warns user if expenses is approaching/exceeded the spending limit                       | 
+
+
+#### How the architecture components interact with each other 
+
+![Architecture Interaction](UML_diagrams/images/ArchitectureInteraction.png)
+
+1. User enters command into terminal
+2. Ui reads the input and passes it to `Finbro` which calls `parse(input)`
+3. `Parser` creates the corresponding `Command` object and returns it to `Finbro` 
+4. `Finbro` executes the command object 
+5. Changes made to the finances are saved to `Storage` 
+
+---
+
+### Limit Feature
 
 #### Overview
 
@@ -36,8 +67,6 @@
 | **`Limit.java`**            | Stores the limit as a static variable accessible across the application. Using a static variable prevents inconsistent limit values and eliminates the need to pass a `Limit` object across class methods. |
 | **`SetLimitCommand.java`**  | Handles validation and user confirmation logic, improving separation of concerns.                                                                                                                          |
 | **`EditLimitCommand.java`** | Handles the interactive process of modifying an existing monthly spending limit.                                                                                                                           |
-
----
 
 #### Setting the Limit
 
@@ -54,8 +83,6 @@ The sequence diagram below illustrates the interaction within the `Limit` compon
 | 3    | **Validation & Confirmation** — The command object verifies the user's input limit: If valid, the system requests confirmation from the user. If the user inputs `"yes"`, the limit is updated; otherwise, it remains unchanged |
 | `    | **Display** — `Ui` shows the updated limit                                                                                                                                                                                      |
 | 5    | **Persistence** — `Finbro` updates the limit in the `Storage` file                                                                                                                                                              |
-
----
 
 #### Editing the Limit
 
@@ -77,10 +104,26 @@ The sequence diagram below illustrates the interaction within the `Limit` compon
 | 8    | **Display** — `Ui` shows the updated limit                                                                                                                                             |
 | 9    | **Persistence** — `Finbro` updates the limit in the `Storage` file                                                                                                                     |
 
----
+#### Implementation Overview 
+
+User input verification: 
+- Type: checks if user input can be parsed as a `Double`
+- Range: value must be greater than 0 
+
+#### Design considerations 
+
+Proposed Implementation:
+
+The proposed implementation was to allow the user to set the limit only once, so any subsequent changes to the limit 
+had to be done using the `edit limit` command. However, on implementation, we found it difficult to keep track of 
+whether the limit had already been set between sessions. 
+
+As such, we chose to make `edit limit` an interactive command, where newer users can go through a step-by-step process
+to change the spending limit, while advanced users can still reuse the set limit command.
+
 ---
 
-## Add Expense Feature
+### Add Expense Feature
 
 The `add` command records a new expense in the system. It supports two modes of operation:
 
@@ -88,8 +131,6 @@ The `add` command records a new expense in the system. It supports two modes of 
 2. **Walkthrough Mode** — The system interactively prompts the user for input
 
 This dual behavior improves usability by supporting both experienced users (fast entry) and new users (guided input).
-
----
 
 #### Command Format
 
@@ -105,8 +146,6 @@ add <amount> <category> <date in yyyy-mm-dd>
 add
 ```
 
----
-
 #### Implementation Overview
 
 The `AddCommand` class handles both modes. When executed, the command checks whether arguments were supplied:
@@ -116,8 +155,6 @@ The `AddCommand` class handles both modes. When executed, the command checks whe
 
 In both cases, a valid `Expense` object is created and added to the `ExpenseList`. After insertion, the user interface
 displays a confirmation message and the updated number of expenses.
-
----
 
 #### Direct Mode
 
@@ -136,8 +173,6 @@ In direct mode, the system parses and validates the input parameters:
 3. The budget status is updated via the `Limit` component
    `. A confirmation message is displayed
 
----
-
 #### Walkthrough Mode
 
 If the command is issued without parameters, the system enters an interactive mode. The user is sequentially prompted
@@ -155,16 +190,12 @@ provided.
 - If the user confirms, the expense is added
 - Otherwise, the operation is canceled
 
----
-
 #### Sequence of Operations
 
 The following diagram illustrates the interaction between system components when executing the `add` command in both
 direct and walkthrough modes.
 
 ![Add Expense Sequence Diagram](UML_diagrams/images/AddCommand.png)
-
----
 
 #### Design Considerations
 
@@ -174,8 +205,6 @@ direct and walkthrough modes.
 | **Interactive validation in walkthrough mode** | Ensures invalid data is handled immediately. Reduces the likelihood of user errors. Provides a guided experience for new users.                        |
 | **Separation of concerns**                     | `Ui` handles user interaction. `Parser` interprets input. `AddCommand` performs application logic. `ExpenseList` manages stored expenses.              |
 
----
-
 #### Limitations
 
 | Limitation                                                      | Impact                                                      |
@@ -184,9 +213,8 @@ direct and walkthrough modes.
 | Direct mode requires users to remember the exact command format | Potential for input errors if users don't recall the format |
 
 ---
----
 
-## View Expense Feature
+### View Expense Feature
 
 The `view` command retrieves and displays expenses from the system. It supports two modes of operation:
 
@@ -261,9 +289,8 @@ Separation of concerns
 - Users must remember the exact category name used when adding the expense
 
 ---
----
 
-## Delete Expense Feature
+### Delete Expense Feature
 
 The `delete` command removes an existing expense from the system. It supports two modes of operation:
 
@@ -272,8 +299,6 @@ The `delete` command removes an existing expense from the system. It supports tw
 
 This dual behavior improves usability by supporting both experienced users (fast deletion) and new users (guided
 deletion).
-
----
 
 #### Command Format
 
@@ -289,8 +314,6 @@ delete <category> <number>
 delete
 ```
 
----
-
 #### Implementation Overview
 
 The `DeleteCommand` class handles both modes. When executed, the command checks whether arguments were supplied:
@@ -301,8 +324,6 @@ The `DeleteCommand` class handles both modes. When executed, the command checks 
 In direct mode, the target expense is validated and removed immediately. In walkthrough mode, the system first guides
 the user through selecting an expense, then removes it only if the user confirms the deletion. After a successful
 deletion, the user interface displays a confirmation message and the updated number of expenses.
-
----
 
 #### Direct Mode
 
@@ -321,8 +342,6 @@ In direct mode, the system parses and validates the input parameters:
 3. The corresponding expense is removed from the `ExpenseList`
    `. A confirmation message is displayed
 
----
-
 #### Walkthrough Mode
 
 If the command is issued without parameters, the system enters an interactive mode. The user is sequentially prompted
@@ -340,16 +359,12 @@ data is provided.
 - If the user confirms, the expense is deleted
 - Otherwise, the operation is canceled
 
----
-
 #### Sequence of Operations
 
 The following diagram illustrates the interaction between system components when executing the `delete` command in both
 direct and walkthrough modes.
 
 ![Delete Expense Sequence Diagram](UML_diagrams/images/DeleteCommand.png)
-
----
 
 #### Design Considerations
 
@@ -358,8 +373,6 @@ direct and walkthrough modes.
 | **Single command supporting two modes** | Improves usability by accommodating different user preferences. Avoids duplicating logic across multiple commands. Keeps the command interface simple. |
 | **Confirmation in walkthrough mode**    | Reduces the risk of accidental deletion. Gives users a final chance to verify the selected expense before removal.                                     |
 | **Separation of concerns**              | `Ui` handles user interaction. `Parser` interprets input. `DeleteCommand` performs deletion logic. `ExpenseList` manages stored expenses.              |
-
----
 
 #### Limitations
 
@@ -371,7 +384,7 @@ direct and walkthrough modes.
 
 ---
 
-## Storage Component
+### Storage Component
 
 The `Storage` class is responsible for persisting expense data and the budget limit across sessions. It reads from and
 writes to a local `.txt` file.
@@ -424,7 +437,7 @@ Flat file over a database
 
 ---
 
-## Currency Exchange Feature
+### Currency Exchange Feature
 
 The `currency` command allows users to convert an existing expense amount from one currency to another. It follows an
 interactive workflow where users specify the source currency, target currency, and the expense entry to convert.
@@ -435,9 +448,7 @@ This feature operates entirely offline using predefined exchange rates stored in
 currency
 ```
 
----
-
-### Implementation Overview
+#### Implementation Overview
 
 The `CurrencyCommand` class manages the full workflow of currency conversion. It interacts with the following
 components:
@@ -449,9 +460,7 @@ components:
 | **`ExpenseList`**       | Provides access to stored expenses                            |
 | **`Ui`**                | Handles user input and output display                         |
 
----
-
-### Currency Conversion Logic
+#### Currency Conversion Logic
 
 The `CurrencyRateTable` uses **SGD as the base currency**. All exchange rates are defined relative to SGD.
 
@@ -464,16 +473,12 @@ Conversion follows these rules:
 | To SGD           | `amount ÷ rate`        |
 | Other currencies | Convert via SGD        |
 
----
-
-### Sequence Diagram
+#### Sequence Diagram
 
 The following diagram illustrates the interaction between system components when executing the `currency` command.
 ![CurrencyCommand Sequence Diagram](UML_diagrams/images/CurrencyCommand.png)
 
----
-
-### Design Considerations
+#### Design Considerations
 
 | Principle                  | Benefits                                                 |
 |----------------------------|----------------------------------------------------------|
@@ -483,9 +488,7 @@ The following diagram illustrates the interaction between system components when
 | **Offline capability**     | No dependency on APIs or internet                        |
 | **Logging support**        | Improves debugging and traceability                      |
 
----
-
-### Error Handling
+#### Error Handling
 
 The system validates multiple error conditions:
 
@@ -497,6 +500,36 @@ The system validates multiple error conditions:
 | Entry out of range    | Throws `FinbroException`         |
 
 ---
+
+### Visualisation Feature
+
+The `visual` command creates a bar graph of the user's spendings arranged by month. 
+
+#### Sequence of operations 
+
+![VisualCommandUML](UML_diagrams/images/VisualCommand.png)
+
+Flow:
+
+| Step | Action | 
+| ---- | ------ | 
+| 1 | `Finbro` calls execute on `VisualCommand` object | 
+| 2 | The command object gets the monthly expenses and sorts them by month | 
+| 3 | Assembles the bar chart and assembles into an output string | 
+| 4 | Passes the output to `Ui` which shows it to the user | 
+
+#### Implementation overview 
+
+Sorting: 
+
+- `getMonthlyExpenses()` returns a `Map` with the year and month as the key, and the amount as the value
+- `VisualCommand` places the output in a `TreeMap` which will sort the expenses by key (year and month)
+
+Bar graph construction: 
+
+- Bar graph is constructed using the full block Unicode character - █
+- The month with the largest expense is set to have `MAX_BAR_LENGTH` number of bars 
+- Other months will have a number of bars roughly equal to its proportion of the largest monthly expense
 
 ## Product Scope
 

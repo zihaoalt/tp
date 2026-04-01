@@ -1,10 +1,10 @@
 package seedu.finbro.commands;
 
-import seedu.finbro.utils.ExpenseList;
+import seedu.finbro.finances.ExpenseList;
 import seedu.finbro.storage.Storage;
 import seedu.finbro.ui.Ui;
 import seedu.finbro.exception.FinbroException;
-import seedu.finbro.utils.Limit;
+import seedu.finbro.finances.Limit;
 
 import java.util.logging.Logger;
 import java.util.logging.Level;

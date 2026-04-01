@@ -1,43 +1,27 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
-->":Ui"++: "limit 100"
-deactivate ":Ui"
-":Ui" -> ":Finbro"++: input = "limit 100"
+participant ":Ui" as ui
+participant "c:SetLimitCommand" as c
 
-":Finbro" -> ":Parser" ++: parse(input)
+-> c++: execute(...)
 
-create "c:SetLimitCommand"
-":Parser" -> "c:SetLimitCommand"++: new SetLimitCommand(input)
-return c
-return c
-
-":Finbro" -> "c:SetLimitCommand"++: execute(...)
-"c:SetLimitCommand" -> "c:SetLimitCommand"++: verifyLimitType(input)
-return limit: double
-"c:SetLimitCommand" -> "c:SetLimitCommand"++: verifyLimitRange(limit)
+c -> c++: verify user input
 return
-
-"c:SetLimitCommand" -> "c:SetLimitCommand"++: confirmLimitChange(limit)
-"c:SetLimitCommand" ->":Ui"++: readCommand()
+c -> c++: confirmLimitChange(limit)
+c ->ui++: readCommand()
 return confirmMessage
 
 alt confirmMessage == "yes"
-    "c:SetLimitCommand" -> ":Limit"++: setLimit(limit)
+    c -> ":Limit"++: setLimit(limit)
     return
 else confirmMessage == "no"
 else invalid confirmMessage
 end
 return
 
-"c:SetLimitCommand" -> ":Ui"++ : showLimit()
+c -> ui++ : showLimit()
 return
 return
-
-":Finbro" -> "storage:Storage"++ :save()
-"storage:Storage" -> ":Limit"++: toFileFormat()
-return
-return
-deactivate
 
 @enduml

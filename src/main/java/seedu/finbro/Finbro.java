@@ -6,8 +6,8 @@ import seedu.finbro.parser.Parser;
 import seedu.finbro.storage.Storage;
 import seedu.finbro.ui.Ui;
 import seedu.finbro.utils.BudgetWarningService;
-import seedu.finbro.utils.Expense;
-import seedu.finbro.utils.ExpenseList;
+import seedu.finbro.finances.Expense;
+import seedu.finbro.finances.ExpenseList;
 import seedu.finbro.utils.LogFormatter;
 
 import java.util.List;

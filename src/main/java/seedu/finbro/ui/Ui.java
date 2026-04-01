@@ -1,8 +1,8 @@
 package seedu.finbro.ui;
 
 import seedu.finbro.commands.Command;
-import seedu.finbro.utils.Expense;
-import seedu.finbro.utils.Limit;
+import seedu.finbro.finances.Expense;
+import seedu.finbro.finances.Limit;
 
 
 import java.util.List;

@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 import seedu.finbro.exception.FinbroException;
 import seedu.finbro.storage.Storage;
 import seedu.finbro.ui.Ui;
-import seedu.finbro.utils.ExpenseList;
+import seedu.finbro.finances.ExpenseList;
 
 public class VisualCommand extends Command {
     public static final int MAX_BAR_LENGTH = 20;
