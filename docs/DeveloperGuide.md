@@ -97,6 +97,12 @@ The sequence diagram below illustrates the interaction within the `Limit` compon
 | 8    | **Display** — `Ui` shows the updated limit                                                                                                                                             |
 | 9    | **Persistence** — `Finbro` updates the limit in the `Storage` file                                                                                                                     |
 
+#### Implementation Overview 
+
+User input verification: 
+- Type: checks if user input can be parsed as a `Double`
+- Range: value must be greater than 0 
+
 ---
 
 ### Add Expense Feature
