@@ -1,0 +1,21 @@
+@startuml
+
+actor User
+
+rectangle "Ui" as Ui
+rectangle "Finbro" as Finbro
+rectangle "Parser" as Parser
+rectangle "Command" as Command
+rectangle "Storage" as Storage
+rectangle "Finances" as Finances
+rectangle "Budget Warning" as BW
+
+User --> Ui
+Ui --> Finbro
+Finbro --> BW
+Finbro --> Storage
+Finbro --> Parser
+Parser --> Command
+Command --> Finances
+
+@enduml

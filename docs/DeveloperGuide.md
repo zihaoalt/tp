@@ -25,6 +25,22 @@
 
 ## Design & Implementation
 
+### Architecture 
+
+![Architecture](UML_diagrams/images/MainArchitecture.png)
+
+#### Main components of the architecture 
+
+| Component          | Responsibility                                                                          | 
+|--------------------|-----------------------------------------------------------------------------------------|
+| **Ui**             | Handles user input and displays app output                                              | 
+| **Finbro**         | Initializes other components in the correct sequence, and connects them with each other |
+| **Parser**         | Parses the user's input and initializes the corresponding command object                | 
+| **Command**        | Executes user's command                                                                 | 
+| **Finances**       | Consists of expenses and the spending limit. Contains the data that the user inputs     | 
+| **Storage**        | Reads data from, and writes data to the hard disk                                       | 
+| **Budget Warning** | Warns user if expenses is approaching/exceeded the spending limit                       | 
+
 ### Limit Component
 
 #### Overview
