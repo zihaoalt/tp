@@ -98,7 +98,7 @@ public class Ui {
     }
     //@@author Kushalshah0402
     public void showEnterDatePrompt() {
-        System.out.println("Enter the date (yyyy-MM-dd):");
+        System.out.println("Enter the date (yyyy-MM-dd or today):");
     }
 
     //@@author Kushalshah0402

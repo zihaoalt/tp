@@ -126,7 +126,8 @@ public class ExpenseList {
         return monthlyTotals;
     }
 
-    public YearMonth parseYearMonth(Expense e) throws FinbroException {
+    //@@author natmloclam AK47ofCode
+    public static YearMonth parseYearMonth(Expense e) throws FinbroException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
 
         LocalDate parsedDate;
