@@ -2,6 +2,7 @@ package seedu.finbro.utils;
 
 import org.junit.jupiter.api.Test;
 import seedu.finbro.exception.FinbroException;
+import seedu.finbro.finances.Expense;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +81,7 @@ class SortServiceTest {
     }
 
     @Test
-    void isValidSortType_knownTypes_trueUnknown_false() {
+    void isValidSortType_knownTypesTrue_unknownFalse() {
         assertTrue(SortService.isValidSortType("month"));
         assertTrue(SortService.isValidSortType("category"));
         assertTrue(SortService.isValidSortType("amount"));
@@ -109,4 +110,3 @@ class SortServiceTest {
         ));
     }
 }
-
