@@ -33,8 +33,7 @@ public class ViewCommand extends Command {
      * @param expenses The expense list to view.
      * @param ui The UI instance to display the expenses.
      * @param storage The storage instance (not used in this command but required by the interface).
-     * @throws FinbroException if the command format is invalid, the category name is invalid,
-     * or the filter type is invalid.
+     * @throws FinbroException if the command format, the category name or the filter type is invalid.
      */
     @Override
     public void execute(ExpenseList expenses, Ui ui, Storage storage) throws FinbroException {
