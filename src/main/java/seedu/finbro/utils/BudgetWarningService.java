@@ -13,8 +13,8 @@ public class BudgetWarningService {
      * Checks the current expenditure against the set limit and shows appropriate warnings
      * if the limit is close to being exceeded or has been exceeded.
      *
-     * @param expenses
-     * @param ui
+     * @param expenses The list of expenses to evaluate.
+     * @param ui The UI instance to display warnings.
      */
     public void checkAndShowWarnings(ExpenseList expenses, Ui ui) {
         double remaining = expenses.getRemainingExpenditure();
