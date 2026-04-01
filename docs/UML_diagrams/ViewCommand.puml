@@ -1,0 +1,61 @@
+@startuml ViewCommand
+'https://plantuml.com/sequence-diagram
+actor User
+
+box "ViewCommand" #LightBlue
+participant ":Ui"
+participant ":Finbro"
+participant ":Parser"
+participant "c:ViewCommand"
+participant ":ExpenseList"
+end box
+
+User -> ":Ui" : view <arg>
+activate ":Ui"
+
+":Ui" -> ":Finbro" : input = "view..."
+activate ":Finbro"
+
+":Finbro" -> ":Parser" : parse(input)
+activate ":Parser"
+
+create "c:ViewCommand"
+":Parser" -> "c:ViewCommand" : new ViewCommand(argument)
+activate "c:ViewCommand"
+return c
+return c
+
+":Finbro" -> "c:ViewCommand" : execute(...)
+activate "c:ViewCommand"
+
+alt [view all]
+    "c:ViewCommand" -> ":ExpenseList" : getAll()
+    activate ":ExpenseList"
+    return expenses
+    "c:ViewCommand" -> ":Ui" : showAllExpenses(expenses)
+    activate ":Ui"
+    ":Ui" -> User : display expenses
+    return
+
+else [view <category>]
+    "c:ViewCommand" -> ":ExpenseList" : getCategoryExpenses(arg)
+    activate ":ExpenseList"
+    return expenses
+    "c:ViewCommand" -> ":Ui" : showAllExpenses(expenses)
+    activate ":Ui"
+    ":Ui" -> User : display expenses
+    return
+
+else [invalid]
+    "c:ViewCommand" -> ":Finbro" : throw FinbroException
+    ":Finbro" -> ":Ui" : showError(...)
+    activate ":Ui"
+    ":Ui" -> User : error message
+    return
+end
+
+deactivate "c:ViewCommand"
+deactivate ":Finbro"
+deactivate ":Ui"
+
+@enduml

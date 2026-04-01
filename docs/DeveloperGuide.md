@@ -6,6 +6,7 @@
 - [Design & Implementation](#design--implementation)
   - [Limit Component](#limit-component)
   - [Add Expense Feature](#add-expense-feature)
+  - [View Expense Features](#view-expense-feature)
   - [Delete Expense Feature](#delete-expense-feature)
 - [Product Scope](#product-scope)
   - [Target User Profile](#target-user-profile)
@@ -24,8 +25,9 @@
 ---
 
 ## Design & Implementation
-
-### Limit Component
+---
+---
+## Limit Component
 
 #### Overview
 
@@ -50,7 +52,7 @@ The sequence diagram below illustrates the interaction within the `Limit` compon
 | 1 | **User Input** — The `Ui` receives the input and passes it to `Finbro` |
 | 2 | **Parsing** — `Finbro` passes the input to `Parser`, which creates a `SetLimitCommand` object |
 | 3 | **Validation & Confirmation** — The command object verifies the user's input limit: If valid, the system requests confirmation from the user. If the user inputs `"yes"`, the limit is updated; otherwise, it remains unchanged |
-| 4 | **Display** — `Ui` shows the updated limit |
+| ` | **Display** — `Ui` shows the updated limit |
 | 5 | **Persistence** — `Finbro` updates the limit in the `Storage` file |
 
 ---
@@ -68,7 +70,7 @@ The sequence diagram below illustrates the interaction within the `Limit` compon
 | 1 | **User Input** — The `Ui` receives the input and passes it to `Finbro` |
 | 2 | **Parsing** — `Finbro` passes the input to `Parser`, which creates an `EditLimitCommand` object |
 | 3 | **Retrieve Current Limit** — The command object retrieves the current limit from `Limit` |
-| 4 | **Edit Menu** — `Ui` displays an edit menu with three options: Increase, Decrease, or Replace the limit |
+| ` | **Edit Menu** — `Ui` displays an edit menu with three options: Increase, Decrease, or Replace the limit |
 | 5 | **Amount Entry** — The user enters the corresponding amount |
 | 6 | **Validation** — `EditLimitCommand` validates: Must be a valid number, not negative, and if decreasing, must not result in below `$0` |
 | 7 | **Confirmation** — If valid, `EditLimitCommand` computes the new limit and calls confirmation logic. If the user inputs `"yes"`, the limit is updated; otherwise, it remains unchanged |
@@ -76,8 +78,9 @@ The sequence diagram below illustrates the interaction within the `Limit` compon
 | 9 | **Persistence** — `Finbro` updates the limit in the `Storage` file |
 
 ---
+---
 
-### Add Expense Feature
+## Add Expense Feature
 
 The `add` command records a new expense in the system. It supports two modes of operation:
 
@@ -128,7 +131,7 @@ In direct mode, the system parses and validates the input parameters:
 1. An `Expense` object is created
 2. The expense is added to the `ExpenseList`
 3. The budget status is updated via the `Limit` component
-4. A confirmation message is displayed
+`. A confirmation message is displayed
 
 ---
 
@@ -175,7 +178,80 @@ The following diagram illustrates the interaction between system components when
 | Direct mode requires users to remember the exact command format | Potential for input errors if users don't recall the format |
 
 ---
-### Delete Expense Feature
+---
+
+## View Expense Feature
+
+The `view` command retrieves and displays expenses from the system. It supports two modes of operation:
+
+1. View all expenses — displays every recorded expense
+2. View by category — displays only expenses matching the specified category
+
+This dual behaviour allows users to either get a full overview or focus on specific spending categories.
+
+#### Command Format
+
+View all expenses: `view all`
+View by category: `view <category>`
+
+#### Implementation Overview
+
+The `ViewCommand` class is responsible for handling both modes. When executed, the command checks the argument supplied:
+- If argument is `all` — all expenses are retrieved and displayed
+- If argument is a category name — only matching expenses are retrieved and displayed
+- If argument is empty — an error is thrown
+
+In both valid cases, a `List<Expense>` is retrieved and passed to `Ui` for display. The total expenditure is calculated and shown at the end.
+
+#### Sequence of Operations
+
+The following diagram illustrates the interaction between system components when executing the `view` command.
+
+![View Expense Sequence Diagram](UML_diagrams/images/ViewCommand.png)
+
+#### Mode: View All
+
+When the user runs `view all`, the system retrieves the full expense list:
+
+1. `ExpenseList.getAll()` returns every stored expense
+2. `Ui.showAllExpenses()` iterates through the list and prints each expense
+3. The total expenditure is computed and displayed
+
+#### Mode: View by Category
+
+When the user runs `view <category>`, the system filters expenses:
+
+1. `ExpenseList.getCategoryExpenses(arg)` iterates through all expenses and returns only those matching the category
+2. If the result is empty, a `FinbroException` is thrown
+3. Otherwise, `Ui.showAllExpenses()` displays the filtered list and total
+
+#### Design Considerations
+
+Single command supporting two view modes
+- Avoids the need for separate commands for full and filtered views
+- Keeps the command interface simple and intuitive
+- Reuses the same `showAllExpenses()` method for both modes
+
+Category matching behaviour
+- Uses exact string matching via `equals()`
+- Ensures predictable and consistent results
+- Partial matches are not supported to avoid ambiguous results
+
+Separation of concerns
+- `Ui` handles display logic
+- `Parser` interprets the input
+- `ViewCommand` contains the branching logic
+- `ExpenseList` manages data retrieval
+
+#### Limitations
+- Category matching is case-sensitive and requires exact input
+- There is no partial or fuzzy search support
+- Users must remember the exact category name used when adding the expense
+
+---
+---
+
+## Delete Expense Feature
 
 The `delete` command removes an existing expense from the system. It supports two modes of operation:
 
@@ -226,7 +302,7 @@ In direct mode, the system parses and validates the input parameters:
 1. The category is extracted from the command
 2. The expense number is parsed and validated
 3. The corresponding expense is removed from the `ExpenseList`
-4. A confirmation message is displayed
+`. A confirmation message is displayed
 
 ---
 
@@ -334,9 +410,9 @@ This application helps users keep track of their spending and provides frequent 
 1. Launch the application
 2. Use the `add` command to create sample expenses:
    ```
-   add 50.00 Food 2024-01-15
-   add 120.00 Transport 2024-01-16
-   add 30.50 Entertainment 2024-01-17
+   add 50.00 Food 202`-01-15
+   add 120.00 Transport 202`-01-16
+   add 30.50 Entertainment 202`-01-17
    ```
 3. Set a spending limit:
    ```
@@ -346,7 +422,7 @@ This application helps users keep track of their spending and provides frequent 
 ### Testing Core Features
 
 **Adding Expenses:**
-- Test direct mode: `add 25.00 Groceries 2024-01-20`
+- Test direct mode: `add 25.00 Groceries 202`-01-20`
 - Test walkthrough mode: `add` (then follow prompts)
 - Test invalid inputs (negative amounts, invalid dates)
 
