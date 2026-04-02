@@ -60,6 +60,8 @@ Highlights:
   - Expense data is invalid: Ignore line
 
 ---
+<div style="page-break-after: always;"></div>
+
 ## Documentation
 ### Contributions to UG 
 - Added documentation for the following features: 
