@@ -1,8 +1,3 @@
----
-layout: page
-title: Kuan Yi's Project Portfolio Page
----
-
 # Lee Kuan Yi - Project Portfolio Page
 
 ## Overview
@@ -147,16 +142,16 @@ Added documentation for:
 
 ### Contributions to Developer Guide
 
-* Documented the design and logic flow for the edit limit feature
-* Explained validation and error handling strategies
-* Added design considerations for:
-    * Command structure
-    * Separation of concerns between UI and logic
-* Documented currency conversion design using base currency mapping
-* Documented the Natural Date Parsing utility:
-    * Use of `LocalDate` and Java time API
-    * Regex-based parsing for relative expressions
-    * Handling of weekday-based calculations using `TemporalAdjusters`
+* Documented the design and implementation of the **Budget Reminder System**, including the logic for monitoring 
+  expenses against the budget limit and triggering reminders at specified thresholds.
+* Updated the **View Command** documentation to include the new sorting options and month filtering capabilities, along 
+  with sequence diagrams to illustrate the flow of data and interactions between components when these features are used.
+* Added explanations for the design considerations behind the sorting and filtering features, including how they were 
+  integrated into the existing command structure and how they interact with the expense data.
+* Documented the error handling strategies for invalid inputs related to sorting and filtering, 
+  ensuring that developers understand how to maintain robustness in these features.
+* Updated the developer guide to reflect changes in the codebase related to these new features, ensuring that 
+  future developers can easily understand the implementation and contribute to further enhancements.
 
 ---
 
