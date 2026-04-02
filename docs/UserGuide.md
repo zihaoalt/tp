@@ -33,11 +33,6 @@ for better financial awareness.
    `java -jar finbro.jar`
 
 4. Start entering commands to manage your expenses.
-<<<<<<< HEAD
-=======
-
----
->>>>>>> 6a6d00475af45d2e99b384d9a548ef8455a45262
 
 ---
 
