@@ -127,7 +127,7 @@ The system will ask you for:
 
 **Example 1: Adding groceries in direct mode**
 ```
-add `5.50 Groceries 202`-01-—
+add 5.50 Groceries 2026-01-20
 ```
 
 **Example 2: Adding a transport expense in walkthrough mode**
@@ -153,7 +153,7 @@ add 5.00 Food yesterday
 
 **❌ Error: "Invalid date format"**
 - Use the format: `YYYY-MM-DD`
-- Examples: `202`-01-20`, `202`-12-31`
+- Examples: `2026-01-20`, `2025-12-31`
 - Make sure the date is valid
 
 **❌ Error: "Category cannot be empty"**

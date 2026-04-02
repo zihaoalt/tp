@@ -133,7 +133,7 @@ The `add` command records a new expense in the system. It supports two modes of 
 1. **Direct Mode** — All required parameters are provided in a single command
 2. **Walkthrough Mode** — The system interactively prompts the user for input
 
-This dual behavior improves usability by supporting both experienced users (fast entry) and new users (guided input).
+This dual behaviour improves usability by supporting both experienced users (fast entry) and new users (guided input).
 
 #### Command Format
 
@@ -224,7 +224,7 @@ The `view` command retrieves and displays expenses from the system. It supports 
 1. View all expenses — displays every recorded expense
 2. View by category — displays only expenses matching the specified category
 
-This dual behavior allows users to either get a full overview or focus on specific spending categories.
+This dual behaviour allows users to either get a full overview or focus on specific spending categories.
 
 #### Command Format
 
@@ -273,7 +273,7 @@ Single command supporting two view modes
 - Keeps the command interface simple and intuitive
 - Reuses the same `showAllExpenses()` method for both modes
 
-Category matching behavior
+Category matching behaviour
 
 - Uses exact string matching via `equals()`
 - Ensures predictable and consistent results
@@ -296,7 +296,7 @@ Separation of concerns
 ### Filter and Sort Expense Features
 
 The `view` command supports optional filtering and sorting to help users inspect expenses with more control.
-This section documents the currently implemented behavior.
+This section documents the currently implemented behaviour.
 
 #### Command Format
 
@@ -321,7 +321,7 @@ Execution rules:
 - If `-filter` is present, `FilterService.filterExpensesByMonth(...)` is applied first.
 - If `-sort` is present, sorting is applied after filtering.
 
-Sort behavior:
+Sort behaviour:
 
 - `month`: chronological order
 - `category`: alphabetical order (available only for `view all`)
@@ -336,7 +336,7 @@ The following diagram shows how the command is parsed, validated, optionally fil
 
 ![View Command with Filter and Sort Sequence Diagram](UML_diagrams/images/ViewCommand_Advanced.png)
 
-#### Behavior by Mode
+#### Behaviour by Mode
 
 For `view <category> -filter <month>`:
 
@@ -362,11 +362,11 @@ For `view <category> [-filter <month>] -sort <type>`:
 
 #### Design Considerations
 
-| Principle                                                | Benefits                                                             |
-|----------------------------------------------------------|----------------------------------------------------------------------|
-| **Single command with optional tags**                    | Keeps usage compact while allowing advanced query behavior.          |
-| **Service-based logic (`FilterService`, `SortService`)** | Improves separation of concerns and testability.                     |
-| **Validation before execution**                          | Fails fast on invalid formats/types and prevents ambiguous behavior. |
+| Principle                                                | Benefits                                                              |
+|----------------------------------------------------------|-----------------------------------------------------------------------|
+| **Single command with optional tags**                    | Keeps usage compact while allowing advanced query behaviour.          |
+| **Service-based logic (`FilterService`, `SortService`)** | Improves separation of concerns and testability.                      |
+| **Validation before execution**                          | Fails fast on invalid formats/types and prevents ambiguous behaviour. |
 
 #### Limitations
 
@@ -384,7 +384,7 @@ The `delete` command removes an existing expense from the system. It supports tw
 1. **Direct Mode** — The category and expense number are provided in a single command
 2. **Walkthrough Mode** — The system interactively prompts the user for the required input
 
-This dual behavior improves usability by supporting both experienced users (fast deletion) and new users (guided
+This dual behaviour improves usability by supporting both experienced users (fast deletion) and new users (guided
 deletion).
 
 #### Command Format
