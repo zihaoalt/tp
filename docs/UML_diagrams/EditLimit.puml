@@ -62,10 +62,11 @@ alt choice == "1" [increase]
     Ui --> EditLimitCommand : amountInput
     deactivate Ui
 
-    EditLimitCommand -> EditLimitCommand : parsePositiveAmount(amountInput)
+    EditLimitCommand -> EditLimitCommand++ : parsePositiveAmount(amountInput)
     note right of EditLimitCommand
       newLimit = currentLimit + amount
     end note
+    return newLimit
 
 else choice == "2" [decrease]
     EditLimitCommand -> Ui : showEnterAmountPrompt("decrease")
@@ -79,10 +80,11 @@ else choice == "2" [decrease]
     Ui --> EditLimitCommand : amountInput
     deactivate Ui
 
-    EditLimitCommand -> EditLimitCommand : parsePositiveAmount(amountInput)
+    EditLimitCommand -> EditLimitCommand++ : parsePositiveAmount(amountInput)
     note right of EditLimitCommand
       newLimit = currentLimit - amount
     end note
+    return newLimit
 
 else choice == "3" [replace]
     EditLimitCommand -> Ui : showEnterAmountPrompt("replace")
@@ -96,10 +98,11 @@ else choice == "3" [replace]
     Ui --> EditLimitCommand : amountInput
     deactivate Ui
 
-    EditLimitCommand -> EditLimitCommand : parsePositiveAmount(amountInput)
+    EditLimitCommand -> EditLimitCommand++ : parsePositiveAmount(amountInput)
     note right of EditLimitCommand
       newLimit = amount
     end note
+    return newLimit
 end
 
 EditLimitCommand -> SetLimitCommand : confirmLimitChange(ui, newLimit)
