@@ -1,47 +1,151 @@
 @startuml
+title EditLimitCommand
 hide footbox
 
-->":Ui"++: "edit limit"
-":Ui" -> ":Finbro"++: input
+actor User
 
-":Finbro" -> ":Parser"++: parse(input)
-create "c:EditLimitCommand"
-":Parser" -> "c:EditLimitCommand": new EditLimitCommand()
-return
+participant ":Finbro" as Finbro
+participant ":Ui" as Ui
+participant ":Parser" as Parser
+participant "c:EditLimitCommand" as EditLimitCommand
+participant ":Limit" as Limit
+participant "SetLimitCommand" as SetLimitCommand
+participant "storage:Storage" as Storage
 
-":Finbro" -> "c:EditLimitCommand"++: execute()
+[-> Finbro
+activate Finbro
 
-"c:EditLimitCommand" -> ":Limit": getLimit()
+Finbro -> Ui : readCommand()
+activate Ui
+User --> Ui : "edit limit"
+Ui --> Finbro : input
+deactivate Ui
 
-"c:EditLimitCommand" -> ":Ui": show edit menu
-":Ui" -> "c:EditLimitCommand": choice
+Finbro -> Parser : parse(input)
+activate Parser
+create EditLimitCommand
+Parser -> EditLimitCommand : new EditLimitCommand()
+activate EditLimitCommand
+EditLimitCommand --> Parser : c
+deactivate EditLimitCommand
+Parser --> Finbro : c
+deactivate Parser
 
-alt increase
-    "c:EditLimitCommand" -> ":Ui": prompt increase amount
-    ":Ui" -> "c:EditLimitCommand": amount
-    "c:EditLimitCommand" -> "c:EditLimitCommand": newLimit = current + amount
+Finbro -> EditLimitCommand : execute(expenses, ui, storage)
+activate EditLimitCommand
 
-else decrease
-    "c:EditLimitCommand" -> ":Ui": prompt decrease amount
-    ":Ui" -> "c:EditLimitCommand": amount
-    "c:EditLimitCommand" -> "c:EditLimitCommand": newLimit = current - amount
+EditLimitCommand -> Limit : getLimit()
+activate Limit
+Limit --> EditLimitCommand : currentLimit
+deactivate Limit
 
-else replace
-    "c:EditLimitCommand" -> ":Ui": prompt new limit
-    ":Ui" -> "c:EditLimitCommand": amount
-    "c:EditLimitCommand" -> "c:EditLimitCommand": newLimit = amount
+EditLimitCommand -> Ui : showLimitEditMenu(currentLimit)
+activate Ui
+Ui --> EditLimitCommand
+deactivate Ui
+
+EditLimitCommand -> Ui : readCommand()
+activate Ui
+User --> Ui : choice
+Ui --> EditLimitCommand : choice
+deactivate Ui
+
+alt choice == "1" [increase]
+    EditLimitCommand -> Ui : showEnterAmountPrompt("increase")
+    activate Ui
+    Ui --> EditLimitCommand
+    deactivate Ui
+
+    EditLimitCommand -> Ui : readCommand()
+    activate Ui
+    User --> Ui : amountInput
+    Ui --> EditLimitCommand : amountInput
+    deactivate Ui
+
+    EditLimitCommand -> EditLimitCommand++ : parsePositiveAmount(amountInput)
+    note right of EditLimitCommand
+      newLimit = currentLimit + amount
+    end note
+    return newLimit
+
+else choice == "2" [decrease]
+    EditLimitCommand -> Ui : showEnterAmountPrompt("decrease")
+    activate Ui
+    Ui --> EditLimitCommand
+    deactivate Ui
+
+    EditLimitCommand -> Ui : readCommand()
+    activate Ui
+    User --> Ui : amountInput
+    Ui --> EditLimitCommand : amountInput
+    deactivate Ui
+
+    EditLimitCommand -> EditLimitCommand++ : parsePositiveAmount(amountInput)
+    note right of EditLimitCommand
+      newLimit = currentLimit - amount
+    end note
+    return newLimit
+
+else choice == "3" [replace]
+    EditLimitCommand -> Ui : showEnterAmountPrompt("replace")
+    activate Ui
+    Ui --> EditLimitCommand
+    deactivate Ui
+
+    EditLimitCommand -> Ui : readCommand()
+    activate Ui
+    User --> Ui : amountInput
+    Ui --> EditLimitCommand : amountInput
+    deactivate Ui
+
+    EditLimitCommand -> EditLimitCommand++ : parsePositiveAmount(amountInput)
+    note right of EditLimitCommand
+      newLimit = amount
+    end note
+    return newLimit
 end
 
-"c:EditLimitCommand" -> ":Ui": request confirmation
-":Ui" -> "c:EditLimitCommand": yes / no
+EditLimitCommand -> SetLimitCommand : confirmLimitChange(ui, newLimit)
+activate SetLimitCommand
 
-alt confirmed
-    "c:EditLimitCommand" -> ":Limit": setLimit(newLimit)
+SetLimitCommand -> Ui : showChangeLimitWarning(newLimit)
+activate Ui
+Ui --> SetLimitCommand
+deactivate Ui
+
+SetLimitCommand -> Ui : readCommand()
+activate Ui
+User --> Ui : yes / no
+Ui --> SetLimitCommand : confirmation
+deactivate Ui
+
+alt confirmation is "yes" or "y"
+    SetLimitCommand -> Limit : setLimit(newLimit)
+    activate Limit
+    Limit --> SetLimitCommand
+    deactivate Limit
+else confirmation is not yes
+    SetLimitCommand -> Ui : showCancelChangeLimitMessage()
+    activate Ui
+    Ui --> SetLimitCommand
+    deactivate Ui
 end
 
-"c:EditLimitCommand" -> ":Ui": showLimit()
+SetLimitCommand --> EditLimitCommand
+deactivate SetLimitCommand
 
-":Finbro" -> "storage:Storage"++: save()
-return
+EditLimitCommand -> Ui : showLimit()
+activate Ui
+Ui --> EditLimitCommand
+deactivate Ui
 
+EditLimitCommand --> Finbro
+deactivate EditLimitCommand
+
+Finbro -> Storage : save(expenses.getAll())
+activate Storage
+Storage --> Finbro
+deactivate Storage
+
+deactivate Finbro
 @enduml
