@@ -27,27 +27,30 @@ public class Parser {
         String argument = filterArg(input);
 
         return switch (commandWord) {
-            case COMMAND_HELP      -> new HelpCommand(argument);
-            case COMMAND_ADD       -> new AddCommand(argument);
-            case COMMAND_VIEW      -> new ViewCommand(argument);
-            case COMMAND_DELETE    -> new DeleteCommand(argument);
-            case COMMAND_SET_LIMIT -> new SetLimitCommand(argument);
-            case COMMAND_EDIT      -> new EditCommand(argument);
-            case COMMAND_VISUAL    -> parseVisualCommand(argument);
-            case COMMAND_CURRENCY  -> parseCurrencyCommand(argument);
-            default -> throw new FinbroException("Invalid command.");
+        case COMMAND_HELP -> new HelpCommand(argument);
+        case COMMAND_ADD -> new AddCommand(argument);
+        case COMMAND_VIEW -> new ViewCommand(argument);
+        case COMMAND_DELETE -> new DeleteCommand(argument);
+        case COMMAND_SET_LIMIT -> new SetLimitCommand(argument);
+        case COMMAND_EDIT -> new EditCommand(argument);
+        case COMMAND_VISUAL -> parseVisualCommand(argument);
+        case COMMAND_CURRENCY -> parseCurrencyCommand(argument);
+        default -> throw new FinbroException("Invalid command.");
         };
     }
+
     //@@author WangZX2001
     private static Command parseVisualCommand(String argument) throws FinbroException {
         verifyNoArguments(argument);
         return new VisualCommand();
     }
+
     //@@author WangZX2001
     private static Command parseCurrencyCommand(String argument) throws FinbroException {
         verifyNoArguments(argument);
         return new CurrencyCommand();
     }
+
     //@@author WangZX2001
     private static void verifyNoArguments(String argument) throws FinbroException {
         if (!argument.isEmpty()) {
