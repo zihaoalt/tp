@@ -2,14 +2,14 @@
 'https://plantuml.com/sequence-diagram
 actor User
 
-box "DeleteCommand" #LightBlue
+
 participant ":Finbro"
 participant ":Ui"
 participant ":Parser"
 participant "c:DeleteCommand"
 participant ":ExpenseList"
 participant ":Storage"
-end box
+
 
 activate ":Finbro"
 ":Finbro" -> ":Ui" : readCommand()

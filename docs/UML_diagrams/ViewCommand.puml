@@ -2,22 +2,22 @@
 'https://plantuml.com/sequence-diagram
 actor User
 
-box "ViewCommand" #LightBlue
 participant ":Ui"
 participant ":Finbro"
 participant ":Parser"
 participant "c:ViewCommand"
 participant ":ExpenseList"
-end box
 
-User -> ":Ui" : view <arg>
-activate ":Ui"
 
-":Ui" -> ":Finbro" : input = "view..."
 activate ":Finbro"
+":Finbro" -> ":Ui" ++ : readCommand()
+User -> ":Ui" : type "view ..."
+":Ui" --> ":Finbro" : input
+deactivate ":Ui"
 
 ":Finbro" -> ":Parser" : parse(input)
 activate ":Parser"
+
 
 create "c:ViewCommand"
 ":Parser" -> "c:ViewCommand" : new ViewCommand(argument)

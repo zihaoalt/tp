@@ -3,20 +3,21 @@
 actor User
 
 
-box "AddCommand" #LightBlue
 participant ":Ui"
 participant ":Finbro"
 participant ":Parser"
 participant "c:AddCommand"
 participant ":ExpenseList"
 participant ":Storage"
-end box
 
-User -> ":Ui" : add <amt><cat><date>
-activate ":Ui"
 
-":Ui" -> ":Finbro" : input = "add...""
+
 activate ":Finbro"
+":Finbro" -> ":Ui" : readCommand()
+activate ":Ui"
+User -> ":Ui" : type "add ..."
+":Ui" --> ":Finbro" : input
+deactivate ":Ui"
 
 ":Finbro" -> ":Parser" : parse(input)
 activate ":Parser"
@@ -27,38 +28,49 @@ activate "c:AddCommand"
 return c
 return c
 
-":Finbro" -> "c:AddCommand" : execute(...)
-activate "c:AddCommand"
+":Finbro" -> "c:AddCommand" ++ : execute(...)
 
-alt walkthrough mode
-    loop for each field (amount,categoty,date)
-        "c:AddCommand" -> ":Ui" : showPrompt(...)
+alt walkthrough mode [arg.isBlank()]
+    loop for each field (amount, category, date)
+        "c:AddCommand" -> ":Ui" ++ : showEnterXPrompt()
+        return
+        "c:AddCommand" -> ":Ui" ++ : readCommand()
         ":Ui" -> User : prompt
         User -> ":Ui" : input field
-        ":Ui" -> "c:AddCommand" : return field
+        return field
     end
-    "c:AddCommand" -> ":Ui" : showConfirmExpense(...)
-    ":Ui" -> User : confirm prompt
-    User -> ":Ui" : confirm response
-    ":Ui" -> "c:AddCommand" : readCommand()
 else direct mode
-    "c:AddCommand" -> "c:AddCommand" : parseArguments(argument)
-    activate "c:AddCommand"
+    "c:AddCommand" -> "c:AddCommand" ++ : verifyInputLength / verifyAmount / verifyDate
+    return
 end
 
-"c:AddCommand" -> ":ExpenseList" : add(expense)
-activate ":ExpenseList"
-":ExpenseList" -> ":ExpenseList" : updateTotals()
-activate ":ExpenseList"
+"c:AddCommand" -> ":Ui" ++ : showConfirmExpense(expense)
+return
+
+"c:AddCommand" -> ":Ui" ++ : readCommand()
+":Ui" -> User : confirm prompt
+User -> ":Ui" : confirm response
+return confirm
+
+alt confirm == "yes"
+    "c:AddCommand" -> ":ExpenseList" ++ : add(expense)
+    ":ExpenseList" -> ":ExpenseList" ++ : updateTotals()
+    return
+    return
+    "c:AddCommand" -> ":Ui" ++ : showExpenseAdded(...)
+    return
+else
+    "c:AddCommand" -> ":Ui" ++ : showCancelAddMessage()
+    return
+end
+
+return
+
+":Finbro" -> ":Storage" ++ : save()
+":Storage" -> ":ExpenseList" ++ : toFileFormat()
 return
 return
 
-":ExpenseList" -> ":Ui" : showExpenseAdded(...)
-":Finbro" -> ":Storage" : save()
-activate ":Storage"
-":Storage" -> ":ExpenseList" : toFileFormat()
-activate ":ExpenseList"
-return
 return
 
 @enduml
