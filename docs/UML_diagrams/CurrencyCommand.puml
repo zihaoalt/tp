@@ -1,7 +1,8 @@
-@startuml
+@startuml CurrencyCommand
 hide footbox
+actor User
 
-->":Ui"++: "currency"
+User->":Ui"++: "currency"
 ":Ui" -> ":Finbro"++: input
 
 ":Finbro" -> ":Parser"++: parse(input)
