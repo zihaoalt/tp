@@ -460,24 +460,24 @@ You can view all expenses, view a specific category, or optionally sort and filt
 
 `view all` — displays all recorded expenses
 
-`view all -sort <month|category|amount>` — displays all expenses sorted by the chosen option
+`view all -sort <year|month|category|amount>` — displays all expenses sorted by the chosen option
 
 `view <category>` — displays expenses under a specific category
 
 `view <category> -filter <month>` — displays only the expenses in that category for the given month
 
-`view <category> -sort <month|amount>` — displays that category sorted by the chosen option
+`view <category> -sort <year|month|amount>` — displays that category sorted by the chosen option
 
-`view <category> -filter <month> -sort <month|amount>` — filters the category by month first, then sorts the result
+`view <category> -filter <month> -sort <year|month|amount>` — filters the category by month first, then sorts the result
 
 ### How it works
 
 - `view all` shows every recorded expense.
-- `view all` can be sorted with `-sort month`, `-sort category`, or `-sort amount`.
+- `view all` can be sorted with `-sort year`, `-sort month`, `-sort category`, or `-sort amount`.
 - `view <category>` shows only expenses that match the category name.
 - `view <category>` can be filtered by month with `-filter <month>`.
 - `-filter` is case-insensitive, so `january`, `January`, and `JANUARY` are treated the same.
-- `view <category>` can also be sorted with `-sort month` or `-sort amount`.
+- `view <category>` can also be sorted with `-sort year`, `-sort month` or `-sort amount`.
 - You can use `-filter` and `-sort` together, and the order of the flags does not matter.
 - `-sort category` is only supported with `view all`.
 - `-filter` only works with `view <category>`.

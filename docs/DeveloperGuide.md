@@ -330,8 +330,8 @@ This section documents the currently implemented behaviour.
 
 Supported command forms:
 
-- `view all [-sort <month|category|amount>]`
-- `view <category> [-filter <month>] [-sort <month|amount>]`
+- `view all [-sort <year|month|category|amount>]`
+- `view <category> [-filter <month>] [-sort <year|month|amount>]`
 
 Notes:
 
@@ -351,6 +351,7 @@ Execution rules:
 
 Sort behaviour:
 
+- `year`: chronological order
 - `month`: chronological order
 - `category`: alphabetical order (available only for `view all`)
 - `amount`: descending order (highest to lowest)
@@ -370,14 +371,14 @@ For `view <category> -filter <month>`:
 
 1. Parse the month input and validate it
 2. Filter the expenses in the specified category by the given month
-3. Optionally apply `-sort <month|amount>` if provided
+3. Optionally apply `-sort <year|month|amount>` if provided
 4. Display the resulting list via `Ui.showAllExpenses(...)`
 5. Throw an error if the month is invalid (must be full month name)
 
 For `view all -sort <type>`:
 
 1. Retrieve all expenses
-2. Sort by `month`, `category`, or `amount`
+2. Sort by `year`, `month`, `category`, or `amount`
 3. Display the sorted list
 4. Throw an error if `type` is invalid
 
@@ -385,7 +386,7 @@ For `view <category> [-filter <month>] -sort <type>`:
 
 1. Retrieve category expenses
 2. Optionally apply month filter
-3. Sort by `month` or `amount`
+3. Sort by `year`, `month` or `amount`
 4. Throw an error if `type` is `category`
 
 #### Design Considerations

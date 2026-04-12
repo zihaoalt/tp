@@ -39,7 +39,7 @@ alt invalid sort type
 
 else view all
 	note right of "c:ViewCommand"
-	  Supported: view all -sort month|category|amount
+	  Supported: view all [-sort <year|month|category|amount>]
 	  -filter is not supported for view all
 	end note
 
@@ -55,7 +55,7 @@ else view all
 
 else view <category>
 	note right of "c:ViewCommand"
-	  Supported: view <category> [-filter <month>] [-sort <month|amount>]
+	  Supported: view <category> [-filter <month>] [-sort <year|month|amount>]
 	  -filter month matching is case-insensitive
 	  -sort category is not supported for category views
 	end note
