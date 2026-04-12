@@ -82,6 +82,26 @@ public class ExpenseList {
 
     //@@author zihaoalt
     public Expense removeByCategoryIndex(String category, int number) throws FinbroException {
+
+        boolean categoryExists = false;
+        for (Expense expense : expenses) {
+            if (expense.category().equalsIgnoreCase(category)) {
+                categoryExists = true;
+                break;
+            }
+        }
+        if (!categoryExists) {
+            throw new FinbroException("Expense category not found");
+        }
+
+        Expense targetExpense = getTargetExpense(category, number);
+
+        expenses.remove(targetExpense);
+        return targetExpense;
+    }
+
+    //@@author zihaoalt
+    private Expense getTargetExpense(String category, int number) throws FinbroException {
         if (number <= 0) {
             throw new FinbroException("Expense number must be positive");
         }
@@ -91,26 +111,19 @@ public class ExpenseList {
         for (Expense expense : expenses) {
             if (expense.category().equalsIgnoreCase(category)) {
                 count++;
+                if (count == number) {
+                    targetExpense = expense;
+                    break;
+                }
             }
-            if (count == number) {
-                targetExpense = expense;
-                break;
-            }
-        }
-
-        if (count == 0) {
-            throw new FinbroException("Expense category not found");
         }
 
         if (targetExpense == null) {
-            throw new FinbroException("Expense number under the category is out of bounds");
+            throw new FinbroException("Expense number out of bounds");
         }
-
-        total -= targetExpense.amount();
-        expenses.remove(targetExpense);
-        assert !expenses.contains(targetExpense) : "Removed expense should no longer be in list";
         return targetExpense;
     }
+
 
     public Map<YearMonth, Double> getMonthlyExpenses() throws FinbroException {
         logger.log(Level.INFO, "Sorting expenses by month...");
