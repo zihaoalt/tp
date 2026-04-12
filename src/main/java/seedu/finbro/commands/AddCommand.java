@@ -17,7 +17,7 @@ public class AddCommand extends Command {
     private static final Logger logger = Logger.getLogger(AddCommand.class.getName());
     private static final double HIGH_VALUE_THRESHOLD = 10000;
     private final String arg;
-    
+
     //@@author natmloclam
     public AddCommand(String arg) {
         assert arg != null : "Argument string should not be null";
@@ -296,6 +296,8 @@ public class AddCommand extends Command {
                 Adds a new expense entry.
                 Format: add <amount> <category> <date> or 'add' for us to walk you through the process step-by-step.
                 Use: Records an expense under the given category on the given date.
-                Note: amount must be positive. Category can be multiple words but cannot be only numbers. Date supports natural language (e.g. today, 2 days ago).""";
+                Note: amount must be positive.
+                      Category can be multiple words but cannot be only numbers.
+                      Date supports natural language (e.g. today, 2 days ago).""";
     }
 }
