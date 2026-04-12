@@ -113,6 +113,7 @@ public class AddCommand extends Command {
             String dateInput = ui.readCommand();
             try {
                 LocalDate parsedDate = NaturalDateParser.parse(dateInput);
+                validateDateRange(parsedDate);
                 formattedDate = parsedDate.format(
                         DateTimeFormatter.ofPattern("d MMMM yyyy")
                 );
@@ -176,7 +177,7 @@ public class AddCommand extends Command {
         return parts[1];
     }
 
-    //@@author WangZX2001
+    //@@author Kushalshah0402
     public static String verifyDate(String input) throws FinbroException {
         logger.log(Level.INFO, "Verifying date from input: " + input);
         String[] parts = input.trim().split(" ");
@@ -193,6 +194,7 @@ public class AddCommand extends Command {
 
         try {
             LocalDate parsedDate = NaturalDateParser.parse(dateInput);
+            validateDateRange(parsedDate);
             logger.log(Level.INFO, "Parsed date successfully: " + parsedDate);
 
             DateTimeFormatter outputFormatter =
@@ -207,6 +209,22 @@ public class AddCommand extends Command {
             logger.log(Level.WARNING,
                     "Failed to parse date input: " + dateInput + " | Error: " + e.getMessage());
             throw e;
+        }
+    }
+
+    //@author Kushalshah0402
+    private static void validateDateRange(LocalDate date) throws FinbroException {
+        int year = date.getYear();
+        int currentYear = LocalDate.now().getYear();
+
+        if (year < 2000 || year > currentYear) {
+            logger.log(Level.WARNING, "Date out of allowed range: " + date);
+            throw new FinbroException("Date must be between year 2000 and current year.");
+        }
+
+        if (date.isAfter(LocalDate.now())) {
+            logger.log(Level.WARNING, "Future date entered: " + date);
+            throw new FinbroException("Date cannot be in the future.");
         }
     }
 

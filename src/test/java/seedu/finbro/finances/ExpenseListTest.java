@@ -137,7 +137,7 @@ class ExpenseListTest {
         ExpenseList list = new ExpenseList();
         list.add(new Expense(10, "food", "3 March 2026"));
 
-        assertEquals(YearMonth.of(2026, 3), list.parseYearMonth(list.get(0)));
+        assertEquals(YearMonth.of(2026, 3), ExpenseList.parseYearMonth(list.get(0)));
     }
 
     //@@author natmloclam
@@ -146,7 +146,7 @@ class ExpenseListTest {
         ExpenseList list = new ExpenseList();
         list.add(new Expense(10, "food", "3 March"));
 
-        Exception e = assertThrows(FinbroException.class, () -> list.parseYearMonth(list.get(0)));
+        Exception e = assertThrows(FinbroException.class, () -> ExpenseList.parseYearMonth(list.get(0)));
 
         String expectedMessage = "Invalid date format";
         String actualMessage = e.getMessage();
