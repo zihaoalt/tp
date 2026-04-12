@@ -30,6 +30,22 @@ class SortServiceTest {
     }
 
     @Test
+    void sortExpenses_month_sortsByMonth() throws FinbroException {
+        List<Expense> expenses = createSampleExpenses2();
+
+        List<Expense> sorted = SortService.sortExpenses(expenses, "month");
+
+        assertEquals(List.of(
+                new Expense(4.0, "transport", "20 January 2025"),
+                new Expense(10.0, "utilities", "5 January 2026"),
+                new Expense(12.0, "transport", "3 February 2025"),
+                new Expense(12.0, "transport", "3 February 2026"),
+                new Expense(20.0, "food", "15 March 2026"),
+                new Expense(20.0, "food", "16 March 2026")
+        ), sorted);
+    }
+
+    @Test
     void sortExpenses_category_sortsAlphabeticallyThenAmount() throws FinbroException {
         List<Expense> expenses = createSampleExpenses();
 
@@ -107,6 +123,17 @@ class SortServiceTest {
                 new Expense(20.0, "food", "15 March 2026"),
                 new Expense(10.0, "utilities", "5 January 2026"),
                 new Expense(4.0, "transport", "20 January 2026")
+        ));
+    }
+
+    private List<Expense> createSampleExpenses2() {
+        return new ArrayList<>(List.of(
+                new Expense(20.0, "food", "16 March 2026"),
+                new Expense(12.0, "transport", "3 February 2026"),
+                new Expense(12.0, "transport", "3 February 2025"),
+                new Expense(20.0, "food", "15 March 2026"),
+                new Expense(10.0, "utilities", "5 January 2026"),
+                new Expense(4.0, "transport", "20 January 2025")
         ));
     }
 }

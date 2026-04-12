@@ -4,7 +4,10 @@ import seedu.finbro.exception.FinbroException;
 import seedu.finbro.finances.Expense;
 import seedu.finbro.finances.ExpenseList;
 
+import java.time.LocalDate;
 import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -20,6 +23,7 @@ public class SortService {
     private static final String SORT_MONTH = "month";
     private static final String SORT_CATEGORY = "category";
     private static final String SORT_AMOUNT = "amount";
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("d MMMM yyyy");
 
     //@@author AK47ofCode
     /**
@@ -54,6 +58,43 @@ public class SortService {
 
         sorted.sort((expense1, expense2) -> {
             try {
+                YearMonth yearMonth1 = parseYearMonth(expense1);
+                YearMonth yearMonth2 = parseYearMonth(expense2);
+
+                int monthCompare = Integer.compare(yearMonth1.getMonthValue(), yearMonth2.getMonthValue());
+                if (monthCompare != 0) {
+                    return monthCompare;
+                }
+
+                int yearCompare = Integer.compare(yearMonth1.getYear(), yearMonth2.getYear());
+                if (yearCompare != 0) {
+                    return yearCompare;
+                }
+
+                return parseLocalDate(expense1).compareTo(parseLocalDate(expense2));
+            } catch (FinbroException e) {
+                logger.log(Level.WARNING, "Unable to parse date for expense: {0}", expense1.date());
+                return 0;
+            }
+        });
+
+        logger.log(Level.INFO, "Expenses successfully sorted by month");
+        return sorted;
+    }
+
+    //@@author AK47ofCode
+    /**
+     * Sorts expenses by year, i.e. in true chronological order, in this case.
+     *
+     * @param expenses The list of expenses to sort.
+     * @return A list of expenses sorted by month.
+     */
+    private static List<Expense> sortByYear(List<Expense> expenses) {
+        logger.log(Level.INFO, "Sorting expenses by year");
+        List<Expense> sorted = new ArrayList<>(expenses);
+
+        sorted.sort((expense1, expense2) -> {
+            try {
                 YearMonth month1 = parseYearMonth(expense1);
                 YearMonth month2 = parseYearMonth(expense2);
                 return month1.compareTo(month2);
@@ -63,7 +104,7 @@ public class SortService {
             }
         });
 
-        logger.log(Level.INFO, "Expenses successfully sorted by month");
+        logger.log(Level.INFO, "Expenses successfully sorted by year");
         return sorted;
     }
 
@@ -107,6 +148,14 @@ public class SortService {
      */
     private static YearMonth parseYearMonth(Expense expense) throws FinbroException {
         return ExpenseList.parseYearMonth(expense);
+    }
+
+    private static LocalDate parseLocalDate(Expense expense) throws FinbroException {
+        try {
+            return LocalDate.parse(expense.date(), DATE_FORMATTER);
+        } catch (DateTimeParseException ex) {
+            throw new FinbroException("Corrupted expense: Invalid date format");
+        }
     }
 
     //@@author AK47ofCode
