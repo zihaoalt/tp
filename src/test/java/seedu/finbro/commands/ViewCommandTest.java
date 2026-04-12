@@ -267,8 +267,10 @@ public class ViewCommandTest {
         FinbroException exception = assertThrows(FinbroException.class,
                 () -> new ViewCommand("all -sort six-seven").execute(expenses, ui, null));
 
-        assertEquals("Invalid sort type: six-seven\nSupported sorts: year, month, category, amount",
-                exception.getMessage());
+        assertEquals("""
+                Invalid sort type: six-seven
+                Supported sorts: year, month, category, amount
+                Note: category is unavailable for "view <category>".""", exception.getMessage());
     }
 
     //@@author AK47ofCode

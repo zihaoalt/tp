@@ -54,7 +54,8 @@ public class ViewCommand extends Command {
 
         if (parsedArg.sortType() != null && !SortService.isValidSortType(parsedArg.sortType())) {
             throw new FinbroException("Invalid sort type: " + parsedArg.sortType()
-                    + "\nSupported sorts: year, month, category, amount");
+                    + "\nSupported sorts: year, month, category, amount" +
+                    "\nNote: category is unavailable for \"view <category>\".");
         }
 
         if (ALL.equals(parsedArg.target())) {
