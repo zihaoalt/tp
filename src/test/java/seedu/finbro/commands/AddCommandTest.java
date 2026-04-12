@@ -26,10 +26,8 @@ public class AddCommandTest {
         Ui ui = new Ui();
         ExpenseList list = new ExpenseList();
         Storage storage = null;
-
         AddCommand command = new AddCommand("");
         command.execute(list, ui, storage);
-
         assertEquals(1, list.size());
     }
 
@@ -44,7 +42,6 @@ public class AddCommandTest {
         System.setIn(new ByteArrayInputStream(input.getBytes()));
         Ui ui = new Ui();
         ExpenseList list = new ExpenseList();
-
         AddCommand command = new AddCommand("");
         command.execute(list, ui, null);
 
@@ -58,10 +55,8 @@ public class AddCommandTest {
 
         ExpenseList list = new ExpenseList();
         Ui ui = new Ui();
-
         AddCommand command = new AddCommand("20 food 2020-01-01");
         command.execute(list, ui, null);
-
         assertEquals(1, list.size());
     }
 
@@ -69,9 +64,7 @@ public class AddCommandTest {
     void execute_strictModeMissingField_throwsException() {
         ExpenseList list = new ExpenseList();
         Ui ui = new Ui();
-
         AddCommand command = new AddCommand("20 2020-01-01");
-
         assertThrows(Exception.class, () -> command.execute(list, ui, null));
     }
 
@@ -79,10 +72,8 @@ public class AddCommandTest {
     void execute_strictModeUserCancels_noExpenseAdded() throws Exception {
         String input = "no\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
-
         ExpenseList list = new ExpenseList();
         Ui ui = new Ui();
-
         AddCommand command = new AddCommand("20 food 2020-01-01");
         command.execute(list, ui, null);
 
@@ -143,9 +134,7 @@ public class AddCommandTest {
     void execute_futureDate_throwsException() {
         ExpenseList list = new ExpenseList();
         Ui ui = new Ui();
-
         AddCommand command = new AddCommand("20 food 3000-01-01");
-
         assertThrows(Exception.class, () -> command.execute(list, ui, null));
     }
 }

@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 public class AddCommand extends Command {
     private static final Logger logger = Logger.getLogger(AddCommand.class.getName());
     private final String arg;
+    private static final double HIGH_VALUE_THRESHOLD = 10000;
 
     //@@author natmloclam
     public AddCommand(String arg) {
@@ -49,14 +50,32 @@ public class AddCommand extends Command {
         ui.showConfirmExpense(expense);
         String confirm = ui.readCommand().trim();
 
-        if (confirm.equalsIgnoreCase("yes")) {
-            expenses.add(expense);
-            logger.log(Level.INFO, "Expense confirmed and added: " + expense);
-            ui.showExpenseAdded(expense, expenses.size());
-        } else {
+        if (!confirm.equalsIgnoreCase("yes")) {
             logger.log(Level.INFO, "Expense addition cancelled by user");
             ui.showCancelAddMessage();
+            return;
         }
+
+        // HIGH VALUE CHECK (NEW)
+        if (amount > HIGH_VALUE_THRESHOLD) {
+            logger.log(Level.WARNING, "High value expense detected: " + amount);
+            System.out.println(
+                    "Since the expense amount is huge, we would like to double confirm an expense for $"
+                    + String.format("%.2f", amount)
+            );
+            System.out.println("Do you still want to proceed? [yes/no]");
+            String finalConfirm = ui.readCommand().trim();
+            if (!finalConfirm.equalsIgnoreCase("yes")) {
+                logger.log(Level.INFO, "High value expense rejected at second confirmation");
+                ui.showCancelAddMessage();
+                return;
+            }
+        }
+
+        // ADD EXPENSE
+        expenses.add(expense);
+        logger.log(Level.INFO, "Expense confirmed and added: " + expense);
+        ui.showExpenseAdded(expense, expenses.size());
     }
 
     //@@author Kushalshah0402
@@ -130,15 +149,31 @@ public class AddCommand extends Command {
         Expense expense = new Expense(amount, category, formattedDate);
         assert expense != null : "Expense should not be null";
         ui.showConfirmExpense(expense);
-        String confirm = ui.readCommand();
-        if (confirm.equalsIgnoreCase("yes")) {
-            expenses.add(expense);
-            logger.log(Level.INFO, "Expense confirmed and added: " + expense);
-            ui.showExpenseAdded(expense, expenses.size());
-        } else {
+        String confirm = ui.readCommand().trim();
+        if (!confirm.equalsIgnoreCase("yes")) {
             logger.log(Level.INFO, "Expense addition cancelled by user");
             ui.showCancelAddMessage();
+            return;
         }
+
+        // HIGH VALUE CHECK
+        if (amount > HIGH_VALUE_THRESHOLD) {
+            logger.log(Level.WARNING, "High value expense detected: " + amount);
+            System.out.println(
+                    "Since the expense amount is huge, we would like to double confirm an expense for $"
+                    + String.format("%.2f", amount)
+            );
+            System.out.println("Do you still want to proceed? [yes/no]");
+            String finalConfirm = ui.readCommand().trim();
+            if (!finalConfirm.equalsIgnoreCase("yes")) {
+                logger.log(Level.INFO, "High value expense rejected at second confirmation");
+                ui.showCancelAddMessage();
+                return;
+            }
+        }
+        expenses.add(expense);
+        logger.log(Level.INFO, "Expense confirmed and added: " + expense);
+        ui.showExpenseAdded(expense, expenses.size());
     }
 
     //@@author Kushalshah0402 WangZX2001

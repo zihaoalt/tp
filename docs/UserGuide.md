@@ -110,6 +110,7 @@ The system will ask you for:
    - Enter how much you spent
    - Must be a positive number
    - Example: `50.00` or `25`
+   - reconfirmation will be asked for if expense amount exceeds `10,000`
 
 2. **Expense Category**
    - What did you spend on?
