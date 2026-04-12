@@ -38,9 +38,10 @@ public class AddCommand extends Command {
 
         //Strict mode (existing behavior)
         verifyInputLength(arg);
-        double amount = verifyAmount(arg);
-        String category = filterCategory(arg);
-        String formattedDate = verifyDate(arg);
+        ParsedAddInput parsed = parseStrictInput(arg);
+        double amount = parsed.amount();
+        String category = parsed.category();
+        String formattedDate = parsed.formattedDate();
         logger.log(Level.INFO,
                 "Attempting to add expense amount {0}, category {1}, date {2}",
                 new Object[]{amount, category, formattedDate});
@@ -117,10 +118,10 @@ public class AddCommand extends Command {
                 continue;
             }
 
-            // Disallow numbers
-            if (!category.matches("[a-zA-Z]+")) {
-                logger.log(Level.WARNING, "Invalid category entered: " + category);
-                ui.showInlineError("Category must contain letters only.");
+            // Disallow numeric-only categories (e.g. "123"). Multi-word categories are allowed.
+            if (isNumericOnly(category)) {
+                logger.log(Level.WARNING, "Invalid category entered (numeric-only): " + category);
+                ui.showInlineError("Category cannot be a number.");
                 continue;
             }
             logger.log(Level.INFO, "Valid category entered: " + category);
@@ -180,7 +181,7 @@ public class AddCommand extends Command {
     //@@author Kushalshah0402 WangZX2001
     private void verifyInputLength(String input) throws FinbroException {
         logger.log(Level.INFO, "Verifying input length for: " + input);
-        String[] parts = input.trim().split(" ");
+        String[] parts = input.trim().split("\\s+");
         logger.log(Level.FINE, "Split input into " + parts.length + " parts");
 
         if (parts.length < 3) {
@@ -207,44 +208,69 @@ public class AddCommand extends Command {
         return amount;
     }
 
-    //@@author Kushalshah0402
-    private String filterCategory(String input) {
-        String[] parts = input.split(" ");
-        return parts[1];
+    private record ParsedAddInput(double amount, String category, String formattedDate) { }
+
+    private static ParsedAddInput parseStrictInput(String input) throws FinbroException {
+        logger.log(Level.INFO, "Parsing strict add input: " + input);
+        String[] parts = input.trim().split("\\s+");
+        if (parts.length < 3) {
+            throw new FinbroException("Usage: add <amount> <category> <date>");
+        }
+
+        double amount = parseAmountToken(parts[0]);
+        ParsedDate parsedDate = parseDateFromSuffix(parts);
+
+        String category = String.join(" ", Arrays.copyOfRange(parts, 1, parsedDate.dateStartIndex()));
+        verifyCategory(category);
+
+        return new ParsedAddInput(amount, category, parsedDate.formattedDate());
     }
 
-    //@@author Kushalshah0402
-    public static String verifyDate(String input) throws FinbroException {
-        logger.log(Level.INFO, "Verifying date from input: " + input);
-        String[] parts = input.trim().split(" ");
+    private record ParsedDate(int dateStartIndex, String formattedDate) { }
 
-        if (parts.length < 3) {
-            logger.log(Level.WARNING, "Date parsing failed: insufficient parts");
-            throw new FinbroException("Missing Attributes.");
+    private static ParsedDate parseDateFromSuffix(String[] parts) throws FinbroException {
+        // Choose the shortest date suffix that parses, to maximize category tokens.
+        for (int i = parts.length - 1; i >= 2; i--) {
+            String candidate = String.join(" ", Arrays.copyOfRange(parts, i, parts.length));
+            try {
+                LocalDate parsed = NaturalDateParser.parse(candidate);
+                validateDateRange(parsed);
+                DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
+                return new ParsedDate(i, parsed.format(outputFormatter));
+            } catch (FinbroException ignored) {
+                // try a longer suffix
+            }
         }
 
-        // Date is everything after "<amount> <category>".
+        // Let NaturalDateParser produce the user-facing error message.
         String dateInput = String.join(" ", Arrays.copyOfRange(parts, 2, parts.length));
-        logger.log(Level.INFO, "Extracted date input: " + dateInput);
+        NaturalDateParser.parse(dateInput); // throws
+        throw new FinbroException("Invalid date.");
+    }
 
+    private static double parseAmountToken(String token) throws FinbroException {
         try {
-            LocalDate parsedDate = NaturalDateParser.parse(dateInput);
-            validateDateRange(parsedDate);
-            logger.log(Level.INFO, "Parsed date successfully: " + parsedDate);
-
-            DateTimeFormatter outputFormatter =
-                    DateTimeFormatter.ofPattern("d MMMM yyyy");
-
-            String formattedDate = parsedDate.format(outputFormatter);
-            logger.log(Level.INFO, "Formatted date: " + formattedDate);
-
-            return formattedDate;
-
-        } catch (FinbroException e) {
-            logger.log(Level.WARNING,
-                    "Failed to parse date input: " + dateInput + " | Error: " + e.getMessage());
-            throw e;
+            double amount = Double.parseDouble(token);
+            if (amount < 0) {
+                throw new FinbroException("Amount must be a positive number.");
+            }
+            return amount;
+        } catch (NumberFormatException e) {
+            throw new FinbroException("Amount must be a number.");
         }
+    }
+
+    private static void verifyCategory(String category) throws FinbroException {
+        if (category == null || category.isBlank()) {
+            throw new FinbroException("Category cannot be empty.");
+        }
+        if (isNumericOnly(category)) {
+            throw new FinbroException("Category cannot be a number.");
+        }
+    }
+
+    private static boolean isNumericOnly(String input) {
+        return input != null && input.trim().matches("\\d+");
     }
 
     //@author Kushalshah0402
@@ -270,6 +296,6 @@ public class AddCommand extends Command {
                 Adds a new expense entry.
                 Format: add <amount> <category> <date> or 'add' for us to walk you through the process step-by-step.
                 Use: Records an expense under the given category on the given date.
-                Note: amount must be positive and date must be in yyyy-mm-dd format.""";
+                Note: amount must be positive. Category can be multiple words but cannot be only numbers. Date supports natural language (e.g. today, 2 days ago).""";
     }
 }

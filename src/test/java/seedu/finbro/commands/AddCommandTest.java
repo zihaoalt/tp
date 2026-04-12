@@ -7,6 +7,7 @@ import java.io.ByteArrayInputStream;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.finbro.exception.FinbroException;
 import seedu.finbro.storage.Storage;
 import seedu.finbro.ui.Ui;
 import seedu.finbro.finances.ExpenseList;
@@ -109,6 +110,31 @@ public class AddCommandTest {
     }
 
     @Test
+    void execute_strictModeMultiWordCategory_expenseAdded() throws Exception {
+        String input = "yes\n";
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+
+        ExpenseList list = new ExpenseList();
+        Ui ui = new Ui();
+
+        AddCommand command = new AddCommand("20 my shopping today");
+        command.execute(list, ui, null);
+
+        assertEquals(1, list.size());
+    }
+
+    @Test
+    void execute_strictModeNumericOnlyCategory_throwsException() {
+        ExpenseList list = new ExpenseList();
+        Ui ui = new Ui();
+
+        AddCommand command = new AddCommand("20 123 today");
+        FinbroException exception = assertThrows(FinbroException.class, () -> command.execute(list, ui, null));
+
+        assertEquals("Category cannot be a number.", exception.getMessage());
+    }
+
+    @Test
     void execute_strictModeMixedCaseCategory_caseInsensitiveLookupFindsExpense() throws Exception {
         String input = "yes\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
@@ -142,6 +168,25 @@ public class AddCommandTest {
         assertEquals(1, list.size());
         assertEquals(1, list.getCategoryExpenses("food").size());
         assertEquals(1, list.getCategoryExpenses("FOOD").size());
+    }
+
+    @Test
+    void execute_walkthroughNumericOnlyCategory_repromptThenExpenseAdded() throws Exception {
+        String simulatedInput =
+                "20\n" +
+                "123\n" +
+                "my shopping\n" +
+                "2020-01-01\n" +
+                "yes\n";
+
+        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+        Ui ui = new Ui();
+        ExpenseList list = new ExpenseList();
+
+        AddCommand command = new AddCommand("");
+        command.execute(list, ui, null);
+
+        assertEquals(1, list.size());
     }
 
     @Test
