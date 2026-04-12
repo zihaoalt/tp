@@ -15,9 +15,9 @@ import java.util.logging.Logger;
 
 public class AddCommand extends Command {
     private static final Logger logger = Logger.getLogger(AddCommand.class.getName());
-    private final String arg;
     private static final double HIGH_VALUE_THRESHOLD = 10000;
-
+    private final String arg;
+    
     //@@author natmloclam
     public AddCommand(String arg) {
         assert arg != null : "Argument string should not be null";
