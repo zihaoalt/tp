@@ -70,6 +70,7 @@ public class EditLimitCommand extends Command {
 
             default:
                 logger.log(Level.WARNING, "Invalid menu choice entered: {0}", choice);
+                ui.showLine();
                 ui.showInlineError("Please enter 1, 2, or 3.");
                 continue;
             }

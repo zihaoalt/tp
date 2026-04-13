@@ -203,7 +203,6 @@ public class Ui {
     public void showCancelChangeLimitMessage() {
         showLine();
         System.out.println("Monthly budget limit was not changed");
-        showLine();
     }
 
     //@@author WangZX2001
