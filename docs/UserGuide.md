@@ -9,7 +9,8 @@
   - [Delete Expense Command](#delete-expense-command)
   - [View Expenses](#view-expenses)
   - [Setting the spending limit](#setting-the-spending-limit-limit)
-  - [Editing the spending limit](#editing-the-spending-limit-edit-limit)
+  - [Viewing the spending limit](#viewing-the-spending-limit-limit)
+  - [Editing the spending limit](#editing-the-spending-limit)
   - [Budget Reminder System](#budget-reminder-system)
   - [Converting expense currency](#converting-expense-currency-currency)
   - [Visualization](#visualization-visual)
@@ -622,6 +623,24 @@ Monthly budget limit: $100.00
 
 ---
 
+## Viewing the spending limit: `limit`
+
+Allows you to view your current monthly spending limit.
+
+**Format** `limit`
+
+- `limit` must take no arguments
+
+**Example:** `limit`
+Output:
+```
+--------------------------------------------------
+Monthly budget limit: $100.00
+--------------------------------------------------
+```
+
+---
+
 ## Editing the spending limit
 
 Allows you to modify your current monthly spending limit by increasing, decreasing, or replacing it.
@@ -1030,18 +1049,19 @@ current limit unchanged.
 
 ## Command Summary
 
-| Command    | Format                                            | Description                                                     |
-|------------|---------------------------------------------------|-----------------------------------------------------------------|
-| Add        | `add <amount> <category> <date>`                  | Adds a new expense (direct input)                               |
-| Add        | `add`                                             | Adds a new expense (guided input)                               |
-| View       | `view all` with optional `-sort`                  | Displays all expenses with optional sorting                     |
-| View       | `view <category>` with optional `-sort`/`-filter` | Displays a category of expenses with optional sorting/filtering |
-| Delete     | `delete <category> <index>`                       | Deletes an expense (direct input)                               |
-| Delete     | `delete`                                          | Deletes an expense (guided input)                               |
-| Set Limit  | `limit`                                           | Sets a monthly spending limit                                   |
-| Edit Limit | `edit limit`                                      | Edits the current spending limit                                |
-| Currency   | `currency`                                        | Converts expense currency                                       |
-| Visualize  | `visual`                                          | Shows a bar chart of monthly expenses                           |
-| Help       | `help`                                            | Shows help information                                          |
-| Help       | `help <command>`                                  | Shows detailed help for a specific command                      |
-| Exit       | `exit`                                            | Exits Finbro                                                    |
+| Command        | Format                                            | Description                                                     |
+|----------------|---------------------------------------------------|-----------------------------------------------------------------|
+| Add Expense    | `add <amount> <category> <date>`                  | Adds a new expense (direct input)                               |
+| Add Expense    | `add`                                             | Adds a new expense (guided input)                               |
+| View Expense   | `view all` with optional `-sort`                  | Displays all expenses with optional sorting                     |
+| View Expense   | `view <category>` with optional `-sort`/`-filter` | Displays a category of expenses with optional sorting/filtering |
+| Delete Expense | `delete <category> <index>`                       | Deletes an expense (direct input)                               |
+| Delete Expense | `delete`                                          | Deletes an expense (guided input)                               |
+| Set Limit      | `limit <amount>`                                  | Sets a monthly spending limit                                   |
+| View Limit     | `limit`                                           | Displays the monthly spending limit                             |
+| Edit Limit     | `edit limit`                                      | Edits the current spending limit                                |
+| Currency       | `currency`                                        | Converts expense currency                                       |
+| Visualize      | `visual`                                          | Shows a bar chart of monthly expenses                           |
+| Help           | `help`                                            | Shows help information                                          |
+| Help           | `help <command>`                                  | Shows detailed help for a specific command                      |
+| Exit           | `exit`                                            | Exits Finbro                                                    |
