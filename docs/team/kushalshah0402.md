@@ -1,7 +1,4 @@
----
-layout: page
-title: Kushal's Project Portfolio Page
----
+# Shah Kushal Hitesh - Project Portfolio Page
 
 ## Project: FinBro
 
@@ -63,7 +60,7 @@ Given below are my contributions to the project.
 
 ## Enhancements Implemented
 
-### Budget Limit Feedback Enhancement
+### 1) Budget Limit Feedback Enhancement
 
 **What it does:** After every expense is added, the system checks the user's total spending against their set budget limit and warns them if they are close to or have exceeded it.
 
@@ -75,6 +72,17 @@ Given below are my contributions to the project.
 - Two distinct warning messages are shown depending on whether the user is approaching or has already exceeded the limit
 - The exact limit amount is displayed in the warning so users know precisely what threshold they are being measured against
 - Logic is cleanly separated — `Ui` handles the display while the budget checking logic lives outside of `Ui`, following separation of concerns
+
+### 2) Add Expense Enhancement
+
+**Justification:** Previously, users were able to add negative years for the date as well as only special characters for the category. However, this did not make much sense in our context. So I made sure these were not allowed and also added a double confirmation for expense amounts that were very large in case it was accidental
+
+**PR:** [#195](https://github.com/AY2526S2-CS2113-T10-4/tp/pull/195), [#206](https://github.com/AY2526S2-CS2113-T10-4/tp/pull/206), [#193](https://github.com/AY2526S2-CS2113-T10-4/tp/pull/193)
+
+**Highlights:**
+- If amount is greater than $10,000, a second confirmation message is sent after you confirm the expense the first time, asking user to double check the amount they keyed in since it is very large
+- For categories, ONLY special characters are not allowed as Category: `#%$@(&)` does not make much sense to the users
+- Years before 2000 and dates after the present date are no more allowed since it is not applicable to our context.
 
 ---
 
@@ -105,6 +113,14 @@ Given below are my contributions to the project.
 - **Build Configuration:** Configured Gradle for the project
 - **Release Management:** Created the JAR file for the team demo and published the v1.0 release on GitHub
 - **Developer Documentation:** Maintained developer documentation not specific to a feature — wrote the Storage component section in the Developer Guide, covering the load/save operations, file format, and design considerations
+- **Fixed Bugs:** Helped in fixing bugs reported during our mock evaluation [#193](https://github.com/AY2526S2-CS2113-T10-4/tp/pull/193), [#195](https://github.com/AY2526S2-CS2113-T10-4/tp/pull/195)
+
+---
+
+## Community-Based Contributions
+
+**Product Testing:** During the PE-D, tested other group's project and reported as many bugs as I could find so as to allow them to fix the bugs before final submission.
+![PE-D contribution](../UML_diagrams/images/Kushal_PE-D_contribution.png)
 
 ---
 
