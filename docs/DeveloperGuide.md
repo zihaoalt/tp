@@ -228,6 +228,14 @@ direct and walkthrough modes.
 
 ![Add Expense Sequence Diagram](UML_diagrams/images/AddCommand.png)
 
+#### Walkthrough Mode Sequence
+
+The walkthrough branch of `runWalkthrough(...)` is illustrated separately below. This view focuses on the three
+interactive loops (AMOUNT LOOP, CATEGORY LOOP, and DATE LOOP) and the escape keywords (`-back`, `-exit`) that let the
+user navigate between, or abort prompts without adding anything.
+
+![Add Expense Sequence Diagram](UML_diagrams/images/AddCommand_WalkThrough.png)
+
 #### Design Considerations
 
 | Principle                                      | Benefits                                                                                                                                               |
@@ -504,7 +512,7 @@ The walkthrough branch of `runWalkthrough(...)` is illustrated separately below.
 interactive loops (CATEGORY LOOP and INDEX LOOP) and the escape keywords (`-l`, `-back`, `-exit`) that let the
 user list, navigate between, or abort prompts without deleting anything.
 
-![Delete Walkthrough Sequence Diagram](UML_diagrams/images/DeleteCommand_Walkthrough.png)
+![Delete Walkthrough Sequence Diagram](UML_diagrams/images/DeleteCommand_WalkThrough.png)
 
 
 #### Design Considerations
