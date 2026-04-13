@@ -146,8 +146,19 @@ public class AddCommand extends Command {
                                 DateTimeFormatter.ofPattern("d MMMM yyyy")
                         );
                         logger.log(Level.INFO, "Valid date entered: " + formattedDate);
-                        confirmAndAdd(expenses, ui, amount, category, formattedDate);
-                        return;
+                        Expense expense = new Expense(amount, category.toLowerCase(), formattedDate);
+
+                        String result = confirmExpenseWithBack(ui, expense);
+
+                        if (result.equals("yes")) {
+                            confirmAndAdd(expenses, ui, amount, category, formattedDate);
+                            return;
+                        } else if (result.equals("no")) {
+                            ui.showCancelAddMessage();
+                            return;
+                        } else if (result.equals("back")) {
+                            continue; // goes back to DATE LOOP
+                        }
                     } catch (FinbroException e) {
                         logger.log(Level.WARNING, "Invalid date entered: " + dateInput);
                         ui.showInlineError(e.getMessage());
@@ -189,20 +200,76 @@ public class AddCommand extends Command {
 
     //@@author Kushalshah0402
     private static boolean confirmExpense(Ui ui, Expense expense) {
-        ui.showConfirmExpense(expense);
-        String confirm = ui.readCommand().trim();
-        return confirm.equalsIgnoreCase("yes") || confirm.equalsIgnoreCase("y");
+        while (true) {
+            ui.showConfirmExpense(expense);
+            String input = ui.readCommand();
+
+            if (input == null) {
+                return false;
+            }
+
+            input = input.trim().toLowerCase();
+
+            if (input.equals("yes") || input.equals("y")) {
+                return true;
+            } else if (input.equals("no") || input.equals("n")) {
+                return false;
+            } else {
+                ui.showInlineError("Please enter 'yes/y' or 'no/n'.");
+            }
+        }
+    }
+
+    //@@author Kushalshah0402
+    private static String confirmExpenseWithBack(Ui ui, Expense expense) {
+        while (true) {
+            ui.showConfirmExpense(expense);
+            System.out.println("Or enter '-back' to modify the date.");
+            String input = ui.readCommand();
+
+            if (input == null) {
+                return "no";
+            }
+
+            input = input.trim().toLowerCase();
+
+            if (input.equals("yes") || input.equals("y")) {
+                return "yes";
+            } else if (input.equals("no") || input.equals("n")) {
+                return "no";
+            } else if (input.equals("-back")) {
+                return "back";
+            } else {
+                ui.showInlineError("Please enter 'yes/y', 'no/n', or '-back'.");
+            }
+        }
     }
 
     //@@author Kushalshah0402
     private static boolean confirmHighValue(Ui ui, double amount) {
-        System.out.println(
-                "Since the expense amount is huge, we would like to double confirm an expense for $"
-                        + String.format("%.2f", amount)
-        );
-        System.out.println("Do you still want to proceed? [yes/no]");
-        String finalConfirm = ui.readCommand().trim();
-        return finalConfirm.equalsIgnoreCase("yes") || finalConfirm.equalsIgnoreCase("y");
+        while (true) {
+            System.out.println(
+                    "Since the expense amount is huge, we would like to double confirm an expense for $"
+                            + String.format("%.2f", amount)
+            );
+            System.out.println("Do you still want to proceed? [yes/no]");
+
+            String input = ui.readCommand();
+
+            if (input == null) {
+                return false;
+            }
+
+            input = input.trim().toLowerCase();
+
+            if (input.equals("yes") || input.equals("y")) {
+                return true;
+            } else if (input.equals("no") || input.equals("n")) {
+                return false;
+            } else {
+                System.out.println("Please enter 'yes/y' or 'no/n'.");
+            }
+        }
     }
 
     //@@author Kushalshah0402
