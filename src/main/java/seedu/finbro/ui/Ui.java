@@ -80,7 +80,7 @@ public class Ui {
     //@@author Kushalshah0402
     public void showEnterAmountPrompt() {
         showLine();
-        System.out.println("What is your expense amount?");
+        System.out.println("What is your expense amount? Enter a number or -exit to exit add command");
     }
     //@@author WangZX2001
     public void showEnterAmountPrompt(String action) {
@@ -105,7 +105,7 @@ public class Ui {
     //@@author Kushalshah0402
     public void showEnterCategoryPrompt() {
         showLine();
-        System.out.println("Enter the category:");
+        System.out.println("Enter the category: else enter -back to change expense amount or -exit to exit add command");
         showLine();
     }
     //@@author zihaoalt
@@ -116,7 +116,7 @@ public class Ui {
     //@@author Kushalshah0402
     public void showEnterDatePrompt() {
         showLine();
-        System.out.println("Enter the date (yyyy-MM-dd or today):");
+        System.out.println("Enter the date (yyyy-MM-dd or today): or -back to change expense category or -exit to exit add command");
         showLine();
     }
 
