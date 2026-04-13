@@ -2,14 +2,12 @@
 'https://plantuml.com/sequence-diagram
 actor User
 
-
-participant ":Ui"
 participant ":Finbro"
+participant ":Ui"
 participant ":Parser"
 participant "c:AddCommand"
 participant ":ExpenseList"
 participant ":Storage"
-
 
 
 activate ":Finbro"
@@ -25,52 +23,95 @@ activate ":Parser"
 create "c:AddCommand"
 ":Parser" -> "c:AddCommand" : new AddCommand(argument)
 activate "c:AddCommand"
-return c
-return c
+"c:AddCommand" --> ":Parser" : c
+deactivate "c:AddCommand"
 
-":Finbro" -> "c:AddCommand" ++ : execute(...)
+":Parser" --> ":Finbro" : c
+deactivate ":Parser"
 
-alt walkthrough mode [arg.isBlank()]
-    loop for each field (amount, category, date)
-        "c:AddCommand" -> ":Ui" ++ : showEnterXPrompt()
-        return
-        "c:AddCommand" -> ":Ui" ++ : readCommand()
-        ":Ui" -> User : prompt
-        User -> ":Ui" : input field
-        return field
+":Finbro" -> "c:AddCommand" : execute(expenses, ui, storage)
+activate "c:AddCommand"
+
+alt strict mode [arg not blank]
+
+    "c:AddCommand" -> "c:AddCommand" : parseStrictInput(arg)
+    activate "c:AddCommand"
+
+    "c:AddCommand" -> "c:AddCommand" : parseAmountToken(parts[0])
+    activate "c:AddCommand"
+    "c:AddCommand" --> "c:AddCommand" : amount
+    deactivate "c:AddCommand"
+
+    "c:AddCommand" -> "c:AddCommand" : parseDateFromSuffix(parts)
+    activate "c:AddCommand"
+    "c:AddCommand" --> "c:AddCommand" : parsedDate
+    deactivate "c:AddCommand"
+
+    "c:AddCommand" -> "c:AddCommand" : verifyCategory(category)
+    activate "c:AddCommand"
+    deactivate "c:AddCommand"
+
+    "c:AddCommand" --> "c:AddCommand" : ParsedAddInput
+    deactivate "c:AddCommand"
+
+    "c:AddCommand" -> "c:AddCommand" : confirmAndAdd(expenses, ui, amount, category, formattedDate)
+    activate "c:AddCommand"
+
+    "c:AddCommand" -> ":Ui" : showConfirmExpense(expense)
+    activate ":Ui"
+    deactivate ":Ui"
+
+    "c:AddCommand" -> ":Ui" : readCommand()
+    activate ":Ui"
+    User -> ":Ui" : yes / no
+    ":Ui" --> "c:AddCommand" : confirm
+    deactivate ":Ui"
+
+    alt confirmed
+
+        opt amount > 10000
+            "c:AddCommand" -> ":Ui" : showHighValueWarning(amount)
+            activate ":Ui"
+            deactivate ":Ui"
+
+            "c:AddCommand" -> ":Ui" : readCommand()
+            activate ":Ui"
+            User -> ":Ui" : yes / no
+            ":Ui" --> "c:AddCommand" : finalConfirm
+            deactivate ":Ui"
+        end
+
+        "c:AddCommand" -> ":ExpenseList" : add(expense)
+        activate ":ExpenseList"
+        ":ExpenseList" --> "c:AddCommand"
+        deactivate ":ExpenseList"
+
+        "c:AddCommand" -> ":Ui" : showExpenseAdded(expense, expenses.size())
+        activate ":Ui"
+        deactivate ":Ui"
+
+    else cancelled
+        "c:AddCommand" -> ":Ui" : showCancelAddMessage()
+        activate ":Ui"
+        deactivate ":Ui"
     end
-else direct mode
-    "c:AddCommand" -> "c:AddCommand" ++ : verifyInputLength / verifyAmount / verifyDate
-    return
+
+    deactivate "c:AddCommand"
+
+else walkthrough mode [arg.isBlank()]
+
+    "c:AddCommand" -> "c:AddCommand" : runWalkthrough(expenses, ui)
+    activate "c:AddCommand"
+    ref over "c:AddCommand", ":Ui", ":ExpenseList" : See AddCommand_Walkthrough
+    deactivate "c:AddCommand"
 end
 
-"c:AddCommand" -> ":Ui" ++ : showConfirmExpense(expense)
-return
+deactivate "c:AddCommand"
 
-"c:AddCommand" -> ":Ui" ++ : readCommand()
-":Ui" -> User : confirm prompt
-User -> ":Ui" : confirm response
-return confirm
-
-alt confirm == "yes"
-    "c:AddCommand" -> ":ExpenseList" ++ : add(expense)
-    ":ExpenseList" -> ":ExpenseList" ++ : updateTotals()
-    return
-    return
-    "c:AddCommand" -> ":Ui" ++ : showExpenseAdded(...)
-    return
-else
-    "c:AddCommand" -> ":Ui" ++ : showCancelAddMessage()
-    return
-end
-
-return
-
-":Finbro" -> ":Storage" ++ : save()
-":Storage" -> ":ExpenseList" ++ : toFileFormat()
-return
-return
-
-return
+":Finbro" -> ":Storage" : save(expenses.getAll())
+activate ":Storage"
+":Storage" --> ":Finbro"
+deactivate ":Storage"
+deactivate ":Finbro"
 
 @enduml

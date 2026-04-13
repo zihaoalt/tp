@@ -1,0 +1,128 @@
+@startuml AddCommand_Walkthrough
+'https://plantuml.com/sequence-diagram
+actor User
+
+participant ":Ui"
+participant "c:AddCommand"
+participant ":ExpenseList"
+
+
+[-> "c:AddCommand" : runWalkthrough(expenses, ui)
+activate "c:AddCommand"
+
+loop until valid amount chosen or "-exit"
+    "c:AddCommand" -> ":Ui" : showEnterAmountPrompt()
+    activate ":Ui"
+    deactivate ":Ui"
+
+    "c:AddCommand" -> ":Ui" : readCommand()
+    activate ":Ui"
+    User -> ":Ui" : input
+    ":Ui" --> "c:AddCommand" : input
+    deactivate ":Ui"
+
+    alt input == "-exit"
+        "c:AddCommand" -> ":Ui" : showExitAddMessage()
+        activate ":Ui"
+        deactivate ":Ui"
+    else invalid (not a number or non-positive)
+        "c:AddCommand" -> ":Ui" : showInlineError(...)
+        activate ":Ui"
+        deactivate ":Ui"
+    else valid amount
+        note right of "c:AddCommand" : break AMOUNT LOOP
+    end
+end
+
+loop until valid category chosen, "-back", or "-exit"
+    "c:AddCommand" -> ":Ui" : showEnterCategoryPrompt()
+    activate ":Ui"
+    deactivate ":Ui"
+
+    "c:AddCommand" -> ":Ui" : readCommand()
+    activate ":Ui"
+    User -> ":Ui" : input
+    ":Ui" --> "c:AddCommand" : category
+    deactivate ":Ui"
+
+    alt category == "-exit"
+        "c:AddCommand" -> ":Ui" : showExitAddMessage()
+        activate ":Ui"
+        deactivate ":Ui"
+    else category == "-back"
+        note right of "c:AddCommand" : break CATEGORY LOOP,\nre-enter AMOUNT LOOP
+    else invalid category (blank or numbers only)
+        "c:AddCommand" -> ":Ui" : showInlineError(...)
+        activate ":Ui"
+        deactivate ":Ui"
+    else valid category
+
+        loop until valid date chosen, "-back", or "-exit"
+            "c:AddCommand" -> ":Ui" : showEnterDatePrompt()
+            activate ":Ui"
+            deactivate ":Ui"
+
+            "c:AddCommand" -> ":Ui" : readCommand()
+            activate ":Ui"
+            User -> ":Ui" : input
+            ":Ui" --> "c:AddCommand" : dateInput
+            deactivate ":Ui"
+
+            alt dateInput == "-exit"
+                "c:AddCommand" -> ":Ui" : showExitAddMessage()
+                activate ":Ui"
+                deactivate ":Ui"
+            else dateInput == "-back"
+                note right of "c:AddCommand" : break DATE LOOP,\nre-enter CATEGORY LOOP
+            else invalid date (unparseable or out of range)
+                "c:AddCommand" -> ":Ui" : showInlineError(...)
+                activate ":Ui"
+                deactivate ":Ui"
+            else valid date
+
+                "c:AddCommand" -> ":Ui" : showConfirmExpense(expense)
+                activate ":Ui"
+                deactivate ":Ui"
+
+                "c:AddCommand" -> ":Ui" : readCommand()
+                activate ":Ui"
+                User -> ":Ui" : yes / no
+                ":Ui" --> "c:AddCommand" : confirm
+                deactivate ":Ui"
+
+                alt confirmed
+
+                    opt amount > 10000
+                        "c:AddCommand" -> ":Ui" : showHighValueWarning(amount)
+                        activate ":Ui"
+                        deactivate ":Ui"
+
+                        "c:AddCommand" -> ":Ui" : readCommand()
+                        activate ":Ui"
+                        User -> ":Ui" : yes / no
+                        ":Ui" --> "c:AddCommand" : finalConfirm
+                        deactivate ":Ui"
+                    end
+
+                    "c:AddCommand" -> ":ExpenseList" : add(expense)
+                    activate ":ExpenseList"
+                    ":ExpenseList" --> "c:AddCommand"
+                    deactivate ":ExpenseList"
+
+                    "c:AddCommand" -> ":Ui" : showExpenseAdded(expense, expenses.size())
+                    activate ":Ui"
+                    deactivate ":Ui"
+
+                else cancelled
+                    "c:AddCommand" -> ":Ui" : showCancelAddMessage()
+                    activate ":Ui"
+                    deactivate ":Ui"
+                end
+            end
+        end
+    end
+end
+
+deactivate "c:AddCommand"
+
+@enduml
