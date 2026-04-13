@@ -197,7 +197,7 @@ public class AddCommand extends Command {
         double amount = 0;
         try {
             amount = Double.parseDouble(parts[0]);
-            if (amount < 0) {
+            if (amount <= 0) {
                 logger.log(Level.WARNING, "Invalid amount (amount is negative)");
                 throw new FinbroException("Amount must be a positive number.");
             }
@@ -251,7 +251,7 @@ public class AddCommand extends Command {
     private static double parseAmountToken(String token) throws FinbroException {
         try {
             double amount = Double.parseDouble(token);
-            if (amount < 0) {
+            if (amount <= 0) {
                 throw new FinbroException("Amount must be a positive number.");
             }
             return amount;
