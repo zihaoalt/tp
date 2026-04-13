@@ -4,11 +4,11 @@ hide footbox
 
 actor User
 
-participant ":Finbro" as Finbro
-participant ":BudgetWarningService" as BudgetWarningService
-participant ":Limit" as Limit
-participant ":ExpenseList" as ExpenseList
-participant ":Ui" as Ui
+participant ":Ui"
+participant ":Finbro"
+participant ":BudgetWarningService"
+participant ":ExpenseList"
+participant ":Limit"
 
 loop After each successful command (and once at startup)
     Finbro -> BudgetWarningService++ : checkAndShowWarnings(expenses, ui, checksBudget)
@@ -56,4 +56,9 @@ loop After each successful command (and once at startup)
 
     BudgetWarningService --> Finbro--
 end
+<<<<<<< HEAD
 @enduml
+=======
+
+@enduml
+>>>>>>> master

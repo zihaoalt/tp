@@ -29,12 +29,16 @@ allows users to record expenses, monitor spending habits, set financial limits, 
     * prompt for the expense index within the chosen category
     * allow `-l` to list all expenses under that category
     * require a final confirmation before deletion
+    * allow `-back` to return to the previous step (e.g., from index selection back to category selection)
+    * allow `-exit` to cancel the deletion process at any point
+    * require a final confirmation before deletion
 * Added validation for blank input, non-numeric index input, invalid categories, and out-of-range indices.
 
 **Impact:**
 
 * Makes deletion safer and more user-friendly, especially when users do not remember the exact expense index.
 * Reduces accidental deletion by combining guided input with a confirmation step.
+* Allows users to correct mistakes without restarting the entire command.
 
 ---
 
@@ -64,6 +68,7 @@ allows users to record expenses, monitor spending habits, set financial limits, 
 
 ---
 
+
 ### Contributions to User Guide
 
 Added and refined documentation for:
@@ -77,13 +82,15 @@ Added and refined documentation for:
     * explained the guided deletion flow, including the use of `-l`
     * added examples and confirmation behavior
 
+
+
 ---
 
 ### Contributions to Developer Guide
 
-* Added documentation for the **Delete Command** implementation.
-* Added and updated the **DeleteCommand sequence diagram** to explain the interaction between the user, UI, parser, command, and expense list during deletion.
-* Helped document the design considerations behind the delete workflow, especially the guided interaction and validation steps.
+* Added documentation for the **Delete Command** and **exit** implementation.
+* Helped document the design considerations behind the delete and add workflow, especially the guided interaction and validation steps.
+* Reviewed and verified UML sequence diagrams for multiple commands against source code.
 
 ---
 

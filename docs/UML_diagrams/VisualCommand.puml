@@ -37,33 +37,22 @@ activate ExpenseList
 ExpenseList --> VisualCommand : monthlyExpenses
 deactivate ExpenseList
 
-alt no monthly expenses found
-    VisualCommand --> Finbro : throw FinbroException("No expenses found")
+
+
+loop for each month in monthlyTotals
+    VisualCommand -> VisualCommand : createBar(barLength)
+    activate VisualCommand
+    VisualCommand --> VisualCommand : bar
     deactivate VisualCommand
 
-    Finbro -> Ui : showError("No expenses found")
-    activate Ui
-    Ui --> Finbro
-    deactivate Ui
-
-else monthly expenses found
-    VisualCommand -> VisualCommand : createBarGraph(monthlyTotals)
+    VisualCommand -> VisualCommand : createLabel(month)
     activate VisualCommand
+    VisualCommand --> VisualCommand : label
+    deactivate VisualCommand
 
-    loop for each month in monthlyTotals
-        VisualCommand -> VisualCommand : createBar(barLength)
-        activate VisualCommand
-        VisualCommand --> VisualCommand : bar
-        deactivate VisualCommand
-
-        VisualCommand -> VisualCommand : createLabel(month)
-        activate VisualCommand
-        VisualCommand --> VisualCommand : label
-        deactivate VisualCommand
-
-        VisualCommand -> VisualCommand : createRow(label, bar, amount)
-        activate VisualCommand
-    end
+    VisualCommand -> VisualCommand : createRow(label, bar, amount)
+    activate VisualCommand
+end
 
     VisualCommand --> VisualCommand
     deactivate VisualCommand
@@ -75,7 +64,7 @@ else monthly expenses found
 
     VisualCommand --> Finbro
     deactivate VisualCommand
-end
+
 
 deactivate Finbro
 @enduml
