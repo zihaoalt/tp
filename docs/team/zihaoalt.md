@@ -39,6 +39,7 @@ allows users to record expenses, monitor spending habits, set financial limits, 
 * Makes deletion safer and more user-friendly, especially when users do not remember the exact expense index.
 * Reduces accidental deletion by combining guided input with a confirmation step.
 * Allows users to correct mistakes without restarting the entire command.
+
 ---
 
 #### 2. View by Category Feature
