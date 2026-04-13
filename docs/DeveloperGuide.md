@@ -60,6 +60,15 @@ The project uses the following tools and libraries:
 | **Storage**        | Reads data from, and writes data to the hard disk                                       | 
 | **Budget Warning** | Warns user if expenses is approaching/exceeded the spending limit                       | 
 
+#### How the Finbro initializes other components
+
+![Architecture Initialization](UML_diagrams/images/ArchitectureInit.png)
+
+1. Finbro creates new Storage object with "./data/finbro.txt" as `filePath`
+2. Finbro calls load which reads `finbro.txt` for:\
+    2.1. A valid monthly spending limit, and calls `setLimit(limit)`\
+    2.2. A list of expenses
+3. Finbro creates a new `ExpenseList` object using the expenses read
 
 #### How the architecture components interact with each other 
 
@@ -69,7 +78,8 @@ The project uses the following tools and libraries:
 2. Ui reads the input and passes it to `Finbro` which calls `parse(input)`
 3. `Parser` creates the corresponding `Command` object and returns it to `Finbro` 
 4. `Finbro` executes the command object 
-5. Changes made to the finances are saved to `Storage` 
+5. Command object can make public method calls to Finances or Ui to carry out its function 
+6. Changes made to the finances are saved to `Storage`
 
 ---
 
@@ -93,11 +103,12 @@ type while letting each concrete command implement its own execution logic.
 
 #### Overview
 
-| Component                   | Responsibility                                                                                                                                                                                             |
-|-----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **`Limit.java`**            | Stores the limit as a static variable accessible across the application. Using a static variable prevents inconsistent limit values and eliminates the need to pass a `Limit` object across class methods. |
-| **`SetLimitCommand.java`**  | Handles validation and user confirmation logic, improving separation of concerns.                                                                                                                          |
-| **`EditLimitCommand.java`** | Handles the interactive process of modifying an existing monthly spending limit.                                                                                                                           |
+| Component                     | Responsibility                                                                                                                                                                                             |
+|-------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **`Limit.java`**              | Stores the limit as a static variable accessible across the application. Using a static variable prevents inconsistent limit values and eliminates the need to pass a `Limit` object across class methods. |
+| **`SetLimitCommand.java`**    | Handles validation and user confirmation logic, improving separation of concerns.                                                                                                                          |
+| **`EditLimitCommand.java`**   | Handles the interactive process of modifying an existing monthly spending limit.                                                                                                                           |
+| **BudgetWarningService.java** | Reminds user if they are approaching/exceeded their monthly spending limit                                                                                                                                 |
 
 #### Setting the Limit
 
@@ -733,6 +744,9 @@ Bar graph construction:
 - Bar graph is constructed using the full block Unicode character - █
 - The month with the largest expense is set to have `MAX_BAR_LENGTH` number of bars 
 - Other months will have a number of bars roughly equal to its proportion of the largest monthly expense
+
+Current Limitation: Graph is made of Unicode characters, so given a large difference in expenses, some bars might 
+appear blank 
 
 [Proposed] Filter date range
 - Allow user to input a start and/or end year and month to narrow the date range of the bar graph 
