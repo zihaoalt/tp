@@ -61,7 +61,25 @@ class SetLimitCommandTest {
             new SetLimitCommand(input).execute(expenseList,ui,storage);
         });
 
-        String expectedMessage = "Monthly spending limit must be at least $0";
+        String expectedMessage = "Monthly spending limit must be positive";
+        String actualMessage = e.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
+    void execute_lessThanOneCent_exception() {
+        String input = "0.001";
+
+        ExpenseList expenseList = new ExpenseList();
+        Ui ui = new Ui();
+        Storage storage = new Storage("");
+
+        Exception e = assertThrows(FinbroException.class, () -> {
+            new SetLimitCommand(input).execute(expenseList,ui,storage);
+        });
+
+        String expectedMessage = "Monthly spending limit must be greater than $0.00 (rounded to 2 decimal places)";
         String actualMessage = e.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));

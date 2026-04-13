@@ -34,4 +34,9 @@ public class EditCommand extends Command{
         }
         return helpMessage;
     }
+
+    @Override
+    public boolean checksBudget() {
+        return true;
+    }
 }

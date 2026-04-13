@@ -226,7 +226,7 @@ public class Ui {
     //@@author natmloclam
     public void showUninitializedLimit() {
         showLine();
-        System.out.println("Warning: Monthly budget limit not initialized");
+        System.out.println("Warning: Monthly spending limit not initialized");
         showLine();
     }
 
