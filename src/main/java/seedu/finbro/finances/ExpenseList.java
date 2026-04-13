@@ -71,21 +71,33 @@ public class ExpenseList {
 
     //@@author natmloclam
     public double getCurrentMonthTotalExpenditure() {
-        YearMonth currentMonth = YearMonth.now();
         double currentMonthTotal = 0;
+        YearMonth currentYearMonth = YearMonth.now();
 
         for (Expense expense : expenses) {
-            try {
-                YearMonth expenseMonth = parseYearMonth(expense);
-                if (expenseMonth.equals(currentMonth)) {
-                    currentMonthTotal += expense.amount();
-                }
-            } catch (FinbroException e) {
-                continue;
-            }
+            currentMonthTotal += getAmountForCurrentMonthExpense(expense, currentYearMonth);
         }
+
+        logger.log(Level.INFO, "Current Month Total Expenditure: " + currentMonthTotal);
         return currentMonthTotal;
     }
+
+    //@@author natmloclam
+    private static double getAmountForCurrentMonthExpense(Expense expense, YearMonth currentYearMonth) {
+        YearMonth expenseMonth;
+        try {
+            expenseMonth = parseYearMonth(expense);
+        } catch (FinbroException e) {
+            logger.log(Level.WARNING, "Invalid YearMonth: " + expense.date());
+            return 0;
+        }
+
+        if (expenseMonth.equals(currentYearMonth)) {
+            return expense.amount();
+        }
+        return 0;
+    }
+
 
     //@@author zihaoalt
     public List<Expense> getCategoryExpenses(String category) {
