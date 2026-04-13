@@ -29,21 +29,35 @@ public class SetLimitCommand extends Command {
 
         logger.log(Level.INFO, "Attempting to set limit to: {0}", arg);
 
-        double limit = verifyLimitType(arg);
-        verifyLimitRange(limit);
-        assert limit >= 0;
+        double inputLimit = verifyLimitType(arg);
+        double limit = verifyLimitRange(inputLimit);
+        assert limit > 0;
 
         confirmLimitChange(ui, limit);
 
         ui.showLimit();
     }
+
     //@@author natmloclam
-    private static void verifyLimitRange(double limit) throws FinbroException {
-        if (limit < 0) {
-            logger.log(Level.WARNING, "Invalid limit input (out of valid range): {0}", limit);
-            throw new FinbroException("Monthly spending limit must be at least $0");
+    private static double verifyLimitRange(double limit) throws FinbroException {
+        double roundedLimit = roundToTwoDp(limit);
+
+        if (roundedLimit < 0) {
+            logger.log(Level.WARNING, "Invalid limit input (negative): {0}", roundedLimit);
+            throw new FinbroException("Monthly spending limit must be positive");
+        } else if (roundedLimit >= 0 && roundedLimit < 0.01) {
+            logger.log(Level.WARNING, "Invalid limit input (zero): {0}", roundedLimit);
+            throw new FinbroException(
+                    "Monthly spending limit must be greater than $0.00 (rounded to 2 decimal places)"
+            );
         }
+        return roundedLimit;
     }
+
+    private static double roundToTwoDp(double value) {
+        return Math.round(value * 100.0) / 100.0;
+    }
+
     //@@author natmloclam
     private static double verifyLimitType(String inputLimit) throws FinbroException {
         double limit;
@@ -55,15 +69,16 @@ public class SetLimitCommand extends Command {
         }
         return limit;
     }
+
     //@@author natmloclam
     static void confirmLimitChange(Ui ui, double limit) {
         ui.showChangeLimitWarning(limit);
         logger.log(Level.INFO, "Getting confirmation for limit change");
-        String confirm = ui.readCommand();
-        confirm = confirm.toLowerCase();
+
+        String confirm = ui.readCommand().toLowerCase();
         if (confirm.equals("yes")) {
             logger.log(Level.INFO, "Confirmation message: \"{0}\", limit change accepted", confirm);
-            assert limit >= 0;
+            assert limit > 0;
             Limit.setLimit(limit);
         } else if (confirm.equals("no")) {
             logger.log(Level.INFO, "Confirmation message: \"{0}\", limit change rejected", confirm);
@@ -73,6 +88,7 @@ public class SetLimitCommand extends Command {
             ui.showCancelChangeLimitMessage();
         }
     }
+
     //@@author natmloclam
     @Override
     public String getHelpMessage() {
@@ -81,5 +97,10 @@ public class SetLimitCommand extends Command {
                 Format: limit <amount>
                 Use: Creates or replaces the current monthly budget limit.
                 Note: amount must be positive.""";
+    }
+
+    @Override
+    public boolean checksBudget() {
+        return true;
     }
 }

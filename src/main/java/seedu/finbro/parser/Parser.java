@@ -125,4 +125,3 @@ public class Parser {
         return words[1].strip().toLowerCase();
     }
 }
-

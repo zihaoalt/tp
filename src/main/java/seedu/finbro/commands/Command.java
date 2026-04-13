@@ -9,4 +9,8 @@ public abstract class Command {
     public abstract void execute(ExpenseList expenseList, Ui ui, Storage storage) throws FinbroException;
 
     public abstract String getHelpMessage();
+    
+    public boolean checksBudget() {
+        return false;
+    }
 }

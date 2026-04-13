@@ -31,7 +31,7 @@ class VisualCommandTest {
         VisualCommand c = new VisualCommand();
         c.createRow(label, bar, amount);
 
-        String correctOutput = String.format("%-8s | %-20s $%.2f", label, bar, amount);
+        String correctOutput = String.format("%-8s | %-30s $%.2f", label, bar, amount);
 
         assertEquals(correctOutput, c.output);
     }
@@ -77,7 +77,7 @@ class VisualCommandTest {
             new VisualCommand().execute(expenses, ui, storage);
         });
 
-        String expectedMessage = "Error: No expenses found";
+        String expectedMessage = "No expenses found";
         String actualMessage = e.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));

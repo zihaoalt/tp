@@ -14,7 +14,7 @@ import seedu.finbro.ui.Ui;
 import seedu.finbro.finances.ExpenseList;
 
 public class VisualCommand extends Command {
-    public static final int MAX_BAR_LENGTH = 20;
+    public static final int MAX_BAR_LENGTH = 30;
 
     private static final Logger logger = Logger.getLogger(VisualCommand.class.getName());
 
@@ -29,7 +29,7 @@ public class VisualCommand extends Command {
 
         if (monthlyTotals.isEmpty()) {
             logger.log(Level.WARNING, "Visualisation cancelled: no monthly expenses found");
-            throw new  FinbroException("Error: No expenses found");
+            throw new  FinbroException("No expenses found");
         }
 
         createBarGraph(monthlyTotals);
@@ -76,7 +76,7 @@ public class VisualCommand extends Command {
         }
 
         try {
-            output += String.format("%-8s | %-20s $%.2f", label, bar, amount);
+            output += String.format("%-8s | %-" + MAX_BAR_LENGTH+ "s $%.2f", label, bar, amount);
         } catch (IllegalFormatException e) {
             logger.log(Level.SEVERE, "String formatting error");
             throw new FinbroException(e.getMessage());

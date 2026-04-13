@@ -202,4 +202,8 @@ public class ViewCommand extends Command {
                   amount - Sort by amount spent (highest to lowest)
                 Example: view transport -filter january -sort amount""";
     }
+
+    public boolean checksBudget() {
+        return true;
+    }
 }

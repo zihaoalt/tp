@@ -109,4 +109,9 @@ public class EditLimitCommand extends Command {
                 Use: Simply enter 'edit limit' and follow the prompts to increase, decrease, or replace the limit.
                 Note: Do not include any parameters after entering 'edit limit'""";
     }
+
+    @Override
+    public boolean checksBudget() {
+        return true;
+    }
 }

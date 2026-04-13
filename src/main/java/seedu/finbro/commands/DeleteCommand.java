@@ -202,4 +202,9 @@ public class DeleteCommand extends Command {
                 Use 2: Type delete only will walk through the deletion process.
                 Note: use the displayed index number, such as 2.""";
     }
+
+    @Override
+    public boolean checksBudget() {
+        return true;
+    }
 }

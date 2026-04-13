@@ -25,11 +25,11 @@ class BudgetWarningServiceTest {
     @Test
     void checkAndShowWarnings_limitExceeded_showsExceededWarning() {
         ExpenseList expenses = new ExpenseList();
-        expenses.add(new Expense(120, "food", "2026-03-01"));
+        expenses.add(new Expense(120, "food", "4 April 2026"));
         Limit.setLimit(100);
         TestUi ui = new TestUi();
 
-        service.checkAndShowWarnings(expenses, ui);
+        service.checkAndShowWarnings(expenses, ui, true);
 
         assertTrue(ui.wasExceededShown);
         assertFalse(ui.wasReminderShown);
@@ -39,11 +39,11 @@ class BudgetWarningServiceTest {
     @Test
     void checkAndShowWarnings_closeToLimit_showsReminderWarning() {
         ExpenseList expenses = new ExpenseList();
-        expenses.add(new Expense(85, "food", "2026-03-01"));
+        expenses.add(new Expense(85, "food", "4 April 2026"));
         Limit.setLimit(100);
         TestUi ui = new TestUi();
 
-        service.checkAndShowWarnings(expenses, ui);
+        service.checkAndShowWarnings(expenses, ui, true);
 
         assertFalse(ui.wasExceededShown);
         assertTrue(ui.wasReminderShown);
@@ -57,7 +57,7 @@ class BudgetWarningServiceTest {
         Limit.setLimit(100);
         TestUi ui = new TestUi();
 
-        service.checkAndShowWarnings(expenses, ui);
+        service.checkAndShowWarnings(expenses, ui, true);
 
         assertFalse(ui.wasExceededShown);
         assertFalse(ui.wasReminderShown);
@@ -70,7 +70,7 @@ class BudgetWarningServiceTest {
         Limit.setLimit(100);
         TestUi ui = new TestUi();
 
-        service.checkAndShowWarnings(expenses, ui);
+        service.checkAndShowWarnings(expenses, ui, true);
 
         assertFalse(ui.wasExceededShown);
         assertFalse(ui.wasReminderShown);

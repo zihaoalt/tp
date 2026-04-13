@@ -247,4 +247,9 @@ public class AddCommand extends Command {
                       Category can be multiple words but cannot be only numbers.
                       Date supports natural language (e.g. today, 2 days ago).""";
     }
+
+    @Override
+    public boolean checksBudget() {
+        return true;
+    }
 }
