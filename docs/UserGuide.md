@@ -655,7 +655,9 @@ You will then be asked to confirm the change before the new limit is applied.
 * All inputs must be **valid non-negative numbers**.
 * The system will reject invalid menu selections or invalid numeric inputs.
 
-* For **Increase** / **Decrease**, the amount must be an **unsigned non-negative number** (do not include `+` or `-`).
+* For **Increase** / **Decrease**, the amount must be a **non-negative number**.
+  * Do not include a sign (e.g. use `5`, not `-5` or `+5`).
+  * If you enter a leading `+` (e.g. `+5`), Finbro will treat it as `5`.
 
 ### Examples
 
@@ -736,6 +738,10 @@ Monthly budget limit: $100.00
 **Issue: Entering an invalid option (not 1, 2, or 3)**
 
 If you enter an option outside `1`, `2`, or `3`, Finbro will show a warning and display the menu again.
+
+**Issue: Entering a negative amount**
+
+If you enter a negative amount, Finbro will show an error and exit the `edit limit` flow. Run `edit limit` again to retry.
 
 **Issue: Leaving the amount blank (pressing Enter)**
 

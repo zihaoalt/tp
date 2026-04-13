@@ -104,7 +104,7 @@ public class EditLimitCommand extends Command {
     //@@author WangZX2001
     private static double parseUnsignedNonNegativeAmount(String input) throws FinbroException {
         if (input.startsWith("+")) {
-            throw new FinbroException("Monthly spending limit must not be a signed number");
+            input = input.substring(1);
         }
         return parsePositiveAmount(input);
     }
