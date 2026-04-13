@@ -7,7 +7,6 @@ import java.io.ByteArrayInputStream;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.finbro.exception.FinbroException;
 import seedu.finbro.ui.Ui;
 import seedu.finbro.finances.ExpenseList;
 
