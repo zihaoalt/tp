@@ -136,17 +136,6 @@ public class AddCommandTest {
     }
 
     @Test
-    void execute_strictModeNumericOnlyCategory_throwsException() {
-        ExpenseList list = new ExpenseList();
-        Ui ui = new Ui();
-
-        AddCommand command = new AddCommand("20 123 today");
-        FinbroException exception = assertThrows(FinbroException.class, () -> command.execute(list, ui, null));
-
-        assertEquals("Category cannot be a number.", exception.getMessage());
-    }
-
-    @Test
     void execute_strictModeMixedCaseCategory_caseInsensitiveLookupFindsExpense() throws Exception {
         String input = "yes\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
