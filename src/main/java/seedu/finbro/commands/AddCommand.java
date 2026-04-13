@@ -73,20 +73,14 @@ public class AddCommand extends Command {
             ui.showEnterCategoryPrompt();
             category = ui.readCommand();
 
-            if (category.isBlank()) {
-                logger.log(Level.WARNING, "Empty category entered");
-                ui.showInlineError("Category cannot be empty.");
-                continue;
+            try {
+                verifyCategory(category);
+                logger.log(Level.INFO, "Valid category entered: " + category);
+                break;
+            } catch (FinbroException e) {
+                logger.log(Level.WARNING, "Invalid category entered: " + category);
+                ui.showInlineError(e.getMessage());
             }
-
-            // Disallow numeric-only categories (e.g. "123"). Multi-word categories are allowed.
-            if (isNumericOnly(category)) {
-                logger.log(Level.WARNING, "Invalid category entered (numeric-only): " + category);
-                ui.showInlineError("Category cannot be a number.");
-                continue;
-            }
-            logger.log(Level.INFO, "Valid category entered: " + category);
-            break;
         }
 
         // DATE LOOP
@@ -110,6 +104,7 @@ public class AddCommand extends Command {
         confirmAndAdd(expenses, ui, amount, category, formattedDate);
     }
 
+    //@@author Kushalshah0402
     private void confirmAndAdd(ExpenseList expenses, Ui ui, double amount, String category, String formattedDate) {
         logger.log(Level.INFO,
                 "Attempting to add expense amount {0}, category {1}, date {2}",
@@ -139,12 +134,14 @@ public class AddCommand extends Command {
         ui.showExpenseAdded(expense, expenses.size());
     }
 
+    //@@author Kushalshah0402
     private static boolean confirmExpense(Ui ui, Expense expense) {
         ui.showConfirmExpense(expense);
         String confirm = ui.readCommand().trim();
         return confirm.equalsIgnoreCase("yes") || confirm.equalsIgnoreCase("y");
     }
 
+    //@@author Kushalshah0402
     private static boolean confirmHighValue(Ui ui, double amount) {
         System.out.println(
                 "Since the expense amount is huge, we would like to double confirm an expense for $"
@@ -155,8 +152,10 @@ public class AddCommand extends Command {
         return finalConfirm.equalsIgnoreCase("yes") || finalConfirm.equalsIgnoreCase("y");
     }
 
+    //@@author Kushalshah0402
     private record ParsedAddInput(double amount, String category, String formattedDate) { }
 
+    //@@author Kushalshah0402
     private static ParsedAddInput parseStrictInput(String input) throws FinbroException {
         logger.log(Level.INFO, "Parsing strict add input: " + input);
         String[] parts = input.trim().split("\\s+");
@@ -173,8 +172,10 @@ public class AddCommand extends Command {
         return new ParsedAddInput(amount, category, parsedDate.formattedDate());
     }
 
+    //@@author Kushalshah0402
     private record ParsedDate(int dateStartIndex, String formattedDate) { }
 
+    //@@author Kushalshah0402
     private static ParsedDate parseDateFromSuffix(String[] parts) throws FinbroException {
         // Choose the shortest date suffix that parses, to maximize category tokens.
         for (int i = parts.length - 1; i >= 2; i--) {
@@ -195,6 +196,7 @@ public class AddCommand extends Command {
         throw new FinbroException("Invalid date.");
     }
 
+    //@@author Kushalshah0402
     private static double parseAmountToken(String token) throws FinbroException {
         try {
             double amount = Double.parseDouble(token);
@@ -207,6 +209,7 @@ public class AddCommand extends Command {
         }
     }
 
+    //@@author Kushalshah0402
     private static void verifyCategory(String category) throws FinbroException {
         if (category == null || category.isBlank()) {
             throw new FinbroException("Category cannot be empty.");
@@ -216,10 +219,6 @@ public class AddCommand extends Command {
         if (!category.matches(".*[a-zA-Z].*")) {
             throw new FinbroException("Category must contain at least one letter.");
         }
-    }
-
-    private static boolean isNumericOnly(String input) {
-        return input != null && input.trim().matches("\\d+");
     }
 
     //@author Kushalshah0402
