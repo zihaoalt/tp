@@ -1,0 +1,23 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+participant ":Finbro" as finbro
+create "storage:Storage" as storage
+participant ":Limit" as limit
+
+activate finbro
+finbro -> storage++: new Storage(filePath)
+return storage
+
+finbro -> storage++: load()
+
+storage -> limit++: setLimit(limit)
+return
+
+return loadedExpenses:ArrayList<Expense>
+
+create "expenses:ExpenseList" as expenses
+finbro -> expenses++: new ExpenseList(loadedExpenses)
+return expenses
+
+@enduml
