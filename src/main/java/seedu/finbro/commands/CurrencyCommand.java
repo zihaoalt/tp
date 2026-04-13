@@ -27,22 +27,26 @@ public class CurrencyCommand extends Command {
 
         ui.showEnterSourceCurrencyPrompt();
         String fromCurrency = ui.readCommand().trim().toUpperCase();
+        if (CurrencyRateTable.isUnsupportedCurrency(fromCurrency)) {
+            logger.warning("Unsupported source currency entered: " + fromCurrency);
+            throw new FinbroException("Unsupported currency. Supported currencies: "
+                    + CurrencyRateTable.getSupportedCurrencies());
+        }
 
         ui.showEnterTargetCurrencyPrompt();
         String toCurrency = ui.readCommand().trim().toUpperCase();
         logger.info("User entered target currency: " + toCurrency);
 
+        if (CurrencyRateTable.isUnsupportedCurrency(toCurrency)) {
+            logger.warning("Unsupported target currency entered: " + toCurrency);
+            throw new FinbroException("Unsupported currency. Supported currencies: "
+                    + CurrencyRateTable.getSupportedCurrencies());
+        }
+
         if (fromCurrency.equals(toCurrency)) {
             logger.info("No conversion needed: source and target currencies are the same (" + fromCurrency + ").");
             ui.showNoConversionNeeded(fromCurrency);
             return;
-        }
-
-        if (CurrencyRateTable.isUnsupportedCurrency(fromCurrency)
-                || CurrencyRateTable.isUnsupportedCurrency(toCurrency)) {
-            logger.warning("Unsupported currency entered: " + fromCurrency + " or " + toCurrency);
-            throw new FinbroException("Unsupported currency. Supported currencies: "
-                    + CurrencyRateTable.getSupportedCurrencies());
         }
 
         ui.showAllExpenses(expenseList.getAll());

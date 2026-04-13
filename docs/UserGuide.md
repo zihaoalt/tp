@@ -837,6 +837,8 @@ Allows you to convert an existing expense into another currency using predefined
 
 **Use this when you want the system to guide you through a currency conversion:**
 
+You must already have at least one recorded expense before using this command.
+
 Simply type:
 ```
 currency
@@ -848,6 +850,7 @@ The system will ask you for:
    - The application will prompt: `Enter source currency:`
    - Enter the original currency of the selected expense amount.
    - Currency codes are case-insensitive and will be converted to uppercase internally.
+   - If the source currency or target is unsupported, Finbro will immediately show an error and stop the command.
    - Examples: `SGD`, `usd`, `EUR`
 
 2. **Target Currency**
@@ -866,9 +869,10 @@ The system will ask you for:
 
 * Uses a **local currency rate table** (no internet connection required).
 * Supports the following currencies: `SGD`, `USD`, `EUR`, `GBP`, `JPY`, `CNY`, `AUD`, `CAD`, `MYR`, `HKD`, `KRW`.
+* You must have at least one recorded expense before conversion can begin.
 * The selected expense must exist in the displayed list.
 * The converted value is displayed but does not modify the original expense.
-* If the source and target currencies are the same, Finbro will tell you that no conversion is needed.
+* If the source and target currencies are the same and both are supported, Finbro will tell you that no conversion is needed.
 
 ### Examples
 
@@ -982,6 +986,8 @@ Expense #2
 **Issue: Entering an unsupported currency**
 
 If you enter a currency code that Finbro does not support, Finbro will show an error message with the list of supported currencies.
+If the invalid input is entered as the source currency, Finbro will stop immediately without asking for the target currency.
+This check happens even if the source and target inputs are identical, so inputs such as `ABC` and `ABC` will still be rejected.
 
 **Issue: Entering an invalid expense index**
 

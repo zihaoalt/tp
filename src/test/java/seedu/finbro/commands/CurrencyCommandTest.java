@@ -44,6 +44,22 @@ public class CurrencyCommandTest {
     }
     //@@author WangZX2001
     @Test
+    void execute_sameUnsupportedCurrency_throwsException() {
+        TestUi ui = new TestUi();
+        ui.setInputs("ABC", "ABC", "1");
+
+        ExpenseList list = new ExpenseList();
+        list.add(new Expense(50.0, "transport", "2026-01-01"));
+
+        CurrencyCommand command = new CurrencyCommand();
+
+        FinbroException e = assertThrows(FinbroException.class,
+                () -> command.execute(list, ui, new Storage(TEST_FILE_PATH)));
+
+        assertTrue(e.getMessage().contains("Unsupported currency"));
+    }
+    //@@author WangZX2001
+    @Test
     void execute_lowercaseCurrency_success() {
         TestUi ui = new TestUi();
         ui.setInputs("sgd", "usd", "1");
@@ -60,6 +76,22 @@ public class CurrencyCommandTest {
     void execute_unsupportedSourceCurrency_throwsException() {
         TestUi ui = new TestUi();
         ui.setInputs("ABC", "USD", "1");
+
+        ExpenseList list = new ExpenseList();
+        list.add(new Expense(100.0, "food", "2026-01-01"));
+
+        CurrencyCommand command = new CurrencyCommand();
+
+        FinbroException e = assertThrows(FinbroException.class,
+                () -> command.execute(list, ui, new Storage(TEST_FILE_PATH)));
+
+        assertTrue(e.getMessage().contains("Unsupported currency"));
+    }
+    //@@author WangZX2001
+    @Test
+    void execute_unsupportedSourceCurrency_failsImmediately() {
+        TestUi ui = new TestUi();
+        ui.setInputs("123");
 
         ExpenseList list = new ExpenseList();
         list.add(new Expense(100.0, "food", "2026-01-01"));
