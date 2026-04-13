@@ -622,15 +622,18 @@ Monthly budget limit: $100.00
 
 ---
 
-## Editing the spending limit: `edit limit`
+## Editing the spending limit
 
 Allows you to modify your current monthly spending limit by increasing, decreasing, or replacing it.
 
-**Format:** `edit limit`
+Simply type:
+```
+edit limit
+```
 
 ### Description
 
-When this command is executed, the system will display your current spending limit and prompt you to choose one of the
+When this command is executed, the system will display your current monthly budget limit and prompt you to choose one of the
 following options by keying in the option number:
 
 1. Increase limit
@@ -651,6 +654,98 @@ You will then be asked to confirm the change before the new limit is applied.
     * Sets the current limit to a new value.
 * All inputs must be **valid non-negative numbers**.
 * The system will reject invalid menu selections or invalid numeric inputs.
+
+* For **Increase** / **Decrease**, the amount must be a **non-negative number**.
+  * Do not include a sign (e.g. use `5`, not `-5` or `+5`).
+  * If you enter a leading `+` (e.g. `+5`), Finbro will treat it as `5`.
+
+### Examples
+
+**Example 1: Increase your limit**
+
+Input:
+```
+edit limit
+1
+25
+yes
+```
+
+Output:
+```
+--------------------------------------------------
+edit limit
+--------------------------------------------------
+Current monthly budget limit: $100.00
+Choose an action:
+1. Increase limit
+2. Decrease limit
+3. Replace limit
+--------------------------------------------------
+1
+--------------------------------------------------
+Enter the amount to increase by:
+--------------------------------------------------
+25
+--------------------------------------------------
+Are you sure you want to change your monthly budget limit to $125.00? [yes/no]
+--------------------------------------------------
+yes
+--------------------------------------------------
+Monthly budget limit: $125.00
+--------------------------------------------------
+```
+
+**Example 2: Cancel an edit**
+
+Input:
+```
+edit limit
+3
+50
+no
+```
+
+Output:
+```
+--------------------------------------------------
+edit limit
+--------------------------------------------------
+Current monthly budget limit: $100.00
+Choose an action:
+1. Increase limit
+2. Decrease limit
+3. Replace limit
+--------------------------------------------------
+3
+--------------------------------------------------
+Enter the new monthly budget limit:
+--------------------------------------------------
+50
+--------------------------------------------------
+Are you sure you want to change your monthly budget limit to $50.00? [yes/no]
+--------------------------------------------------
+no
+--------------------------------------------------
+Monthly budget limit was not changed
+--------------------------------------------------
+Monthly budget limit: $100.00
+--------------------------------------------------
+```
+
+### Common Issues
+
+**Issue: Entering an invalid option (not 1, 2, or 3)**
+
+If you enter an option outside `1`, `2`, or `3`, Finbro will show a warning and display the menu again.
+
+**Issue: Entering a negative amount**
+
+If you enter a negative amount, Finbro will show an error and exit the `edit limit` flow. Run `edit limit` again to retry.
+
+**Issue: Leaving the amount blank (pressing Enter)**
+
+If you do not enter anything when asked for an amount, Finbro will show an error and exit the `edit limit` flow. Run `edit limit` again to retry.
 
 ---
 ## Budget Reminder System

@@ -1,13 +1,13 @@
 package seedu.finbro.commands;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import seedu.finbro.exception.FinbroException;
 import seedu.finbro.finances.ExpenseList;
+import seedu.finbro.finances.Limit;
 import seedu.finbro.storage.Storage;
 import seedu.finbro.ui.Ui;
-import seedu.finbro.exception.FinbroException;
-import seedu.finbro.finances.Limit;
-
-import java.util.logging.Logger;
-import java.util.logging.Level;
 
 public class EditLimitCommand extends Command {
 
@@ -35,7 +35,7 @@ public class EditLimitCommand extends Command {
                 logger.log(Level.INFO, "User chose to increase limit");
                 ui.showEnterAmountPrompt("increase");
 
-                double increase = parsePositiveAmount(ui.readCommand().trim());
+                double increase = parseUnsignedNonNegativeAmount(ui.readCommand().trim());
                 assert increase >= 0 : "Increase amount should be non-negative";
 
                 logger.log(Level.INFO, "Increase amount entered: {0}", increase);
@@ -46,7 +46,7 @@ public class EditLimitCommand extends Command {
                 logger.log(Level.INFO, "User chose to decrease limit");
                 ui.showEnterAmountPrompt("decrease");
 
-                double decrease = parsePositiveAmount(ui.readCommand().trim());
+                double decrease = parseUnsignedNonNegativeAmount(ui.readCommand().trim());
                 assert decrease >= 0 : "Decrease amount should be non-negative";
 
                 logger.log(Level.INFO, "Decrease amount entered: {0}", decrease);
@@ -70,6 +70,7 @@ public class EditLimitCommand extends Command {
 
             default:
                 logger.log(Level.WARNING, "Invalid menu choice entered: {0}", choice);
+                ui.showLine();
                 ui.showInlineError("Please enter 1, 2, or 3.");
                 continue;
             }
@@ -98,6 +99,14 @@ public class EditLimitCommand extends Command {
         }
 
         return amount;
+    }
+
+    //@@author WangZX2001
+    private static double parseUnsignedNonNegativeAmount(String input) throws FinbroException {
+        if (input.startsWith("+")) {
+            input = input.substring(1);
+        }
+        return parsePositiveAmount(input);
     }
 
     //@@author WangZX2001
