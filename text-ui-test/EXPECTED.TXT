@@ -13,13 +13,17 @@ Hello Finbro here for you!
 Type help to see all available commands.
 --------------------------------------------------
 --------------------------------------------------
-You entered:
-   Amount: $20.00
-   Category: transport
-   Date: 15 June 2020
-Confirm? [yes/no]
---------------------------------------------------
-Expense not added.
+Valid Commands:
+add - Add a new expense
+delete - Delete an expense
+view - View your expenses
+limit - Set/view your monthly spending limit
+edit limit - Edit your monthly spending limit
+currency - Convert expense currency
+visual - View a visualisation of your monthly expenses
+exit - Exit Finbro
+
+Enter "help <command>" for a more detailed explanation on how to use each command
 --------------------------------------------------
 --------------------------------------------------
 Bye! See you again.

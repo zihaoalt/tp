@@ -1,3 +1,2 @@
-add 20 transport 2020-06-15
-view all
+help
 exit
