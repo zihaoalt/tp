@@ -130,7 +130,7 @@ The system will ask you for:
 2. **Expense Category**
    - The application will prompt: `Enter the category:`
    - Enter the expense category.
-   - The category name may contain multiple words but must not be purely numeric.
+   - The category name should be a single word.
    - Examples: `Food`, `Transport`, `Entertainment`, `Shopping`
    - Enter `-exit` to cancel adding an expense in walkthrough mode.
    - Enter `-back` to re-enter the amount.
@@ -647,8 +647,8 @@ Allows you to set a new monthly spending limit.
 **Format** `limit <amount>`
 
 - Amount must be a numeric input
-- Amount must be non-negative
-- System will prompt for a confirmation message - "yes"
+- Amount must be non-negative and at least 0.01
+- System will prompt for a confirmation message - "yes" or "y"
 - Limit will be saved on disk between Finbro sessions
 
 **Example:** `limit 100`
@@ -711,7 +711,7 @@ You will then be asked to confirm the change before the new limit is applied.
   - Adds the entered amount to the current limit.
 - **Decrease limit**
   - Subtracts the entered amount from the current limit.
-  - The resulting limit **must not be negative**.
+  - The resulting limit **must be at least $0.01**.
 - **Replace limit**
   - Sets the current limit to a new value.
 - All inputs must be **valid non-negative numbers**.
@@ -875,7 +875,7 @@ Warning: You are close to your monthly spending limit of $100.00!
 **Example 2: Exceeded limit warning**
 Suppose your monthly spending limit is set to \$100.00, and your total expenses for the current month have reached
 \$120.00. The system will check the total expenditure (\$120.00) against the limit (\$100.00), and constantly prompt
-you with the following warning message until you add more expenses or edit your limit:
+you with the following warning message until you edit your limit:
 
 ```
 Warning: You have exceeded your monthly spending limit of $100.00!
@@ -1075,6 +1075,11 @@ Mar 2026 | ████████████████████ $50.00
 Apr 2026 | ██                   $5.00
 --------------------------------------------------
 ```
+
+Note: 
+
+- The bar graph is a rough visualization and is not completely to scale 
+- Some months might not show bar due to large differences in monthly expenditures
 
 ---
 

@@ -59,8 +59,19 @@ Highlights:
   - First line is not limit: Treat it as an expense 
   - Expense data is invalid: Ignore line
 
+### Enhanced Budget Warning System 
+
+What it does: Added features to allow budget warning to only check for expenses in the current month, rather than the 
+total expenditure. 
+
+Highlights:
+- Budget warning only shows up when viewing, adding, deleting expenses, and setting/editing limit
+- Could no longer rely on just getting an attribute since current month is dynamic 
+
+Justification 
+- Monthly spending limits are more convenient for a user to set than total spending limits
+
 ---
-<div style="page-break-after: always;"></div>
 
 ## Documentation
 ### Contributions to UG 
@@ -71,10 +82,12 @@ Highlights:
 ### Contributions to DG 
 - Added details on architecture design 
   - Architecture Diagram 
+  - Sequence diagram on architecture initialization
   - Sequence diagram on architecture interaction 
 - Added implementation details for setting limit using sequence diagram
 - Added implementation details for visualization using sequence diagram
 - Added user stories 
+- Helped ensure consistency amongst all diagrams 
 
 ---
 ## Community

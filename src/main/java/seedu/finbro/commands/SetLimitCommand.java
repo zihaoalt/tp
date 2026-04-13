@@ -48,13 +48,13 @@ public class SetLimitCommand extends Command {
         } else if (roundedLimit >= 0 && roundedLimit < 0.01) {
             logger.log(Level.WARNING, "Invalid limit input (zero): {0}", roundedLimit);
             throw new FinbroException(
-                    "Monthly spending limit must be greater than $0.00 (rounded to 2 decimal places)"
+                    "Monthly spending limit must be at least $0.01"
             );
         }
         return roundedLimit;
     }
 
-    private static double roundToTwoDp(double value) {
+    public static double roundToTwoDp(double value) {
         return Math.round(value * 100.0) / 100.0;
     }
 

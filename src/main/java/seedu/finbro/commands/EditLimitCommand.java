@@ -52,9 +52,9 @@ public class EditLimitCommand extends Command {
                 logger.log(Level.INFO, "Decrease amount entered: {0}", decrease);
                 newLimit = currentLimit - decrease;
 
-                if (newLimit < 0) {
+                if (newLimit <= 0) {
                     logger.log(Level.WARNING, "Invalid operation: resulting limit is negative ({0})", newLimit);
-                    throw new FinbroException("Monthly spending limit must be at least $0");
+                    throw new FinbroException("Monthly spending limit must be at least $0.01");
                 }
                 break;
 
@@ -94,11 +94,15 @@ public class EditLimitCommand extends Command {
             throw new FinbroException("Monthly spending limit must be a number");
         }
 
-        if (amount < 0) {
-            throw new FinbroException("Monthly spending limit must be at least $0");
+        double roundedAmount = SetLimitCommand.roundToTwoDp(amount);
+
+        if (roundedAmount <= 0) {
+            throw new FinbroException(
+                    "Monthly spending limit must be at least $0.01"
+            );
         }
 
-        return amount;
+        return roundedAmount;
     }
 
     //@@author WangZX2001

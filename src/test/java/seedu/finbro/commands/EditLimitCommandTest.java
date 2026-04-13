@@ -130,7 +130,7 @@ public class EditLimitCommandTest {
         FinbroException exception = assertThrows(FinbroException.class,
                 () -> command.execute(expenses, ui, storage));
 
-        assertEquals("Monthly spending limit must be at least $0", exception.getMessage());
+        assertEquals("Monthly spending limit must be at least $0.01", exception.getMessage());
         assertEquals(500.0, Limit.getLimit());
     }
     //@@author WangZX2001

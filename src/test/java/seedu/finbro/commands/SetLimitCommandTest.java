@@ -79,7 +79,7 @@ class SetLimitCommandTest {
             new SetLimitCommand(input).execute(expenseList,ui,storage);
         });
 
-        String expectedMessage = "Monthly spending limit must be greater than $0.00 (rounded to 2 decimal places)";
+        String expectedMessage = "Monthly spending limit must be at least $0.01";
         String actualMessage = e.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
