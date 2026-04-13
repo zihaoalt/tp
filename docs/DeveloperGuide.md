@@ -230,7 +230,7 @@ provided.
 **After collecting all inputs:**
 
 - If the user confirms, the expense is added
-- Otherwise, the operation is canceled
+- Otherwise, the operation is cancelled
 
 #### Sequence of Operations
 
@@ -508,7 +508,7 @@ re-enters the CATEGORY LOOP with a fresh category state.
 **After collecting all inputs:**
 
 - If the user confirms, the expense is deleted
-- Otherwise, the operation is canceled
+- Otherwise, the operation is cancelled
 
 #### Sequence of Operations
 
@@ -563,10 +563,10 @@ Warnings are computed based on the **current month** total expenditure:
 - `monthlyTotal = ExpenseList.getCurrentMonthTotalExpenditure()`
 - `remaining = limit - monthlyTotal`
 
-| Warning Level   | Threshold Condition | User Feedback                            |
-|-----------------|---------------------|------------------------------------------|
-| **Safe**        | `remaining > 20`    | No warning is displayed.                 |
-| **Approaching** | `remaining <= 20`   | `Ui.showBudgetReminder(limit)` is shown. |
+| Warning Level   | Threshold Condition    | User Feedback                            |
+|-----------------|------------------------|------------------------------------------|
+| **Safe**        | `remaining > 20`       | No warning is displayed.                 |
+| **Approaching** | `remaining <= 20`      | `Ui.showBudgetReminder(limit)` is shown. |
 | **Exceeded**    | `monthlyTotal > limit` | `Ui.showBudgetExceeded(limit)` is shown. |
 
 #### Implementation Overview
@@ -768,7 +768,7 @@ appear blank
 
 ### Target User Profile
 
-This application is optimized for users who:
+This application is optimised for users who:
 
 - Prefer fast keyboard input over graphical interfaces
 - Want to track personal expenses efficiently

@@ -13,7 +13,7 @@
   - [Viewing the spending limit](#viewing-the-spending-limit-limit)
   - [Editing the spending limit](#editing-the-spending-limit)
   - [Budget Reminder System](#budget-reminder-system)
-  - [Converting expense currency](#converting-expense-currency-currency)
+  - [Converting expense currency](#Converting-expense-currency)
   - [Visualization](#visualization-visual)
 - [FAQ](#faq)
 - [Command Summary](#command-summary)
@@ -94,11 +94,11 @@ add <amount> <category> <date>
 
 **Required Information:**
 
-| Field        | Format           | Example                                                     |
-| ------------ | ---------------- | ----------------------------------------------------------- |
-| **Amount**   | Positive number  | `50.00` or `25`                                             |
-| **Category** | Text | `Groceries`                                                 |
-| **Date**     | YYYY-MM-DD       | `2026-01-20` or `today, last week, 2 days ago, last monday` |
+| Field        | Format          | Example                                                     |
+|--------------|-----------------|-------------------------------------------------------------|
+| **Amount**   | Positive number | `50.00` or `25`                                             |
+| **Category** | Text            | `Groceries`                                                 |
+| **Date**     | YYYY-MM-DD      | `2026-01-20` or `today, last week, 2 days ago, last monday` |
 
 **Example:**
 
@@ -120,7 +120,7 @@ add
 The system will ask you for:
 
 1. **Expense Amount**
-   - The application will prompt: `What is the expense amount?`
+   - The application will prompt: `What is your expense amount? Enter a number or -exit to exit add command`
    - Enter `-exit` to cancel adding an expense in walkthrough mode.
    - Enter the amount you spent.
    - The amount must be a positive number greater than 0.
@@ -128,7 +128,7 @@ The system will ask you for:
    - A confirmation will be required if the amount exceeds `10,000`.
    - Examples: `50.00`, `25`
 2. **Expense Category**
-   - The application will prompt: `Enter the category:`
+   - The application will prompt: `Enter the category: else enter -back to change expense amount or -exit to exit add command`
    - Enter the expense category.
    - The category name should be a single word.
    - Examples: `Food`, `Transport`, `Entertainment`, `Shopping`
@@ -136,7 +136,7 @@ The system will ask you for:
    - Enter `-back` to re-enter the amount.
 
 3. **Expense Date**
-   - The application will prompt: `Enter the date (yyyy-MM-dd or today):`
+   - The application will prompt: `Enter the date (yyyy-MM-dd or today): or -back to change expense category or -exit to exit add command`
    - Enter the date of the expense.
    - The date must be in the past between year 2000 and current (future dates are not allowed).
    - You can enter either a full date (e.g., `2026-04-12`) or one of these natural language formats:
@@ -273,7 +273,7 @@ Now you have 3 expenses.
 **❌ Error: "Category cannot be empty"**
 
 - Enter a category name (no purely numeric or purely special character entry)
-- Valid Examples: `Food & Drinks`, `Transport`, `Rent`, `Entertainment`
+- Valid Examples: `Transport`, `Rent`, `Entertainment`
 
 
 **❌ "I made a mistake"**
@@ -299,7 +299,7 @@ delete <category> <index>
 **Required Information:**
 
 | Field        | Format           | Example     |
-| ------------ | ---------------- | ----------- |
+|--------------|------------------|-------------|
 | **category** | Text (no spaces) | `Groceries` |
 | **Index**    | Positive Number  | 1           |
 
@@ -1060,7 +1060,7 @@ Finbro uses **offline, locally stored conversion rates** for the `currency` comm
 
 ## Visualization: `visual`
 
-Allows you to view a visualization of your monthly spendings.
+Allows you to view a visualisation of your monthly spendings.
 
 **Format:** `visual`
 
