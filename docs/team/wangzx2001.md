@@ -1,149 +1,145 @@
 # Wang Zaixi - Project Portfolio Page
 
-## Overview
+## Project Overview: FinBro
 
-**Finbro** is a command-line personal finance tracker designed to help users manage their expenses efficiently. It
-allows users to record expenses, monitor spending habits, set financial limits, and perform currency conversions.
+**Finbro** is a command-line personal finance tracker designed to help users manage their expenses efficiently. It allows
+users to record expenses, monitor spending habits, set financial limits, and perform currency conversions.
 
-My contributions focused on enhancing usability and flexibility through the implementation of the **Edit Limit**,
-**Currency Conversion**, and **Natural Date Parsing** features. These improvements make the application more intuitive
-and user-friendly by allowing flexible financial adjustments and more natural user inputs.
-
----
-
-## Summary of Contributions
-
-### Code Contributed
-
-**RepoSense Link:**  
-[View detailed code contributions](https://nus-cs2113-ay2526-s2.github.io/tp-dashboard/?search=WangZX2001&breakdown=true&sort=groupTitle%20dsc&sortWithin=title&since=2026-02-20T00%3A00%3A00&timeframe=commit&mergegroup=&groupSelect=groupByRepos&checkedFileTypes=docs~functional-code~test-code~other&filteredFileName=)
+My contributions focused on improving usability via interactive edit limit command flows, offline currency conversion, and flexible
+natural-language date input.
 
 ---
 
-### Core Features Implemented
+## Code Contributions
 
-#### 1. Edit Limit Feature
-
-* Implemented the `edit limit` command to allow users to modify their monthly spending limit.
-* Designed an interactive workflow where users can:
-    * Increase the limit
-    * Decrease the limit
-    * Replace the limit
-* Added input validation:
-    * Prevents negative values
-    * Ensures numeric input only
-* Implemented a confirmation step before applying changes to prevent accidental updates.
-* Integrated logging (`java.util.logging`) for debugging and traceability.
-
-**Impact:**
-
-* Improves flexibility in budget management.
-* Reduces user errors through validation and confirmation prompts.
+**RepoSense Link:** [View detailed code contributions](https://nus-cs2113-ay2526-s2.github.io/tp-dashboard/?search=WangZX2001&breakdown=true&sort=groupTitle%20dsc&sortWithin=title&since=2026-02-20T00%3A00%3A00&timeframe=commit&mergegroup=&groupSelect=groupByRepos&checkedFileTypes=docs~functional-code~test-code~other&filteredFileName=)
 
 ---
 
-#### 2. Currency Conversion Feature
+## Core Features Implemented
 
-* Implemented the `currency` command to convert expense values between currencies.
-* Designed a guided interaction flow:
-    * Input source currency
-    * Input target currency
-    * Select an expense entry
-* Used a **local currency rate table** without relying on external APIs.
-* Implemented conversion logic using SGD as the base currency.
+### 1. Edit Limit Command (`edit limit`)
 
-**Impact:**
+**What it does:** Updates the current monthly spending limit through an interactive flow, supporting three operations:
+**increase**, **decrease**, and **replace**.
 
-* Enables users to better understand expenses in different currencies.
-* Works offline without reliance on external services.
-* Improves portability and reliability of the application.
+**Justification:** Users often adjust their budget mid-month. A guided workflow prevents accidental changes and makes it
+harder to enter invalid values.
+
+**User-facing flow (walkthrough mode):**
+1. User enters `edit limit` (the command takes no additional parameters)
+2. App prompts the user to choose an operation: increase/decrease/replace
+3. App prompts for the amount and validates it (numeric, non-negative)
+4. App shows the computed new limit and requests a final confirmation
+5. App updates the limit only after confirmation
+
+**Highlights:**
+- Input validation for blank input, non-numeric input, and negative values
+- Confirmation step to prevent accidental updates
+- Logging (`java.util.logging`) added for traceability and debugging
+
+**Key files:**
+- `src/main/java/seedu/finbro/commands/EditLimitCommand.java`
+- `src/main/java/seedu/finbro/parser/Parser.java`
+- `src/main/java/seedu/finbro/ui/Ui.java`
+
+**Diagram:** ![Edit Limit Sequence Diagram](../UML_diagrams/images/EditLimit.png)
 
 ---
-### Enhancement Implemented
 
-#### 3. Natural Date Parsing Feature
+### 2. Currency Conversion Command (`currency`)
 
-* Designed and implemented a **Natural Date Parsing utility** to allow users to input dates in a flexible and
-  human-readable format.
-* Eliminates the need for strict date formatting by supporting common natural language expressions.
+**What it does:** Converts an existing expense amount from a source currency to a target currency via an interactive
+workflow.
 
-**Supported formats include:**
+**Justification:** Users may log expenses while travelling or want to understand spending in their home currency. The
+feature gives quick offline conversion results without relying on an external API.
 
-* Relative days:
-    * `today`
-    * `tomorrow`
-    * `yesterday`
-* Relative durations:
-    * `2 days ago`
-    * `3 days later`
-    * `2 weeks ago`
-    * `1 week later`
-* Weekly references:
-    * `last week`
-    * `next week`
-* Day-of-week references:
-    * `last monday`
-    * `next friday`
-* Standard format fallback:
-    * `yyyy-MM-dd`
+**User-facing flow (walkthrough mode):**
+1. User enters `currency`
+2. App prompts for a source currency code
+3. App prompts for a target currency code
+4. App prompts the user to select an expense entry to convert
+5. App displays the converted value (the original stored expense remains unchanged)
+
+**Highlights:**
+- Uses an offline, locally stored currency rate table (no internet required)
+- Uses SGD as a base currency to keep conversion logic simple and avoid storing every currency pair
+- Unsupported currencies are rejected with a clear error message that includes supported currency codes
+
+**Key files:**
+- `src/main/java/seedu/finbro/commands/CurrencyCommand.java`
+- `src/main/java/seedu/finbro/utils/CurrencyRateTable.java`
+- `src/main/java/seedu/finbro/ui/Ui.java`
+
+**Diagram:** ![Currency Command Sequence Diagram](../UML_diagrams/images/CurrencyCommand.png)
+
+---
+
+## Enhancement Implemented
+
+### 3. Natural Date Parsing Utility
+
+**What it does:** Accepts flexible, human-readable date inputs and converts them into a standard `LocalDate` used by
+Finbro internally.
+
+**Justification:** Strict date formats are a common source of friction in CLI apps. Natural input reduces formatting
+errors and makes common user workflows faster.
+
+**Supported inputs (examples):**
+- Relative days: `today`, `tomorrow`, `yesterday`
+- Relative durations: `2 days ago`, `3 days later`, `2 weeks ago`, `1 week later`
+- Week references: `last week`, `next week`
+- Day-of-week references: `last monday`, `next friday`
+- Fallback: `yyyy-MM-dd`
 
 **Implementation details:**
+- Built using Java's `LocalDate` API for correct date arithmetic
+- Uses regex matching to interpret relative day/week expressions
+- Uses `TemporalAdjusters` to compute previous/next weekdays
+- Normalises all supported inputs into a standardised internal format
+- Enforces past-only dates for expense entry (future dates are rejected with an error message)
+- Provides clear exceptions / error feedback for invalid inputs
 
-* Built using Java’s `LocalDate` API for accurate date handling.
-* Utilised pattern matching (regex) to interpret relative time expressions.
-* Leveraged `TemporalAdjusters` to compute previous/next weekdays.
-* Converts all inputs into a standardized internal date format for consistency.
-* Includes robust exception handling to provide clear feedback on invalid inputs.
-
-**Impact:**
-
-* Significantly improves user experience by allowing intuitive, human-readable date inputs.
-* Reduces friction for users who may not remember strict date formats.
-* Enhances overall usability of the application across multiple features.
+**Key file:** `src/main/java/seedu/finbro/utils/NaturalDateParser.java`
 
 ---
 
-### Contributions to User Guide
+## Testing Contributions
 
-Added documentation for:
+Added unit tests to cover the happy paths and important edge cases for my features:
 
-* **Edit Limit Command**
-    * Detailed workflow and examples
-    * Explanation of increase, decrease, and replace operations
-    * Error handling and validation
-
-* **Currency Command**
-    * Step-by-step usage instructions
-    * Input prompts and expected outputs
-    * Limitations of offline exchange rates
-
-* **Natural Date Input**
-    * Explained supported formats such as `today`, `2 days ago`, and `last monday`
-    * Provided examples of valid inputs
-    * Clarified fallback to standard `yyyy-MM-dd` format
+- `src/test/java/seedu/finbro/commands/EditLimitCommandTest.java`
+- `src/test/java/seedu/finbro/commands/CurrencyCommandTest.java`
+- `src/test/java/seedu/finbro/utils/NaturalDateParserTest.java`
+- `src/test/java/seedu/finbro/utils/CurrencyRateTableTest.java`
+- `src/test/java/seedu/finbro/parser/ParserTest.java`
 
 ---
 
-### Contributions to Developer Guide
+## Documentation Contributions
 
-* Documented the design and logic flow for the edit limit feature
-* Explained validation and error handling strategies
-* Added design considerations for:
-    * Command structure
-    * Separation of concerns between UI and logic
-* Documented currency conversion design using base currency mapping
-* Documented the Natural Date Parsing utility:
-    * Use of `LocalDate` and Java time API
-    * Regex-based parsing for relative expressions
-    * Handling of weekday-based calculations using `TemporalAdjusters`
+### User Guide
+
+Contributed documentation for:
+- `edit limit`: interactive workflow, examples, validation rules, and confirmation behaviour
+- `currency`: guided prompts, supported currency behaviour, and offline-rate limitations
+- Natural date input: supported formats (e.g. `today`, `2 days ago`, `last monday`) and `yyyy-MM-dd` fallback
+
+### Developer Guide
+
+Contributed documentation for:
+- `edit limit` command flow and validation design considerations
+- Currency conversion design (base-currency mapping, workflow, and error handling)
+- Natural date parsing approach (`LocalDate`, regex patterns, and invalid-input handling)
 
 ---
 
-### Contributions to Team-Based Tasks
+## Team-Based Contributions
 
-* Assisted in integrating features into the existing parser architecture
-* Improved overall code consistency and validation handling
-* Participated in testing and debugging across multiple modules
-* Contributed to refining user interaction flows for better usability
+- Assisted with integrating interactive commands into the existing parser and UI architecture
+- Helped improve consistency of validation handling across interactive command workflows
+- Participated in testing and debugging across modules related to my features
+- Contributed to refining user interaction flows to reduce user error
 
 ---
