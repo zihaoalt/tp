@@ -11,7 +11,7 @@ participant ":ExpenseList"
 
 activate ":Finbro"
 ":Finbro" -> ":Ui" ++ : readCommand()
-User -> ":Ui" : "view (argument)"
+User --> ":Ui" : "view (argument)"
 ":Ui" --> ":Finbro" : input
 deactivate ":Ui"
 

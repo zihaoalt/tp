@@ -14,7 +14,7 @@ participant ":Storage"
 activate ":Finbro"
 ":Finbro" -> ":Ui" : readCommand()
 activate ":Ui"
-User -> ":Ui" : type "delete ..."
+User --> ":Ui" : type "delete ..."
 ":Ui" --> ":Finbro" : input
 deactivate ":Ui"
 

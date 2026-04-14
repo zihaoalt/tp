@@ -78,7 +78,7 @@ The project uses the following tools and libraries:
 2. Ui reads the input and passes it to `Finbro` which calls `parse(input)`
 3. `Parser` creates the corresponding `Command` object and returns it to `Finbro` 
 4. `Finbro` executes the command object 
-5. Command object can make public method calls to Finances or Ui to carry out its function 
+5. Command object can make public method calls to Finances (e.g. add/delete expense) or Ui (Display output to user)
 6. Changes made to the finances are saved to `Storage`
 
 ---
@@ -575,6 +575,7 @@ Warnings are computed based on the **current month** total expenditure:
 
 - Once on startup with `checksBudget == true`
 - After each successful command execution with `checksBudget == command.checksBudget()`
+  - `add`, `delete`, `view`, `limit`, `edit limit` commands
 
 Inside `checkAndShowWarnings(...)`, the service:
 

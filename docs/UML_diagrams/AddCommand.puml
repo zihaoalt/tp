@@ -13,7 +13,7 @@ participant ":Storage"
 activate ":Finbro"
 ":Finbro" -> ":Ui" : readCommand()
 activate ":Ui"
-User -> ":Ui" : type "add ..."
+User --> ":Ui" : type "add ..."
 ":Ui" --> ":Finbro" : input
 deactivate ":Ui"
 

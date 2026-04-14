@@ -49,8 +49,8 @@ What it does:
 - Improved it such that if any line is corrupted, app would skip the corrupted line and continue loading the others
 - If no/invalid limit is found in the storage file, initializes the limit to 0 
 
-Justification: 
-- If user accidentally makes changes to the storage file, they would not lose all the data they had previously input 
+Justification: If user accidentally makes changes to the storage file, 
+they would not lose all the data they had previously input 
 
 Highlights:
 - No warning is thrown to the user if a corrupted line is found, but the corrupted line is logged in `logs/finbro.log`
@@ -68,8 +68,7 @@ Highlights:
 - Budget warning only shows up when viewing, adding, deleting expenses, and setting/editing limit
 - Could no longer rely on just getting an attribute since current month is dynamic 
 
-Justification 
-- Monthly spending limits are more convenient for a user to set than total spending limits
+Justification: Monthly spending limits are more convenient for a user to set than total spending limits
 
 ---
 

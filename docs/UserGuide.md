@@ -883,6 +883,8 @@ you with the following warning message until you edit your limit:
 Warning: You have exceeded your monthly spending limit of $100.00!
 ```
 
+Note: If user does not set a spending limit, no warnings will be shown
+
 ---
 
 ## Converting expense currency
