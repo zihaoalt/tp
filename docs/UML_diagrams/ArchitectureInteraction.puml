@@ -7,7 +7,7 @@ participant ":Finbro" as finbro
 participant ":Parser" as parser
 
 
-user-> finbro ++
+activate finbro
 
 finbro -> ui ++ : readCommand()
 user -> ui : input
