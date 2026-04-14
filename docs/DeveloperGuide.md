@@ -322,7 +322,7 @@ Single command supporting two view modes
 
 Category matching behaviour
 
-- Uses exact string matching via `equals()`
+- Category matching is case-insensitive
 - Ensures predictable and consistent results
 - Partial matches are not supported to avoid ambiguous results
 
@@ -636,8 +636,8 @@ After every command, `Storage.save()` is called:
 The `finbro.txt` file follows this structure:
 
 LIMIT | 1000.00
-50.00 | food | 2026-03-01
-20.00 | transport | 2026-03-02
+50.00 | food | 14 April 2026
+20.00 | transport | 14 April 2026
 
 #### Design Considerations
 
