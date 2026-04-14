@@ -423,15 +423,15 @@ Output:
 ```
 ------------------------------------------------------------
 delete
-Enter the category, or type -l to list all categories.
+Enter the category, or type -l to list all categories or -exit to cancel.
 -l
 --------------------------------------------------
 Category Name : groceries
 --------------------------------------------------
-Enter the category, or type -l to list all categories.
+Enter the category, or type -l to list all categories or -exit to cancel.
 groceries
 --------------------------------------------------
-Enter the expense index to delete, or type -l to list expenses in this category.
+Enter the expense index to delete, type -l to list expenses, -back to return to category selection, or -exit to cancel.
 -l
 --------------------------------------------------
 Expense 1 : Amount: $5.50
@@ -439,7 +439,7 @@ Expense 1 : Amount: $5.50
    Date: 20 January 2026
 --------------------------------------------------
 --------------------------------------------------
-Enter the expense index to delete, or type -l to list expenses in this category.
+Enter the expense index to delete, type -l to list expenses, -back to return to category selection, or -exit to cancel.
 1
 --------------------------------------------------
 You entered:
@@ -550,11 +550,11 @@ Here are your expenses:
 
 1.  Amount: $50.00
     Category: food
-    Date: 2026-03-01
+    Date: 1 March 2026
 
 2.  Amount: $20.00
     Category: transport
-    Date: 2026-03-02
+    Date: 2 March 2026
 
 Total expenditure: $70.00
 ```
@@ -570,7 +570,7 @@ Here are your expenses:
 
 1.  Amount: $50.00
     Category: food
-    Date: 2026-03-01
+    Date: 1 March 2026
 
 Total expenditure: $50.00
 ```
@@ -586,11 +586,11 @@ Here are your expenses:
 
 1.  Amount: $50.00
     Category: food
-    Date: 2026-03-01
+    Date: 1 March 2026
 
 2.  Amount: $20.00
     Category: transport
-    Date: 2026-03-02
+    Date: 2 March 2026
 
 Total expenditure: $70.00
 ```
@@ -606,7 +606,7 @@ Here are your expenses:
 
 1.  Amount: $50.00
     Category: transport
-    Date: 2026-03-01
+    Date: 1 March 2026
 
 Total expenditure: $50.00
 ```
@@ -622,11 +622,11 @@ Here are your expenses:
 
 1.  Amount: $50.00
     Category: transport
-    Date: 2026-03-01
+    Date: 1 March 2026
 
 2.  Amount: $20.00
     Category: transport
-    Date: 2026-03-12
+    Date: 12 March 2026
 
 Total expenditure: $70.00
 ```
