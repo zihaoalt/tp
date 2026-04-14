@@ -575,6 +575,7 @@ Warnings are computed based on the **current month** total expenditure:
 
 - Once on startup with `checksBudget == true`
 - After each successful command execution with `checksBudget == command.checksBudget()`
+  - `add`, `delete`, `view`, `limit`, `edit limit` commands
 
 Inside `checkAndShowWarnings(...)`, the service:
 
