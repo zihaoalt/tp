@@ -70,7 +70,7 @@ feature gives quick offline conversion results without relying on an external AP
 - `src/main/java/seedu/finbro/utils/CurrencyRateTable.java`
 - `src/main/java/seedu/finbro/ui/Ui.java`
 
-**Diagram:** ![Currency Command Sequence Diagram](../UML_diagrams/images/CurrencyCommand.png)
+![Currency Command Sequence Diagram](../UML_diagrams/images/CurrencyCommand.png)
 
 ---
 
