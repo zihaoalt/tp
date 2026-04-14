@@ -12,7 +12,7 @@ participant ":CurrencyRateTable" as CurrencyRateTable
 
 Finbro -> Ui : readCommand()
 activate Ui
-User -> Ui : type "currency"
+User --> Ui : type "currency"
 Ui --> Finbro : input
 deactivate Ui
 
