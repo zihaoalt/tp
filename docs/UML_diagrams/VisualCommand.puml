@@ -13,7 +13,7 @@ participant ":ExpenseList" as ExpenseList
 
 activate Finbro
 Finbro -> Ui ++ : readCommand()
-User -> Ui : type "visual ..."
+User --> Ui : type "visual ..."
 Ui --> Finbro : input
 deactivate Ui
 
