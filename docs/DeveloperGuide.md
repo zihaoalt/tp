@@ -21,6 +21,7 @@
 - [Non-Functional Requirements](#non-functional-requirements)
 - [Glossary](#glossary)
 - [Instructions for Manual Testing](#instructions-for-manual-testing)
+- [Sequence Diagram Rendering Note](#sequence-diagram-rendering-note)
 
 ---
 
@@ -884,3 +885,9 @@ expenditures.
 - View visualization: `visual`
 
 ---
+## Sequence Diagram Rendering Note
+
+Some sequence diagrams in this Developer Guide may show a few activation bars that do not appear 
+to close perfectly, especially when the activation spans a long sequence of interactions. 
+We believe this is a rendering or display issue 
+rather than an error in the intended control flow of the diagram.
