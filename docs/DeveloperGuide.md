@@ -661,10 +661,13 @@ Flat file over a database
 
 ### Currency Exchange Feature
 
-The `currency` command allows users to convert the amount of a selected expense from one currency to another. It follows
-an interactive workflow where users specify the source currency, target currency, and the expense entry to convert.
+The `currency` command allows users to view the converted amount of a selected expense from one currency to another.
+It follows an interactive workflow where the user:
+1) provides the **source currency code** that the selected expense amount should be interpreted in, and
+2) provides the **target currency code** to convert to, and
+3) chooses an expense entry.
 
-This feature operates entirely offline using predefined exchange rates stored in the system.
+This feature operates entirely offline using predefined exchange rates stored in the system (no API calls).
 
 ```
 currency
@@ -688,20 +691,32 @@ The `CurrencyRateTable` uses **SGD as the base currency**. All exchange rates ar
 
 Conversion follows these rules:
 
-| Case             | Logic                  |
-|------------------|------------------------|
-| Same currency    | Return original amount |
-| From SGD         | `amount * rate`        |
-| To SGD           | `amount / rate`        |
-| Other currencies | Convert via SGD        |
+| Case             | Logic                            |
+|------------------|----------------------------------|
+| Same currency    | Return a trivial warning message |
+| From SGD         | `amount * rate`                  |
+| To SGD           | `amount / rate`                  |
+| Other currencies | Convert via SGD                  |
 
 Note that currency conversion in the current implementation is **non-destructive**: it displays the converted amount
 but does not modify the stored expense entry or persist a currency value to storage.
 
-#### Sequence Diagram
+#### Sequence of operations
 
 The following diagram illustrates the interaction between system components when executing the `currency` command.
 ![CurrencyCommand Sequence Diagram](UML_diagrams/images/CurrencyCommand.png)
+
+Flow:
+
+| Step | Action                                                                                                                                                             |
+|------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1    | `Finbro` parses user input and constructs a `CurrencyCommand`                                                                                                      |
+| 2    | `CurrencyCommand` checks `ExpenseList.isEmpty()` and throws if there are no expenses                                                                               |
+| 3    | `CurrencyCommand` prompts for source currency, reads input via `Ui.readCommand()`, and validates it using `CurrencyRateTable.isUnsupportedCurrency(...)`           |
+| 4    | `CurrencyCommand` prompts for target currency, reads input, and validates it using `CurrencyRateTable.isUnsupportedCurrency(...)`                                  |
+| 5    | If source and target currencies are the same, `CurrencyCommand` calls `Ui.showNoConversionNeeded(...)` and returns                                                 |
+| 6    | Otherwise, `CurrencyCommand` displays expenses, prompts for an entry index, validates the index, and retrieves the selected `Expense`                              |
+| 7    | `CurrencyCommand` calls `CurrencyRateTable.convert(expense.amount(), fromCurrency, toCurrency)` and displays the result via `Ui.showCurrencyConversionResult(...)` |
 
 #### Design Considerations
 
@@ -723,6 +738,13 @@ The system validates multiple error conditions:
 | Unsupported currency  | Displays supported currency list |
 | Invalid entry number  | Throws `FinbroException`         |
 | Entry out of range    | Throws `FinbroException`         |
+
+#### Limitations
+
+| Limitation                            | Impact                                                                                                                    |
+|---------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
+| Exchange rates are hardcoded          | Rates are static and may not reflect real-time market rates                                                               |
+| Conversion is non-destructive         | Converted values are not saved back into `ExpenseList` or persisted to storage                                            |
 
 ---
 
