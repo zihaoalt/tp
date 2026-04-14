@@ -4,11 +4,11 @@ hide footbox
 
 actor User
 
-participant ":Ui"
-participant ":Finbro"
-participant ":BudgetWarningService"
-participant ":ExpenseList"
-participant ":Limit"
+participant ":Ui" as Ui
+participant ":Finbro" as Finbro
+participant ":BudgetWarningService" as BudgetWarningService
+participant ":ExpenseList" as ExpenseList
+participant ":Limit" as Limit
 
 loop After each successful command (and once at startup)
     Finbro -> BudgetWarningService++ : checkAndShowWarnings(expenses, ui, checksBudget)
@@ -48,7 +48,7 @@ loop After each successful command (and once at startup)
 
             else limit - monthlyTotal > 20
                 note right of BudgetWarningService
-                    No UI warning shown.
+                    No UI warning shown
                 end note
             end
         end
@@ -58,4 +58,3 @@ loop After each successful command (and once at startup)
 end
 
 @enduml
-
