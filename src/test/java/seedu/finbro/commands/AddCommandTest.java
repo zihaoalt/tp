@@ -11,7 +11,7 @@ import seedu.finbro.ui.Ui;
 import seedu.finbro.finances.ExpenseList;
 
 public class AddCommandTest {
-
+    //@@author Kushalshah0402
     @Test
     void execute_walkthroughValidInput_expenseAdded() throws Exception {
 
@@ -30,7 +30,7 @@ public class AddCommandTest {
         command.execute(list, ui, null);
         assertEquals(1, list.size());
     }
-
+    //@@author Kushalshah0402
     @Test
     void execute_walkthroughUserCancels_noExpenseAdded() throws Exception {
         String input =
@@ -49,7 +49,7 @@ public class AddCommandTest {
 
         assertEquals(0, list.size());
     }
-
+    //@@author Kushalshah0402
     @Test
     void execute_strictModeValidInput_expenseAdded() throws Exception {
         String input = "yes\n";
@@ -62,6 +62,7 @@ public class AddCommandTest {
         assertEquals(1, list.size());
     }
 
+    //@@author Kushalshah0402
     @Test
     void execute_strictModeZeroAmount_throwsException() {
         ExpenseList list = new ExpenseList();
@@ -72,6 +73,7 @@ public class AddCommandTest {
         assertEquals("Amount must be a positive number.", exception.getMessage());
     }
 
+    //@@author Kushalshah0402
     @Test
     void execute_strictModeMissingField_throwsException() {
         ExpenseList list = new ExpenseList();
@@ -80,6 +82,7 @@ public class AddCommandTest {
         assertThrows(Exception.class, () -> command.execute(list, ui, null));
     }
 
+    //@@author Kushalshah0402
     @Test
     void execute_strictModeUserCancels_noExpenseAdded() throws Exception {
         String input = "no\n";
@@ -92,6 +95,7 @@ public class AddCommandTest {
         assertEquals(0, list.size());
     }
 
+    //@@author Kushalshah0402
     @Test
     void execute_strictModeNaturalDate_expenseAdded() throws Exception {
         String input = "Y\n";
@@ -106,6 +110,7 @@ public class AddCommandTest {
         assertEquals(1, list.size());
     }
 
+    //@@author Kushalshah0402
     @Test
     void execute_strictModeNaturalDateLeadingDigitMatchesAmount_expenseAdded() throws Exception {
         String input = "yes\n";
@@ -121,6 +126,7 @@ public class AddCommandTest {
     }
 
 
+    //@@author Kushalshah0402
     @Test
     void execute_strictModeMixedCaseCategory_caseInsensitiveLookupFindsExpense() throws Exception {
         String input = "yes\n";
@@ -137,6 +143,7 @@ public class AddCommandTest {
         assertEquals(1, list.getCategoryExpenses("FOOD").size());
     }
 
+    //@@author Kushalshah0402
     @Test
     void execute_walkthroughMixedCaseCategory_caseInsensitiveLookupFindsExpense() throws Exception {
         String simulatedInput =
@@ -159,6 +166,7 @@ public class AddCommandTest {
         assertEquals(1, list.getCategoryExpenses("FOOD").size());
     }
 
+    //@@author Kushalshah0402
     @Test
     void execute_futureDate_throwsException() {
         ExpenseList list = new ExpenseList();
@@ -167,6 +175,7 @@ public class AddCommandTest {
         assertThrows(Exception.class, () -> command.execute(list, ui, null));
     }
 
+    //@@author Kushalshah0402
     @Test
     void execute_walkthroughExitAtAmount_noExpenseAdded() throws Exception {
         String simulatedInput = "-exit\n";
@@ -180,6 +189,7 @@ public class AddCommandTest {
         assertEquals(0, list.size());
     }
 
+    //@@author Kushalshah0402
     @Test
     void execute_walkthroughExitAtCategory_noExpenseAdded() throws Exception {
         String simulatedInput =
@@ -197,6 +207,7 @@ public class AddCommandTest {
         assertEquals(0, list.size());
     }
 
+    //@@author Kushalshah0402
     @Test
     void execute_walkthroughExitAtDate_noExpenseAdded() throws Exception {
         String simulatedInput =
@@ -215,6 +226,7 @@ public class AddCommandTest {
         assertEquals(0, list.size());
     }
 
+    //@@author Kushalshah0402
     @Test
     void execute_walkthroughBackFromCategoryToAmount_thenComplete() throws Exception {
         String simulatedInput =
@@ -237,6 +249,7 @@ public class AddCommandTest {
         assertEquals(50, list.get(0).amount());
     }
 
+    //@@author Kushalshah0402
     @Test
     void execute_walkthroughBackFromDateToCategory_thenComplete() throws Exception {
         String simulatedInput =
@@ -259,6 +272,7 @@ public class AddCommandTest {
         assertEquals("transport", list.get(0).category());
     }
 
+    //@@author Kushalshah0402
     @Test
     void execute_walkthroughBackFromDateToCategoryThenBackToAmount_thenComplete() throws Exception {
         String simulatedInput =
@@ -284,6 +298,7 @@ public class AddCommandTest {
         assertEquals("transport", list.get(0).category());
     }
 
+    //@@author Kushalshah0402
     @Test
     void execute_walkthroughBackFromCategoryThenExitAtAmount_noExpenseAdded() throws Exception {
         String simulatedInput =
@@ -302,6 +317,7 @@ public class AddCommandTest {
         assertEquals(0, list.size());
     }
 
+    //@@author Kushalshah0402
     @Test
     void execute_walkthroughBackFromDateThenExitAtCategory_noExpenseAdded() throws Exception {
         String simulatedInput =
@@ -321,6 +337,7 @@ public class AddCommandTest {
         assertEquals(0, list.size());
     }
 
+    //@@author Kushalshah0402
     @Test
     void execute_walkthroughInvalidAmountThenExit_noExpenseAdded() throws Exception {
         String simulatedInput =
@@ -338,6 +355,7 @@ public class AddCommandTest {
         assertEquals(0, list.size());
     }
 
+    //@@author Kushalshah0402
     @Test
     void execute_walkthroughInvalidCategoryThenBack_thenComplete() throws Exception {
         String simulatedInput =
@@ -361,6 +379,7 @@ public class AddCommandTest {
         assertEquals(50, list.get(0).amount());
     }
 
+    //@@author Kushalshah0402
     @Test
     void execute_walkthroughInvalidDateThenBack_thenComplete() throws Exception {
         String simulatedInput =
@@ -384,6 +403,7 @@ public class AddCommandTest {
         assertEquals("transport", list.get(0).category());
     }
 
+    //@@author Kushalshah0402
     @Test
     void execute_walkthroughExitUpperCase_noExpenseAdded() throws Exception {
         String simulatedInput = "-EXIT\n";
@@ -397,6 +417,7 @@ public class AddCommandTest {
         assertEquals(0, list.size());
     }
 
+    //@@author Kushalshah0402
     @Test
     void execute_walkthroughBackMixedCase_goesBack() throws Exception {
         String simulatedInput =

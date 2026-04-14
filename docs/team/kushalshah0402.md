@@ -56,6 +56,9 @@ Given below are my contributions to the project.
 
 **RepoSense Link:** [View detailed code contributions](https://nus-cs2113-ay2526-s2.github.io/tp-dashboard/?search=kushalshah0402&breakdown=true&sort=groupTitle%20dsc&sortWithin=title&since=2026-02-20T00%3A00%3A00&timeframe=commit&mergegroup=&groupSelect=groupByRepos&checkedFileTypes=docs~functional-code~test-code~other&filteredFileName=)
 
+- Added JUnit tests for AddCommand
+- Added logging and asserts for addCommand and Storage
+
 ---
 
 ## Enhancements Implemented
@@ -99,9 +102,10 @@ Given below are my contributions to the project.
 
 | Component | Pull Request |
 |-----------|--------------|
-| `add` command implementation details & UML diagram | [#92](https://github.com/AY2526S2-CS2113-T10-4/tp/pull/92) |
+| Direct `add` command implementation details & UML diagram | [#92](https://github.com/AY2526S2-CS2113-T10-4/tp/pull/92) |
 | `view` command implementation details & UML diagram | [#94](https://github.com/AY2526S2-CS2113-T10-4/tp/pull/94) |
 | Storage component implementation details | [#96](https://github.com/AY2526S2-CS2113-T10-4/tp/pull/96) |
+| Walkthrough `add` command implementation details | [#233](https://github.com/AY2526S2-CS2113-T10-4/tp/pull/233) | 
 
 ---
 
@@ -119,7 +123,7 @@ Given below are my contributions to the project.
 
 ## Community-Based Contributions
 
-**Product Testing:** During the PE-D, tested other group's project and reported as many bugs as I could find so as to allow them to fix the bugs before final submission.
+**Product Testing:** During the PE-D, tested other group's project and reported as many bugs (12) as I could find so as to allow them to fix the bugs before final submission.
 ![PE-D contribution](../UML_diagrams/images/Kushal_PE-D_contribution.png)
 
 ---
@@ -188,6 +192,9 @@ The following diagram shows the sequence of operations for the `add` command:
 
 ![Add Expense Sequence Diagram](../UML_diagrams/images/AddCommand.png)
 
+The following diagram shows the sequence of operations for the walkthrough method for the add command:
+
+![Add Expense Walkthrough Sequence Diagram](../UML_diagrams/images/AddCommand_WalkThrough.png)
 ---
 
 ## User Guide Excerpts
