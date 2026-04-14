@@ -1078,6 +1078,7 @@ Apr 2026 | ██                   $5.00
 
 Note: 
 
+- Months with no expenses do not appear on the bar graph
 - The bar graph is a rough visualization and is not completely to scale 
 - Some months might not show bar due to large differences in monthly expenditures
 
