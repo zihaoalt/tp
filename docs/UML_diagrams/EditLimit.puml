@@ -1,5 +1,4 @@
 @startuml
-title EditLimitCommand
 hide footbox
 
 actor User
@@ -16,7 +15,7 @@ activate Finbro
 
 Finbro -> Ui : readCommand()
 activate Ui
-User --> Ui : "edit limit"
+User --> Ui : type "edit limit"
 Ui --> Finbro : input
 deactivate Ui
 

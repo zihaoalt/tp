@@ -13,7 +13,7 @@ participant ":FilterService"
 activate ":Finbro"
 ":Finbro" -> ":Ui" : readCommand()
 activate ":Ui"
-User -> ":Ui" : type "view all -sort <type>"
+User --> ":Ui" : type "view all -sort <type>"
 ":Ui" --> ":Finbro" : input
 deactivate ":Ui"
 
