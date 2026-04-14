@@ -386,7 +386,8 @@ delete
 Enter the category, or type -l to list all categories or -exit to cancel.
 Food
 --------------------------------------------------
-Enter the expense index to delete, type -l to list expenses, -back to return to category selection, or -exit to cancel.
+Enter the expense index to delete, type -l to list 
+expenses, -back to return to category selection, or -exit to cancel.
 2
 --------------------------------------------------
 You entered:
@@ -423,15 +424,18 @@ Output:
 ```
 ------------------------------------------------------------
 delete
-Enter the category, or type -l to list all categories or -exit to cancel.
+Enter the category, or type -l to list all categories
+or -exit to cancel.
 -l
 --------------------------------------------------
 Category Name : groceries
 --------------------------------------------------
-Enter the category, or type -l to list all categories or -exit to cancel.
+Enter the category, or type -l to list all categories
+or -exit to cancel.
 groceries
 --------------------------------------------------
-Enter the expense index to delete, type -l to list expenses, -back to return to category selection, or -exit to cancel.
+Enter the expense index to delete, type -l to list 
+expenses, -back to return to category selection, or -exit to cancel.
 -l
 --------------------------------------------------
 Expense 1 : Amount: $5.50
@@ -439,7 +443,8 @@ Expense 1 : Amount: $5.50
    Date: 20 January 2026
 --------------------------------------------------
 --------------------------------------------------
-Enter the expense index to delete, type -l to list expenses, -back to return to category selection, or -exit to cancel.
+Enter the expense index to delete, type -l to list 
+expenses, -back to return to category selection, or -exit to cancel.
 1
 --------------------------------------------------
 You entered:
@@ -476,16 +481,20 @@ Output:
 --------------------------------------------------
 delete
 --------------------------------------------------
-Enter the category, or type -l to list all categories or -exit to cancel.
+Enter the category, or type -l to list all categories
+or -exit to cancel.
 food
 --------------------------------------------------
-Enter the expense index to delete, type -l to list expenses, -back to return to category selection, or -exit to cancel.
+Enter the expense index to delete, type -l to list 
+expenses, -back to return to category selection, or -exit to cancel.
 -back
 --------------------------------------------------
-Enter the category, or type -l to list all categories or -exit to cancel.
+Enter the category, or type -l to list all categories
+or -exit to cancel.
 transport
 --------------------------------------------------
-Enter the expense index to delete, type -l to list expenses, -back to return to category selection, or -exit to cancel.
+Enter the expense index to delete, type -l to list 
+expenses, -back to return to category selection, or -exit to cancel.
 1
 --------------------------------------------------
 You entered:
